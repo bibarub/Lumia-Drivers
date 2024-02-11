@@ -126,6 +126,7 @@
             <DriverPackageFile Path="$(mspackageroot)\components\QC8X26\PLATFORM.SOC_QC8X26.BASE\Source\Drivers\SOC\System" Name="qcssm8626.inf" ID="qcssm8626"/>
             <DriverPackageFile Path="$(mspackageroot)\components\QC8X26\PLATFORM.SOC_QC8X26.BASE\Source\Drivers\SOC\System" Name="WDFHelper.inf" ID="WDFHelper"/>
             <DriverPackageFile Path="$(mspackageroot)\components\QC8X26\PLATFORM.SOC_QC8X26.BASE\Source\Drivers\SOC\VoltageCurrentMonitoring" Name="qcadc8626.inf" ID="qcadc8626"/>
+            <DriverPackageFile Path="$(mspackageroot)\components\QC8X26\PLATFORM.SOC_QC8X26.BASE\Source\Drivers\USBFn" Name="QcUsbFnFilter8626.inf" ID="QcUsbFnFilter8626"/>
             <DriverPackageFile Path="$(mspackageroot)\components\QC8X26\PLATFORM.SOC_QC8X26.BASE\Source\Libraries\Cellular" Name="qcci8626.inf" ID="qcci8626"/>
             <DriverPackageFile Path="$(mspackageroot)\components\QC8X26\PLATFORM.SOC_QC8X26.BASE\Source\Libraries\Cellular" Name="qcdiaglogging8626.inf" ID="qcdiaglogging8626"/>
             <DriverPackageFile Path="$(mspackageroot)\components\QC8X26\PLATFORM.SOC_QC8X26.BASE\Source\Libraries\Cellular" Name="qcims8626.inf" ID="qcims8626"/>
