@@ -1,0 +1,88 @@
+;
+; QcUsbFnSSFilter.inf
+;
+;Copyright (C) 2013,2015  by Qualcomm Technologies, Inc.  All Rights Reserved.
+;
+;
+
+[Version]
+Signature   = "$Windows NT$"
+Class       = System
+ClassGuid   = {4D36E97D-E325-11CE-BFC1-08002BE10318}
+Provider    = %Company%
+DriverVer   = 01/27/2015,1.0.3063.0000
+PnpLockdown = 1
+
+CatalogFile.NTarm = QcUsbFnSsFilter8974.cat
+
+[ControlFlags]
+ExcludeFromSelect = *
+
+[DestinationDirs]
+QcUsbFnSSFilter.CopyFile = 13,
+
+; ================= Class section =====================
+
+[SourceDisksNames]
+1 = %DiskName%
+
+[SourceDisksFiles.ARM]
+QcUsbFnSsFilter8974.sys = 1,,
+
+;*****************************************
+; Install Section
+;*****************************************
+
+[Manufacturer]
+%Company%=Standard,NTARM
+
+[Standard.NTARM]
+%Standard.DeviceDesc%=QcUsbFnSSFilter.Install, URS\QCOM24B6&FUNCTION ;URS MSFT mode
+
+[QcUsbFnSSFilter.Install.NTarm]
+Include      = ufxsynopsys.inf
+Needs        = ufxsynopsys.Install_Qualcomm.NT
+CopyFiles    = QcUsbFnSSFilter.CopyFile
+FeatureScore = 80 ; Override feature score for PnP to pick QC filter driver
+
+[QcUsbFnSSFilter.Install.NTarm.Services]
+Include      = ufxsynopsys.inf
+Needs        = ufxsynopsys.Install_Qualcomm.NT.Services
+AddService   = QcUsbFnSSFilter,, QcUsbFnSSFilter_Service_Inst
+
+[QcUsbFnSSFilter.Install.NTarm.HW]
+Include    = ufxsynopsys.inf
+Needs      = ufxsynopsys.Install_Qualcomm.NT.HW
+AddReg     = QcUsbFnSSFilter_AddReg
+
+[QcUsbFnSSFilter.CopyFile]
+QcUsbFnSsFilter8974.sys
+
+[QcUsbFnSSFilter_Service_AddReg]
+;HKR,,BootFlags,0x00010003,4
+
+[QcUsbFnSSFilter_AddReg]
+HKR,, "LowerFilters", 0x00010000, QcUsbFnSSFilter
+
+; -------------- QcUsbFnSSFilter driver install sections
+[QcUsbFnSSFilter_Service_Inst]
+DisplayName   = %Filter.SvcDesc%
+ServiceType   = 1               ; SERVICE_KERNEL_DRIVER
+StartType     = 3               ; SERVICE_DEMAND_START
+ErrorControl  = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary = %13%\QcUsbFnSsFilter8974.sys
+AddReg        = QcUsbFnSSFilter_Service_AddReg
+
+[Strings]
+Company             = "Qualcomm Technologies, Inc."
+StdMfg              = "(Standard system devices)"
+DiskId1             = "Qualcomm UsbFnSS Filter Installation Disk #1"
+Standard.DeviceDesc = "Qualcomm UsbFnSS Filter Driver"
+Filter.SvcDesc      = "Qualcomm UsbFnSS Filter Driver"
+DiskName            = "Data"
+
+REG_SZ              = 0x00000000
+REG_BINARY          = 0x00000001
+REG_M_SZ            = 0x00010000
+REG_DWORD           = 0x00010001
+REG_QWORD           = 0x000B0001
