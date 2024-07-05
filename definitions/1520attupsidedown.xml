@@ -128,6 +128,7 @@
             <DriverPackageFile Path="$(mspackageroot)\components\QC8974\PLATFORM.SOC_QC8974.BASE\Source\Drivers\SOC\System" Name="WDFHelper.inf" ID="WDFHelper"/>
             <DriverPackageFile Path="$(mspackageroot)\components\QC8974\PLATFORM.SOC_QC8974.BASE\Source\Drivers\SOC\UART" Name="qcuart8974.inf" ID="qcuart8974"/>
             <DriverPackageFile Path="$(mspackageroot)\components\QC8974\PLATFORM.SOC_QC8974.BASE\Source\Drivers\SOC\VoltageCurrentMonitoring" Name="qcadc8974.inf" ID="qcadc8974"/>
+            <DriverPackageFile Path="$(mspackageroot)\components\QC8974\PLATFORM.SOC_QC8974.BASE\Source\Drivers\USBFn" Name="QcUsbFnSsFilter8974.inf" ID="QcUsbFnSsFilter8974"/>
             <DriverPackageFile Path="$(mspackageroot)\components\QC8974\PLATFORM.SOC_QC8974.BASE\Source\Extensions" Name="qcamssextension8974.inf" ID="qcamssextension8974"/>
             <DriverPackageFile Path="$(mspackageroot)\components\QC8974\PLATFORM.SOC_QC8974.BASE\Source\Extensions" Name="qcwmrilextension8974.inf" ID="qcwmrilextension8974"/>
             <DriverPackageFile Path="$(mspackageroot)\components\QC8974\PLATFORM.SOC_QC8974.BASE\Source\Libraries\Cellular" Name="qcci8974.inf" ID="qcci8974"/>
