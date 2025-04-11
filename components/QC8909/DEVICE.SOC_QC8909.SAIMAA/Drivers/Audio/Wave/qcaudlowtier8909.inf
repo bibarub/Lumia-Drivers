@@ -1,0 +1,2086 @@
+;Copyright (c) 2011 Qualcomm Inc All rights Reserved
+;Portions copyright Microsoft Corporation 1998-2000
+;
+;Module Name:
+;   qcaudlowtier.INX
+;
+;Abstract:
+;    INX file for installing WDM audio adapter driver (WaveRT based) for Qualcomm SoC
+
+[Version]
+Signature="$CHICAGO$"
+Class=MEDIA
+ClassGUID={4d36e96c-e325-11ce-bfc1-08002be10318}
+provider=%QCOM%
+DriverVer=05/17/2016,0.13.41.0179
+CatalogFile=qcaud8909.cat
+
+[SourceDisksNames]
+222=%DiskId%
+
+[SourceDisksFiles]
+qcaud8909.sys=222
+ProxyAPO.dll=222
+LUVCR120.dll=222
+LUVCP120.dll=222
+
+[SignatureAttributes]
+qcaud8909.sys=SignatureAttributes.DRM
+ProxyAPO.dll=SignatureAttributes.PETrust
+
+[SignatureAttributes.DRM]
+DRMLevel=1300
+
+[SignatureAttributes.PETrust]
+PETrust=true
+
+[Manufacturer]
+%MfgName%=QUALCOMM,NTARM
+
+[QUALCOMM.NTARM]
+%QCAUD_A.DeviceDesc%=QCAUD_A, AUDD\QCOM2451
+
+
+[DestinationDirs]
+QCAUD_A.CopyList=12 ; windows\system32\drivers
+ProxyAPO.CopyList=11; windows\system32
+
+;======================================================
+;QCAUD_A 
+;======================================================
+
+[QCAUD_A.AddProperty]
+{F3E80BEF-1723-4FF2-BCC4-7F83DC5E46D4},2,7,,0
+
+[QCAUD_A.CopyList]
+qcaud8909.sys
+
+[ProxyAPO.CopyList]
+ProxyAPO.dll
+LUVCR120.dll
+LUVCP120.dll
+
+[QCAUD_A.AddReg]
+HKR,,AssociatedFilters,,"wdmaud,redbook"
+HKR,,Driver,,qcaud8909.sys
+
+HKR,Drivers,SubClasses,,"wave,mixer"
+
+HKR,Drivers\wave\wdmaud.drv,Driver,,wdmaud.drv
+HKR,Drivers\mixer\wdmaud.drv,Driver,,wdmaud.drv
+
+HKR,Drivers\wave\wdmaud.drv,Description,,%QCAUD_A.DeviceDesc%
+HKR,Drivers\mixer\wdmaud.drv,Description,,%QCAUD_A.DeviceDesc%
+HKR,PowerSettings,ConservationIdleTime,0x00000001,05,00,00,00
+HKR,PowerSettings,IdlePowerState,0x00000001,03,00,00,00
+HKR,PowerSettings,PerformanceIdleTime,0x00000001,05,00,00,00
+
+HKLM,%MEDIA_CATEGORIES%\%MicArray1CustomNameGUID%,Name,,%MicArray1CustomName%
+HKLM,%MEDIA_CATEGORIES%\%MicInCustomNameGUID%,Name,,%MicInCustomName%
+HKLM,%MEDIA_CATEGORIES%\%HandsetMicrophoneCustomNameGUID%,Name,,%HandsetMicrophoneName%
+HKLM,%MEDIA_CATEGORIES%\%HandsetSpeakerCustomNameGUID%,Name,,%HandsetSpeakerName%
+HKLM,%MEDIA_CATEGORIES%\%CellularBD1CustomNameGUID%,Name,,%CellularBD1CustomName%
+HKLM,%MEDIA_CATEGORIES%\%CellularBD2CustomNameGUID%,Name,,%CellularBD2CustomName%
+HKLM,%MEDIA_CATEGORIES%\%FmRxCustomNameGUID%,Name,,%FmRxCustomName%
+
+[ProxyAPO.AddReg]
+; Mode effect APO COM registration
+HKCR,CLSID\%FX_MODE_CLSID%,,,%MFX_FriendlyName%
+HKCR,CLSID\%FX_MODE_CLSID%\InProcServer32,,,%11%\ProxyAPO.dll
+HKCR,CLSID\%FX_MODE_CLSID%\InProcServer32,ThreadingModel,,"Both"
+
+; Mode effect APO registration
+HKCR,AudioEngine\AudioProcessingObjects\%FX_MODE_CLSID%, "FriendlyName", ,%MFX_FriendlyName%
+HKCR,AudioEngine\AudioProcessingObjects\%FX_MODE_CLSID%, "Copyright", ,%MfgName%
+HKCR,AudioEngine\AudioProcessingObjects\%FX_MODE_CLSID%, "MajorVersion", 0x00010001, 1
+HKCR,AudioEngine\AudioProcessingObjects\%FX_MODE_CLSID%, "MinorVersion", 0x00010001, 1
+HKCR,AudioEngine\AudioProcessingObjects\%FX_MODE_CLSID%, "Flags", 0x00010001, 0x0000000d
+HKCR,AudioEngine\AudioProcessingObjects\%FX_MODE_CLSID%, "MinInputConnections", 0x00010001, 1
+HKCR,AudioEngine\AudioProcessingObjects\%FX_MODE_CLSID%, "MaxInputConnections", 0x00010001, 1
+HKCR,AudioEngine\AudioProcessingObjects\%FX_MODE_CLSID%, "MinOutputConnections", 0x00010001, 1
+HKCR,AudioEngine\AudioProcessingObjects\%FX_MODE_CLSID%, "MaxOutputConnections", 0x00010001, 1
+HKCR,AudioEngine\AudioProcessingObjects\%FX_MODE_CLSID%, "MaxInstances", 0x00010001, 0xffffffff
+HKCR,AudioEngine\AudioProcessingObjects\%FX_MODE_CLSID%, "NumAPOInterfaces", 0x00010001, 1
+HKCR,AudioEngine\AudioProcessingObjects\%FX_MODE_CLSID%, "APOInterface0", ,"{FD7F2B29-24D0-4B5C-B177-592C39F9CA10}"
+
+
+; Endpoint effect APO COM registration
+HKCR,CLSID\%FX_ENDPOINT_CLSID%,,,%EFX_FriendlyName%
+HKCR,CLSID\%FX_ENDPOINT_CLSID%\InProcServer32,,,%11%\ProxyAPO.dll
+HKCR,CLSID\%FX_ENDPOINT_CLSID%\InProcServer32,ThreadingModel,,"Both"
+
+; Endpoint effect APO registration
+HKCR,AudioEngine\AudioProcessingObjects\%FX_ENDPOINT_CLSID%, "FriendlyName", ,%EFX_FriendlyName%
+HKCR,AudioEngine\AudioProcessingObjects\%FX_ENDPOINT_CLSID%, "Copyright", ,%MfgName%
+HKCR,AudioEngine\AudioProcessingObjects\%FX_ENDPOINT_CLSID%, "MajorVersion", 0x00010001, 1
+HKCR,AudioEngine\AudioProcessingObjects\%FX_ENDPOINT_CLSID%, "MinorVersion", 0x00010001, 1
+HKCR,AudioEngine\AudioProcessingObjects\%FX_ENDPOINT_CLSID%, "Flags", 0x00010001, 0x0000000d
+HKCR,AudioEngine\AudioProcessingObjects\%FX_ENDPOINT_CLSID%, "MinInputConnections", 0x00010001, 1
+HKCR,AudioEngine\AudioProcessingObjects\%FX_ENDPOINT_CLSID%, "MaxInputConnections", 0x00010001, 1
+HKCR,AudioEngine\AudioProcessingObjects\%FX_ENDPOINT_CLSID%, "MinOutputConnections", 0x00010001, 1
+HKCR,AudioEngine\AudioProcessingObjects\%FX_ENDPOINT_CLSID%, "MaxOutputConnections", 0x00010001, 1
+HKCR,AudioEngine\AudioProcessingObjects\%FX_ENDPOINT_CLSID%, "MaxInstances", 0x00010001, 0xffffffff
+HKCR,AudioEngine\AudioProcessingObjects\%FX_ENDPOINT_CLSID%, "NumAPOInterfaces", 0x00010001, 1
+HKCR,AudioEngine\AudioProcessingObjects\%FX_ENDPOINT_CLSID%, "APOInterface0", ,"{FD7F2B29-24D0-4B5C-B177-592C39F9CA10}"
+;======================================================
+; render interfaces: speaker (internal)
+;======================================================
+[QCAUD.I.WaveSpeaker]
+AddReg=QCAUD.I.WaveSpeaker.AddReg
+
+[QCAUD.I.WaveSpeaker.AddReg]
+HKR,,CLSID,,%Proxy.CLSID%
+HKR,,FriendlyName,,%QCAUD.WaveSpeaker.szPname%
+
+[QCAUD.I.TopologySpeaker]
+AddReg=QCAUD.I.TopologySpeaker.AddReg,ProxyAPO.I.Association0.AddReg,EffectsSupport.I.Association0.AddReg
+
+[QCAUD.I.TopologySpeaker.AddReg]
+HKR,,CLSID,,%Proxy.CLSID%
+HKR,,FriendlyName,,%QCAUD.TopologySpeaker.szPname%
+
+HKR,EP\0,%PKEY_AudioEndpoint_Association%,,%KSNODETYPE_ANY%
+HKR,FX\0,%PKEY_FX_Association%,,%KSNODETYPE_SPEAKER%
+
+; Uncomment the following lines to opt-in to pull mode.
+HKR,EP\0,%PKEY_AudioEndpoint_Supports_EventDriven_Mode%,0x00010001,0x1
+
+;======================================================
+; render interfaces: speaker (external: Headset)
+;======================================================
+[QCAUD.I.WaveSpeakerHeadset]
+AddReg=QCAUD.I.WaveSpeakerHeadset.AddReg
+[QCAUD.I.WaveSpeakerHeadset.AddReg]
+HKR,,CLSID,,%Proxy.CLSID%
+HKR,,FriendlyName,,%QCAUD.WaveSpeakerHeadset.szPname%
+
+[QCAUD.I.TopologySpeakerHeadset]
+AddReg=QCAUD.I.TopologySpeakerHeadset.AddReg,ProxyAPO.I.Association0.AddReg,EffectsSupport.I.Association0.AddReg
+
+[QCAUD.I.TopologySpeakerHeadset.AddReg]
+HKR,,CLSID,,%Proxy.CLSID%
+HKR,,FriendlyName,,%QCAUD.TopologySpeakerHeadset.szPname%
+HKR,FX\0,%PKEY_FX_Association%,,%KSNODETYPE_HEADSET_SPEAKERS%
+
+; Uncomment the following lines to opt-in to pull mode.
+HKR,EP\0,%PKEY_AudioEndpoint_Association%,,%KSNODETYPE_ANY%
+HKR,EP\0,%PKEY_AudioEndpoint_Supports_EventDriven_Mode%,0x00010001,0x1
+
+;======================================================
+; render interfaces: cellular
+;======================================================
+[QCAUD.I.WaveCellular]
+AddReg=QCAUD.I.WaveCellular.AddReg
+
+[QCAUD.I.WaveCellular.AddReg]
+HKR,,CLSID,,%Proxy.CLSID%
+HKR,,FriendlyName,,%QCAUD.WaveCellular.szPname%
+
+[QCAUD.I.TopologyCellular]
+AddReg=QCAUD.I.TopologyCellular.AddReg
+
+[QCAUD.I.TopologyCellular.AddReg]
+HKR,,CLSID,,%Proxy.CLSID%
+HKR,,FriendlyName,,%QCAUD.TopologyCellular.szPname%
+
+; Uncomment the following lines to opt-in to pull mode.
+HKR,EP\0,%PKEY_AudioEndpoint_Association%,,%KSNODETYPE_ANY%
+HKR,EP\0,%PKEY_AudioEndpoint_Supports_EventDriven_Mode%,0x00010001,0x1
+
+;======================================================
+; capture interfaces: FM RX (internal)
+;======================================================
+[QCAUD.I.WaveFmRx]
+AddReg=QCAUD.I.WaveFmRx.AddReg
+
+[QCAUD.I.WaveFmRx.AddReg]
+HKR,,CLSID,,%Proxy.CLSID%
+HKR,,FriendlyName,,%QCAUD.WaveFmRx.szPname%
+
+[QCAUD.I.TopologyFmRx]
+AddReg=QCAUD.I.TopologyFmRx.AddReg
+
+[QCAUD.I.TopologyFmRx.AddReg]
+HKR,,CLSID,,%Proxy.CLSID%
+HKR,,FriendlyName,,%QCAUD.TopologyFmRx.szPname%
+
+HKR,EP\0,%PKEY_AudioEndpoint_Association%,,%KSNODETYPE_ANY%
+HKR,EP\0,%PKEY_AudioEndpoint_Supports_EventDriven_Mode%,0x00010001,0x1
+
+;======================================================
+; capture interfaces: mic in (external: Headset)
+;======================================================
+[QCAUD.I.WaveMicHeadset]
+AddReg=QCAUD.I.WaveMicHeadset.AddReg
+[QCAUD.I.WaveMicHeadset.AddReg]
+HKR,,CLSID,,%Proxy.CLSID%
+HKR,,FriendlyName,,%QCAUD.WaveMicHeadset.szPname%
+
+[QCAUD.I.TopologyMicHeadset]
+AddReg=QCAUD.I.TopologyMicHeadset.AddReg, ProxyAPO.I.Association0.AddReg
+[QCAUD.I.TopologyMicHeadset.AddReg]
+HKR,,CLSID,,%Proxy.CLSID%
+HKR,,FriendlyName,,%QCAUD.TopologyMicHeadset.szPname%
+HKR,FX\0,%PKEY_FX_Association%,,%KSNODETYPE_HEADSET_MICROPHONE%
+; Uncomment the following lines to opt-in to pull mode.
+HKR,EP\0,%PKEY_AudioEndpoint_Association%,,%KSNODETYPE_ANY%
+HKR,EP\0,%PKEY_AudioEndpoint_Supports_EventDriven_Mode%,0x00010001,0x1
+
+;======================================================
+; capture interfaces: mic in (internal)
+;======================================================
+[QCAUD.I.WaveMicIn]
+AddReg=QCAUD.I.WaveMicIn.AddReg
+[QCAUD.I.WaveMicIn.AddReg]
+HKR,,CLSID,,%Proxy.CLSID%
+HKR,,FriendlyName,,%QCAUD.WaveMicIn.szPname%
+
+[QCAUD.I.TopologyMicIn]
+AddReg=QCAUD.I.TopologyMicIn.AddReg, ProxyAPO.I.Association0.AddReg
+[QCAUD.I.TopologyMicIn.AddReg]
+HKR,,CLSID,,%Proxy.CLSID%
+HKR,,FriendlyName,,%QCAUD.TopologyMicIn.szPname%
+HKR,FX\0,%PKEY_FX_Association%,,%KSNODETYPE_MICROPHONE%
+; Uncomment the following lines to opt-in to pull mode.
+HKR,EP\0,%PKEY_AudioEndpoint_Association%,,%KSNODETYPE_ANY%
+HKR,EP\0,%PKEY_AudioEndpoint_Supports_EventDriven_Mode%,0x00010001,0x1
+
+;======================================================
+; capture interfaces: mic array (internal: front)
+;======================================================
+[QCAUD.I.WaveMicArray1]
+AddReg=QCAUD.I.WaveMicArray1.AddReg
+[QCAUD.I.WaveMicArray1.AddReg]
+HKR,,CLSID,,%Proxy.CLSID%
+HKR,,FriendlyName,,%QCAUD.WaveMicArray1.szPname%
+
+[QCAUD.I.TopologyMicArray1]
+AddReg=QCAUD.I.TopologyMicArray1.AddReg,ProxyAPO.I.Association0.AddReg
+
+[QCAUD.I.TopologyMicArray1.AddReg]
+HKR,,CLSID,,%Proxy.CLSID%
+HKR,,FriendlyName,,%QCAUD.TopologyMicArray1.szPname%
+
+HKR,FX\0,%PKEY_FX_Association%,,%KSNODETYPE_MICROPHONE_ARRAY%
+
+; Uncomment the following lines to opt-in to pull mode.
+HKR,EP\0,%PKEY_AudioEndpoint_Association%,,%KSNODETYPE_ANY%
+HKR,EP\0,%PKEY_AudioEndpoint_Supports_EventDriven_Mode%,0x00010001,0x1
+; Uncomment the following lines to opt-in as never a default endpoint.
+HKR,EP\0,%PKEY_AudioDevice_NeverSetAsDefaultEndpoint%,0x00010001,0x00000305
+
+;======================================================
+; render interfaces: Bluetooth HFP speaker (external)
+;======================================================
+[QCAUD.I.WaveBthHfpSpeaker]
+AddReg=QCAUD.I.WaveBthHfpSpeaker.AddReg
+[QCAUD.I.WaveBthHfpSpeaker.AddReg]
+HKR,,CLSID,,%Proxy.CLSID%
+HKR,,FriendlyName,,%QCAUD.WaveBthHfpSpeaker.szPname%
+
+[QCAUD.I.TopologyBthHfpSpeaker]
+AddReg=QCAUD.I.TopologyBthHfpSpeaker.AddReg,ProxyAPO.I.Association0.AddReg
+[QCAUD.I.TopologyBthHfpSpeaker.AddReg]
+HKR,,CLSID,,%Proxy.CLSID%
+HKR,,FriendlyName,,%QCAUD.TopologyBthHfpSpeaker.szPname%
+HKR,FX\0,%PKEY_FX_Association%,,%KSNODETYPE_HEADSET_SPEAKERS%
+
+; Uncomment the following lines to opt-in to pull mode.
+HKR,EP\0,%PKEY_AudioEndpoint_Association%,,%KSNODETYPE_ANY%
+HKR,EP\0,%PKEY_AudioEndpoint_Supports_EventDriven_Mode%,0x00010001,0x1
+
+;======================================================
+; capture interfaces: Bluetooth HFP mic (external)
+;======================================================
+[QCAUD.I.WaveBthHfpMic]
+AddReg=QCAUD.I.WaveBthHfpMic.AddReg
+[QCAUD.I.WaveBthHfpMic.AddReg]
+HKR,,CLSID,,%Proxy.CLSID%
+HKR,,FriendlyName,,%QCAUD.WaveBthHfpMic.szPname%
+
+[QCAUD.I.TopologyBthHfpMic]
+AddReg=QCAUD.I.TopologyBthHfpMic.AddReg,ProxyAPO.I.Association0.AddReg
+[QCAUD.I.TopologyBthHfpMic.AddReg]
+HKR,,CLSID,,%Proxy.CLSID%
+HKR,,FriendlyName,,%QCAUD.TopologyBthHfpMic.szPname%
+HKR,FX\0,%PKEY_FX_Association%,,%KSNODETYPE_HEADSET_MICROPHONE%
+
+; Uncomment the following lines to opt-in to pull mode.
+HKR,EP\0,%PKEY_AudioEndpoint_Association%,,%KSNODETYPE_ANY%
+HKR,EP\0,%PKEY_AudioEndpoint_Supports_EventDriven_Mode%,0x00010001,0x1
+
+;======================================================
+; render interfaces: Bluetooth HFP speaker (external) - Wideband
+;======================================================
+[QCAUD.I.WaveBthHfpSpeakerWB]
+AddReg=QCAUD.I.WaveBthHfpSpeakerWB.AddReg
+[QCAUD.I.WaveBthHfpSpeakerWB.AddReg]
+HKR,,CLSID,,%Proxy.CLSID%
+HKR,,FriendlyName,,%QCAUD.WaveBthHfpSpeakerWB.szPname%
+
+[QCAUD.I.TopologyBthHfpSpeakerWB]
+AddReg=QCAUD.I.TopologyBthHfpSpeakerWB.AddReg,ProxyAPO.I.Association0.AddReg
+[QCAUD.I.TopologyBthHfpSpeakerWB.AddReg]
+HKR,,CLSID,,%Proxy.CLSID%
+HKR,,FriendlyName,,%QCAUD.TopologyBthHfpSpeakerWB.szPname%
+HKR,FX\0,%PKEY_FX_Association%,,%KSNODETYPE_HEADSET_SPEAKERS%
+
+; Uncomment the following lines to opt-in to pull mode.
+HKR,EP\0,%PKEY_AudioEndpoint_Association%,,%KSNODETYPE_ANY%
+HKR,EP\0,%PKEY_AudioEndpoint_Supports_EventDriven_Mode%,0x00010001,0x1
+
+;======================================================
+; capture interfaces: Bluetooth HFP mic (external) - Wideband
+;======================================================
+[QCAUD.I.WaveBthHfpMicWB]
+AddReg=QCAUD.I.WaveBthHfpMicWB.AddReg
+[QCAUD.I.WaveBthHfpMicWB.AddReg]
+HKR,,CLSID,,%Proxy.CLSID%
+HKR,,FriendlyName,,%QCAUD.WaveBthHfpMicWB.szPname%
+
+[QCAUD.I.TopologyBthHfpMicWB]
+AddReg=QCAUD.I.TopologyBthHfpMicWB.AddReg,ProxyAPO.I.Association0.AddReg
+[QCAUD.I.TopologyBthHfpMicWB.AddReg]
+HKR,,CLSID,,%Proxy.CLSID%
+HKR,,FriendlyName,,%QCAUD.TopologyBthHfpMicWB.szPname%
+HKR,FX\0,%PKEY_FX_Association%,,%KSNODETYPE_HEADSET_MICROPHONE%
+
+; Uncomment the following lines to opt-in to pull mode.
+HKR,EP\0,%PKEY_AudioEndpoint_Association%,,%KSNODETYPE_ANY%
+HKR,EP\0,%PKEY_AudioEndpoint_Supports_EventDriven_Mode%,0x00010001,0x1
+
+;======================================================
+; render interfaces: handset speaker (internal)
+;======================================================
+[QCAUD.I.WaveHandsetSpeaker]
+AddReg=QCAUD.I.WaveHandsetSpeaker.AddReg
+
+[QCAUD.I.WaveHandsetSpeaker.AddReg]
+HKR,,CLSID,,%Proxy.CLSID%
+HKR,,FriendlyName,,%QCAUD.WaveHandsetSpeaker.szPname%
+
+[QCAUD.I.TopologyHandsetSpeaker]
+AddReg=QCAUD.I.TopologyHandsetSpeaker.AddReg, ProxyAPO.I.Association0.AddReg
+
+[QCAUD.I.TopologyHandsetSpeaker.AddReg]
+HKR,,CLSID,,%Proxy.CLSID%
+HKR,,FriendlyName,,%QCAUD.TopologyHandsetSpeaker.szPname%
+
+HKR,EP\0,%PKEY_AudioEndpoint_Association%,,%KSNODETYPE_ANY%
+HKR,FX\0,%PKEY_FX_Association%,,%KSNODETYPE_HANDSET%
+
+; Uncomment the following lines to opt-in to pull mode.
+HKR,EP\0,%PKEY_AudioEndpoint_Supports_EventDriven_Mode%,0x00010001,0x1
+
+;======================================================
+; capture interfaces: handset mic (internal)
+;======================================================
+[QCAUD.I.WaveHandsetMic]
+AddReg=QCAUD.I.WaveHandsetMic.AddReg
+[QCAUD.I.WaveHandsetMic.AddReg]
+HKR,,CLSID,,%Proxy.CLSID%
+HKR,,FriendlyName,,%QCAUD.WaveHandsetMic.szPname%
+
+[QCAUD.I.TopologyHandsetMic]
+AddReg=QCAUD.I.TopologyHandsetMic.AddReg, ProxyAPO.I.Association0.AddReg
+[QCAUD.I.TopologyHandsetMic.AddReg]
+HKR,,CLSID,,%Proxy.CLSID%
+HKR,,FriendlyName,,%QCAUD.TopologyHandsetMic.szPname%
+HKR,FX\0,%PKEY_FX_Association%,,%KSNODETYPE_HANDSET%
+
+; Uncomment the following lines to opt-in to pull mode.
+ HKR,EP\0,%PKEY_AudioEndpoint_Association%,,%KSNODETYPE_ANY%
+ HKR,EP\0,%PKEY_AudioEndpoint_Supports_EventDriven_Mode%,0x00010001,0x1
+
+;======================================================
+; Proxy mode APO per-interface registry
+;======================================================
+[ProxyAPO.I.Association0.AddReg]
+; Proxy-Mode
+; Instruct audio endpoint builder to set the CLSIDs for stream, mode, and endpoint APOs
+; into the effects property store
+HKR,"FX\0",%PKEY_FX_ModeEffectClsid%,,%FX_MODE_CLSID%
+HKR,"FX\0",%PKEY_FX_EndpointEffectClsid%,,%FX_ENDPOINT_CLSID%
+
+;======================================================
+; EffectsSupport non proxy mode APO
+;======================================================
+[EffectsSupport.I.Association0.AddReg]
+; Concatenate GUIDs for DEFAULT, MUSIC, MOVIE
+; While MULTI_SZ using this syntax get into the package's .reg file, they don't get into the registry
+;HKR,"FX\\0",%PKEY_MFX_ProcessingModes_Supported_For_Streaming%,0x00010008,%AUDIO_SIGNALPROCESSINGMODE_DEFAULT% ; FLG_ADDREG_TYPE_MULTI_SZ | FLG_ADDREG_APPEND
+;HKR,"FX\\0",%PKEY_MFX_ProcessingModes_Supported_For_Streaming%,0x00010008,%AUDIO_SIGNALPROCESSINGMODE_MUSIC%       ; FLG_ADDREG_TYPE_MULTI_SZ | FLG_ADDREG_APPEND
+;HKR,"FX\\0",%PKEY_MFX_ProcessingModes_Supported_For_Streaming%,0x00010008,%AUDIO_SIGNALPROCESSINGMODE_MOVIE%       ; FLG_ADDREG_TYPE_MULTI_SZ | FLG_ADDREG_APPEND
+; Instead, use a simple string for now
+;HKR,"FX\0",%PKEY_MFX_ProcessingModes_Supported_For_Streaming%,,%ProxyAPO_MFX_ProcessingModes_Supported%
+;HKR,"FX\\0",%PKEY_EFX_ProcessingModes_Supported_For_Streaming%,,%ProxyAPO_EFX_ProcessingModes_Supported%
+
+; Driver developer would replace the list of supported processing modes here
+HKR,"FX\0",%PKEY_MFX_ProcessingModes_Supported_For_Streaming%,0x00010000,%AUDIO_SIGNALPROCESSINGMODE_DEFAULT%
+HKR,"FX\0",%PKEY_EFX_ProcessingModes_Supported_For_Streaming%,0x00010000,%AUDIO_SIGNALPROCESSINGMODE_DEFAULT%
+
+;======================================================
+; MsApoFxProxy APO registry
+;======================================================
+;[MsApoFxProxy.I.Association0.AddReg]
+;HKR,FX\0,%PKEY_FX_Association%,,%KSNODETYPE_ANY%
+;HKR,FX\0,%PKEY_FX_EndpointEffectClsid%,,%FX_DISCOVER_EFFECTS_APO_CLSID%
+
+;======================================================
+; QCAUD_A
+;======================================================
+[QCAUD_A.NT]
+Include=ks.inf,wdmaudio.inf
+Needs=KS.Registration, WDMAUDIO.Registration, MsApoFxProxy.Registration
+CopyFiles=QCAUD_A.CopyList,ProxyAPO.CopyList
+AddReg=QCAUD_A.AddReg,ProxyAPO.AddReg
+AddProperty=QCAUD_A.AddProperty
+
+
+[QCAUD_A.NT.Interfaces]
+;
+; Interfaces for speaker (internal) render endpoint.
+;
+AddInterface=%KSCATEGORY_AUDIO%, %KSNAME_WaveSpeaker%, QCAUD.I.WaveSpeaker
+AddInterface=%KSCATEGORY_RENDER%, %KSNAME_WaveSpeaker%, QCAUD.I.WaveSpeaker
+AddInterface=%KSCATEGORY_REALTIME%, %KSNAME_WaveSpeaker%, QCAUD.I.WaveSpeaker
+AddInterface=%KSCATEGORY_AUDIO%, %KSNAME_TopologySpeaker%, QCAUD.I.TopologySpeaker
+AddInterface=%KSCATEGORY_TOPOLOGY%, %KSNAME_TopologySpeaker%, QCAUD.I.TopologySpeaker
+
+;
+; Interfaces for speaker (external: Headset) render endpoint.
+;
+AddInterface=%KSCATEGORY_AUDIO%, %KSNAME_WaveSpeakerHeadset%, QCAUD.I.WaveSpeakerHeadset
+AddInterface=%KSCATEGORY_RENDER%, %KSNAME_WaveSpeakerHeadset%, QCAUD.I.WaveSpeakerHeadset
+AddInterface=%KSCATEGORY_REALTIME%, %KSNAME_WaveSpeakerHeadset%, QCAUD.I.WaveSpeakerHeadset
+AddInterface=%KSCATEGORY_AUDIO%, %KSNAME_TopologySpeakerHeadset%, QCAUD.I.TopologySpeakerHeadset
+AddInterface=%KSCATEGORY_TOPOLOGY%, %KSNAME_TopologySpeakerHeadset%, QCAUD.I.TopologySpeakerHeadset
+
+;
+; Interfaces for cellular render endpoint.
+;
+AddInterface=%KSCATEGORY_AUDIO%, %KSNAME_WaveCellular%, QCAUD.I.WaveCellular
+AddInterface=%KSCATEGORY_CAPTURE%, %KSNAME_WaveCellular%, QCAUD.I.WaveCellular
+AddInterface=%KSCATEGORY_REALTIME%, %KSNAME_WaveCellular%, QCAUD.I.WaveCellular
+AddInterface=%KSCATEGORY_AUDIO%, %KSNAME_TopologyCellular%, QCAUD.I.TopologyCellular
+AddInterface=%KSCATEGORY_TOPOLOGY%, %KSNAME_TopologyCellular%, QCAUD.I.TopologyCellular
+
+;
+; Interfaces for FM RX (Internal) capture endpoint 
+;
+AddInterface=%KSCATEGORY_AUDIO%, %KSNAME_WaveFmRx%, QCAUD.I.WaveFmRx
+AddInterface=%KSCATEGORY_REALTIME%, %KSNAME_WaveFmRx%, QCAUD.I.WaveFmRx
+AddInterface=%KSCATEGORY_CAPTURE%, %KSNAME_WaveFmRx%, QCAUD.I.WaveFmRx
+AddInterface=%KSCATEGORY_AUDIO%, %KSNAME_TopologyFmRx%, QCAUD.I.TopologyFmRx
+AddInterface=%KSCATEGORY_TOPOLOGY%, %KSNAME_TopologyFmRx%, QCAUD.I.TopologyFmRx
+
+;
+; Interfaces for microphone (external: Headset) capture endpoint 
+;
+AddInterface=%KSCATEGORY_AUDIO%,    %KSNAME_WaveMicHeadset%, QCAUD.I.WaveMicHeadset
+AddInterface=%KSCATEGORY_REALTIME%, %KSNAME_WaveMicHeadset%, QCAUD.I.WaveMicHeadset
+AddInterface=%KSCATEGORY_CAPTURE%,  %KSNAME_WaveMicHeadset%, QCAUD.I.WaveMicHeadset
+AddInterface=%KSCATEGORY_AUDIO%,    %KSNAME_TopologyMicHeadset%, QCAUD.I.TopologyMicHeadset
+AddInterface=%KSCATEGORY_TOPOLOGY%, %KSNAME_TopologyMicHeadset%, QCAUD.I.TopologyMicHeadset
+
+;
+; Interfaces for microphone (internal) capture endpoint 
+;
+AddInterface=%KSCATEGORY_AUDIO%,    %KSNAME_WaveMicIn%, QCAUD.I.WaveMicIn
+AddInterface=%KSCATEGORY_REALTIME%, %KSNAME_WaveMicIn%, QCAUD.I.WaveMicIn
+AddInterface=%KSCATEGORY_CAPTURE%,  %KSNAME_WaveMicIn%, QCAUD.I.WaveMicIn
+AddInterface=%KSCATEGORY_AUDIO%,    %KSNAME_TopologyMicIn%, QCAUD.I.TopologyMicIn
+AddInterface=%KSCATEGORY_TOPOLOGY%, %KSNAME_TopologyMicIn%, QCAUD.I.TopologyMicIn
+
+;
+; Interfaces for microphone array 1 (internal: front) capture endpoint.
+;
+AddInterface=%KSCATEGORY_AUDIO%,    %KSNAME_WaveMicArray1%, QCAUD.I.WaveMicArray1
+AddInterface=%KSCATEGORY_REALTIME%, %KSNAME_WaveMicArray1%, QCAUD.I.WaveMicArray1
+AddInterface=%KSCATEGORY_CAPTURE%,  %KSNAME_WaveMicArray1%, QCAUD.I.WaveMicArray1
+AddInterface=%KSCATEGORY_AUDIO%,    %KSNAME_TopologyMicArray1%, QCAUD.I.TopologyMicArray1
+AddInterface=%KSCATEGORY_TOPOLOGY%, %KSNAME_TopologyMicArray1%, QCAUD.I.TopologyMicArray1
+
+;
+; Interfaces for Bluetooth HFP speaker (external) render endpoint.
+;
+AddInterface=%KSCATEGORY_AUDIO%, %KSNAME_WaveBthHfpSpeaker%, QCAUD.I.WaveBthHfpSpeaker
+AddInterface=%KSCATEGORY_RENDER%, %KSNAME_WaveBthHfpSpeaker%, QCAUD.I.WaveBthHfpSpeaker
+AddInterface=%KSCATEGORY_REALTIME%, %KSNAME_WaveBthHfpSpeaker%, QCAUD.I.WaveBthHfpSpeaker
+AddInterface=%KSCATEGORY_AUDIO%, %KSNAME_TopologyBthHfpSpeaker%, QCAUD.I.TopologyBthHfpSpeaker
+AddInterface=%KSCATEGORY_TOPOLOGY%, %KSNAME_TopologyBthHfpSpeaker%, QCAUD.I.TopologyBthHfpSpeaker
+
+;
+; Interfaces for Bluetooth HFP mic (external) capture endpoint 
+;
+AddInterface=%KSCATEGORY_AUDIO%,    %KSNAME_WaveBthHfpMic%, QCAUD.I.WaveBthHfpMic
+AddInterface=%KSCATEGORY_REALTIME%, %KSNAME_WaveBthHfpMic%, QCAUD.I.WaveBthHfpMic
+AddInterface=%KSCATEGORY_CAPTURE%,  %KSNAME_WaveBthHfpMic%, QCAUD.I.WaveBthHfpMic
+AddInterface=%KSCATEGORY_AUDIO%,    %KSNAME_TopologyBthHfpMic%, QCAUD.I.TopologyBthHfpMic
+AddInterface=%KSCATEGORY_TOPOLOGY%, %KSNAME_TopologyBthHfpMic%, QCAUD.I.TopologyBthHfpMic
+
+;
+; Interfaces for Bluetooth HFP speaker (external) Wideband render endpoint.
+;
+AddInterface=%KSCATEGORY_AUDIO%, %KSNAME_WaveBthHfpSpeakerWB%, QCAUD.I.WaveBthHfpSpeakerWB
+AddInterface=%KSCATEGORY_RENDER%, %KSNAME_WaveBthHfpSpeakerWB%, QCAUD.I.WaveBthHfpSpeakerWB
+AddInterface=%KSCATEGORY_REALTIME%, %KSNAME_WaveBthHfpSpeakerWB%, QCAUD.I.WaveBthHfpSpeakerWB
+AddInterface=%KSCATEGORY_AUDIO%, %KSNAME_TopologyBthHfpSpeakerWB%, QCAUD.I.TopologyBthHfpSpeakerWB
+AddInterface=%KSCATEGORY_TOPOLOGY%, %KSNAME_TopologyBthHfpSpeakerWB%, QCAUD.I.TopologyBthHfpSpeakerWB
+
+;
+; Interfaces for Bluetooth HFP mic (external) Wideband capture endpoint 
+;
+AddInterface=%KSCATEGORY_AUDIO%,    %KSNAME_WaveBthHfpMicWB%, QCAUD.I.WaveBthHfpMicWB
+AddInterface=%KSCATEGORY_REALTIME%, %KSNAME_WaveBthHfpMicWB%, QCAUD.I.WaveBthHfpMicWB
+AddInterface=%KSCATEGORY_CAPTURE%,  %KSNAME_WaveBthHfpMicWB%, QCAUD.I.WaveBthHfpMicWB
+AddInterface=%KSCATEGORY_AUDIO%,    %KSNAME_TopologyBthHfpMicWB%, QCAUD.I.TopologyBthHfpMicWB
+AddInterface=%KSCATEGORY_TOPOLOGY%, %KSNAME_TopologyBthHfpMicWB%, QCAUD.I.TopologyBthHfpMicWB
+
+
+;
+; Interfaces for Handset Speaker (internal) render endpoint.
+;
+AddInterface=%KSCATEGORY_AUDIO%, %KSNAME_WaveHandsetSpeaker%, QCAUD.I.WaveHandsetSpeaker
+AddInterface=%KSCATEGORY_RENDER%, %KSNAME_WaveHandsetSpeaker%, QCAUD.I.WaveHandsetSpeaker
+AddInterface=%KSCATEGORY_REALTIME%, %KSNAME_WaveHandsetSpeaker%, QCAUD.I.WaveHandsetSpeaker
+AddInterface=%KSCATEGORY_AUDIO%, %KSNAME_TopologyHandsetSpeaker%, QCAUD.I.TopologyHandsetSpeaker
+AddInterface=%KSCATEGORY_TOPOLOGY%, %KSNAME_TopologyHandsetSpeaker%, QCAUD.I.TopologyHandsetSpeaker
+
+;
+; Interfaces for Handset mic (Internal) capture endpoint 
+;
+AddInterface=%KSCATEGORY_AUDIO%,    %KSNAME_WaveHandsetMic%, QCAUD.I.WaveHandsetMic
+AddInterface=%KSCATEGORY_REALTIME%, %KSNAME_WaveHandsetMic%, QCAUD.I.WaveHandsetMic
+AddInterface=%KSCATEGORY_CAPTURE%,  %KSNAME_WaveHandsetMic%, QCAUD.I.WaveHandsetMic
+AddInterface=%KSCATEGORY_AUDIO%,    %KSNAME_TopologyHandsetMic%, QCAUD.I.TopologyHandsetMic
+AddInterface=%KSCATEGORY_TOPOLOGY%, %KSNAME_TopologyHandsetMic%, QCAUD.I.TopologyHandsetMic
+
+[QCAUD_A.NT.Services]
+AddService=QCAUD,0x00000002,QCAUD_Service_Inst
+
+[QCAUD_Service_Inst]
+DisplayName=%QCAUD.SvcDesc%
+ServiceType=1
+StartType=3
+ErrorControl=1
+ServiceBinary=%10%\system32\drivers\qcaud8909.sys
+AddReg=QCAUD_Reg
+
+[QCAUD_Reg]
+HKR,APO\Device_ID_10\MFX\Mode_Comm\HostRender,NumOfEffectsGuid,0x00010001,0x00000002
+HKR,APO\Device_ID_10\MFX\Mode_Comm\HostRender,IsSoftwareApo,0x00010001,0x00000000
+HKR,APO\Device_ID_10\MFX\Mode_Comm\HostRender\EffectsGuid,EffectsGuid0,0x00000000,"{6f64adcd-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_10\MFX\Mode_Comm\HostRender\EffectsGuid,EffectsGuid1,0x00000000,"{6f64adce-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_11\MFX\Mode_Comm\Offload,NumOfEffectsGuid,0x00010001,0x00000005
+HKR,APO\Device_ID_11\MFX\Mode_Comm\Offload,IsSoftwareApo,0x00010001,0x00000000
+HKR,APO\Device_ID_11\MFX\Mode_Comm\Offload\EffectsGuid,EffectsGuid0,0x00000000,"{6f64adc2-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_11\MFX\Mode_Comm\Offload\EffectsGuid,EffectsGuid2,0x00000000,"{6f64adce-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_11\MFX\Mode_Comm\Offload\EffectsGuid,EffectsGuid4,0x00000000,"{6f64adc0-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_11\MFX\Mode_Comm\Offload\EffectsGuid,EffectsGuid1,0x00000000,"{6f64adbf-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_11\MFX\Mode_Comm\Offload\EffectsGuid,EffectsGuid3,0x00000000,"{6f64adbe-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_11\MFX\Mode_Comm\Record,NumOfEffectsGuid,0x00010001,0x00000005
+HKR,APO\Device_ID_11\MFX\Mode_Comm\Record,IsSoftwareApo,0x00010001,0x00000000
+HKR,APO\Device_ID_11\MFX\Mode_Comm\Record\EffectsGuid,EffectsGuid0,0x00000000,"{6f64adc2-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_11\MFX\Mode_Comm\Record\EffectsGuid,EffectsGuid2,0x00000000,"{6f64adce-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_11\MFX\Mode_Comm\Record\EffectsGuid,EffectsGuid4,0x00000000,"{6f64adc0-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_11\MFX\Mode_Comm\Record\EffectsGuid,EffectsGuid1,0x00000000,"{6f64adbf-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_11\MFX\Mode_Comm\Record\EffectsGuid,EffectsGuid3,0x00000000,"{6f64adbe-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_11\MFX\Mode_Default\Record,NumOfEffectsGuid,0x00010001,0x00000003
+HKR,APO\Device_ID_11\MFX\Mode_Default\Record,IsSoftwareApo,0x00010001,0x00000000
+HKR,APO\Device_ID_11\MFX\Mode_Default\Record\EffectsGuid,EffectsGuid0,0x00000000,"{6f64adc2-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_11\MFX\Mode_Default\Record\EffectsGuid,EffectsGuid2,0x00000000,"{6f64adce-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_11\MFX\Mode_Default\Record\EffectsGuid,EffectsGuid1,0x00000000,"{6f64adbf-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_11\MFX\Mode_Raw\Record,IsSoftwareApo,0x00010001,0x00000000
+HKR,APO\Device_ID_34\MFX\Mode_Default\Record,NumOfEffectsGuid,0x00010001,0x00000003
+HKR,APO\Device_ID_34\MFX\Mode_Default\Record,IsSoftwareApo,0x00010001,0x00000000
+HKR,APO\Device_ID_34\MFX\Mode_Default\Record\EffectsGuid,EffectsGuid0,0x00000000,"{6f64adc2-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_34\MFX\Mode_Default\Record\EffectsGuid,EffectsGuid2,0x00000000,"{6f64adce-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_34\MFX\Mode_Default\Record\EffectsGuid,EffectsGuid1,0x00000000,"{6f64adbf-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_34\MFX\Mode_Raw\Record,IsSoftwareApo,0x00010001,0x00000000
+HKR,APO\Device_ID_36\MFX\Mode_Default\Record,NumOfEffectsGuid,0x00010001,0x00000002
+HKR,APO\Device_ID_36\MFX\Mode_Default\Record,IsSoftwareApo,0x00010001,0x00000000
+HKR,APO\Device_ID_36\MFX\Mode_Default\Record\EffectsGuid,EffectsGuid0,0x00000000,"{6f64adbe-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_36\MFX\Mode_Default\Record\EffectsGuid,EffectsGuid1,0x00000000,"{6f64adbf-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_4\MFX\Mode_Comm\Offload,NumOfEffectsGuid,0x00010001,0x00000005
+HKR,APO\Device_ID_4\MFX\Mode_Comm\Offload,IsSoftwareApo,0x00010001,0x00000000
+HKR,APO\Device_ID_4\MFX\Mode_Comm\Offload\EffectsGuid,EffectsGuid0,0x00000000,"{6f64adc2-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_4\MFX\Mode_Comm\Offload\EffectsGuid,EffectsGuid2,0x00000000,"{6f64adce-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_4\MFX\Mode_Comm\Offload\EffectsGuid,EffectsGuid4,0x00000000,"{6f64adc0-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_4\MFX\Mode_Comm\Offload\EffectsGuid,EffectsGuid1,0x00000000,"{6f64adbf-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_4\MFX\Mode_Comm\Offload\EffectsGuid,EffectsGuid3,0x00000000,"{6f64adbe-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_4\MFX\Mode_Comm\Record,NumOfEffectsGuid,0x00010001,0x00000005
+HKR,APO\Device_ID_4\MFX\Mode_Comm\Record,IsSoftwareApo,0x00010001,0x00000000
+HKR,APO\Device_ID_4\MFX\Mode_Comm\Record\EffectsGuid,EffectsGuid0,0x00000000,"{6f64adc2-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_4\MFX\Mode_Comm\Record\EffectsGuid,EffectsGuid2,0x00000000,"{6f64adce-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_4\MFX\Mode_Comm\Record\EffectsGuid,EffectsGuid4,0x00000000,"{6f64adc0-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_4\MFX\Mode_Comm\Record\EffectsGuid,EffectsGuid1,0x00000000,"{6f64adbf-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_4\MFX\Mode_Comm\Record\EffectsGuid,EffectsGuid3,0x00000000,"{6f64adbe-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_4\MFX\Mode_Default\Record,NumOfEffectsGuid,0x00010001,0x00000003
+HKR,APO\Device_ID_4\MFX\Mode_Default\Record,IsSoftwareApo,0x00010001,0x00000000
+HKR,APO\Device_ID_4\MFX\Mode_Default\Record\EffectsGuid,EffectsGuid0,0x00000000,"{6f64adc2-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_4\MFX\Mode_Default\Record\EffectsGuid,EffectsGuid2,0x00000000,"{6f64adce-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_4\MFX\Mode_Default\Record\EffectsGuid,EffectsGuid1,0x00000000,"{6f64adbf-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_4\MFX\Mode_Raw\Record,IsSoftwareApo,0x00010001,0x00000000
+HKR,APO\Device_ID_69\MFX\Mode_Comm\HostRender,NumOfEffectsGuid,0x00010001,0x00000002
+HKR,APO\Device_ID_69\MFX\Mode_Comm\HostRender,IsSoftwareApo,0x00010001,0x00000000
+HKR,APO\Device_ID_69\MFX\Mode_Comm\HostRender\EffectsGuid,EffectsGuid0,0x00000000,"{6f64adcd-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_69\MFX\Mode_Comm\HostRender\EffectsGuid,EffectsGuid1,0x00000000,"{6f64adce-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_6\MFX\Mode_Comm\Offload,NumOfEffectsGuid,0x00010001,0x00000005
+HKR,APO\Device_ID_6\MFX\Mode_Comm\Offload,IsSoftwareApo,0x00010001,0x00000000
+HKR,APO\Device_ID_6\MFX\Mode_Comm\Offload\EffectsGuid,EffectsGuid0,0x00000000,"{6f64adc2-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_6\MFX\Mode_Comm\Offload\EffectsGuid,EffectsGuid2,0x00000000,"{6f64adce-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_6\MFX\Mode_Comm\Offload\EffectsGuid,EffectsGuid4,0x00000000,"{6f64adc0-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_6\MFX\Mode_Comm\Offload\EffectsGuid,EffectsGuid1,0x00000000,"{6f64adbf-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_6\MFX\Mode_Comm\Offload\EffectsGuid,EffectsGuid3,0x00000000,"{6f64adbe-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_6\MFX\Mode_Comm\Record,NumOfEffectsGuid,0x00010001,0x00000005
+HKR,APO\Device_ID_6\MFX\Mode_Comm\Record,IsSoftwareApo,0x00010001,0x00000000
+HKR,APO\Device_ID_6\MFX\Mode_Comm\Record\EffectsGuid,EffectsGuid0,0x00000000,"{6f64adc2-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_6\MFX\Mode_Comm\Record\EffectsGuid,EffectsGuid2,0x00000000,"{6f64adce-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_6\MFX\Mode_Comm\Record\EffectsGuid,EffectsGuid4,0x00000000,"{6f64adc0-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_6\MFX\Mode_Comm\Record\EffectsGuid,EffectsGuid1,0x00000000,"{6f64adbf-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_6\MFX\Mode_Comm\Record\EffectsGuid,EffectsGuid3,0x00000000,"{6f64adbe-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_7\MFX\Mode_Comm\HostRender,NumOfEffectsGuid,0x00010001,0x00000002
+HKR,APO\Device_ID_7\MFX\Mode_Comm\HostRender,IsSoftwareApo,0x00010001,0x00000000
+HKR,APO\Device_ID_7\MFX\Mode_Comm\HostRender\EffectsGuid,EffectsGuid0,0x00000000,"{6f64adcd-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_7\MFX\Mode_Comm\HostRender\EffectsGuid,EffectsGuid1,0x00000000,"{6f64adce-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_7\MFX\Mode_Default\HostRender,NumOfEffectsGuid,0x00010001,0x00000003
+HKR,APO\Device_ID_7\MFX\Mode_Default\HostRender,IsSoftwareApo,0x00010001,0x00000000
+HKR,APO\Device_ID_7\MFX\Mode_Default\HostRender\EffectsGuid,EffectsGuid0,0x00000000,"{6f64adcd-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_7\MFX\Mode_Default\HostRender\EffectsGuid,EffectsGuid2,0x00000000,"{6f64adce-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_7\MFX\Mode_Default\HostRender\EffectsGuid,EffectsGuid1,0x00000000,"{6f64adc5-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_7\MFX\Mode_Raw\HostRender,NumOfEffectsGuid,0x00010001,0x00000000
+HKR,APO\Device_ID_7\MFX\Mode_Raw\HostRender,IsSoftwareApo,0x00010001,0x00000000
+HKR,APO\Device_ID_8\MFX\Mode_Comm\Offload,NumOfEffectsGuid,0x00010001,0x00000005
+HKR,APO\Device_ID_8\MFX\Mode_Comm\Offload,IsSoftwareApo,0x00010001,0x00000000
+HKR,APO\Device_ID_8\MFX\Mode_Comm\Offload\EffectsGuid,EffectsGuid0,0x00000000,"{6f64adc2-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_8\MFX\Mode_Comm\Offload\EffectsGuid,EffectsGuid2,0x00000000,"{6f64adce-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_8\MFX\Mode_Comm\Offload\EffectsGuid,EffectsGuid4,0x00000000,"{6f64adc0-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_8\MFX\Mode_Comm\Offload\EffectsGuid,EffectsGuid1,0x00000000,"{6f64adbf-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_8\MFX\Mode_Comm\Offload\EffectsGuid,EffectsGuid3,0x00000000,"{6f64adbe-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_8\MFX\Mode_Comm\Record,NumOfEffectsGuid,0x00010001,0x00000005
+HKR,APO\Device_ID_8\MFX\Mode_Comm\Record,IsSoftwareApo,0x00010001,0x00000000
+HKR,APO\Device_ID_8\MFX\Mode_Comm\Record\EffectsGuid,EffectsGuid0,0x00000000,"{6f64adc2-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_8\MFX\Mode_Comm\Record\EffectsGuid,EffectsGuid2,0x00000000,"{6f64adce-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_8\MFX\Mode_Comm\Record\EffectsGuid,EffectsGuid4,0x00000000,"{6f64adc0-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_8\MFX\Mode_Comm\Record\EffectsGuid,EffectsGuid1,0x00000000,"{6f64adbf-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_8\MFX\Mode_Comm\Record\EffectsGuid,EffectsGuid3,0x00000000,"{6f64adbe-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_8\MFX\Mode_Default\Record,NumOfEffectsGuid,0x00010001,0x00000003
+HKR,APO\Device_ID_8\MFX\Mode_Default\Record,IsSoftwareApo,0x00010001,0x00000000
+HKR,APO\Device_ID_8\MFX\Mode_Default\Record\EffectsGuid,EffectsGuid0,0x00000000,"{6f64adc2-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_8\MFX\Mode_Default\Record\EffectsGuid,EffectsGuid2,0x00000000,"{6f64adce-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_8\MFX\Mode_Default\Record\EffectsGuid,EffectsGuid1,0x00000000,"{6f64adbf-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_8\MFX\Mode_Raw\Record,IsSoftwareApo,0x00010001,0x00000000
+HKR,APO\Device_ID_91\MFX\Mode_Default\HostRender,IsSoftwareApo,0x00010001,0x00000001
+HKR,APO\Device_ID_91\MFX\Mode_Default\HostRender,NumOfEffectsGuid,0x00010001,0x00000003
+HKR,APO\Device_ID_91\MFX\Mode_Default\HostRender,NumOfPPBlocks,0x00010001,0x00000004
+HKR,APO\Device_ID_91\MFX\Mode_Default\HostRender\ConfigParam\Bassboost,Enable,0x00010001,0x00000000
+HKR,APO\Device_ID_91\MFX\Mode_Default\HostRender\ConfigParam\Equalizer,Enable,0x00010001,0x00000000
+HKR,APO\Device_ID_91\MFX\Mode_Default\HostRender\ConfigParam\Reverb,Mode,0x00010001,0x00000000
+HKR,APO\Device_ID_91\MFX\Mode_Default\HostRender\ConfigParam\Virtualizer,Enable,0x00010001,0x00000000
+HKR,APO\Device_ID_91\MFX\Mode_Default\HostRender\EffectsGuid,EffectsGuid0,0x00000000,"{6f64adc3-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_91\MFX\Mode_Default\HostRender\EffectsGuid,EffectsGuid2,0x00000000,"{6f64adc5-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_91\MFX\Mode_Default\HostRender\EffectsGuid,EffectsGuid1,0x00000000,"{6f64adc6-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_91\MFX\Mode_Default\HostRender\EffectsName,EffectsName0,0x00000000,"Equalizer"
+HKR,APO\Device_ID_91\MFX\Mode_Default\HostRender\EffectsName,EffectsName2,0x00000000,"Reverb"
+HKR,APO\Device_ID_91\MFX\Mode_Default\HostRender\EffectsName,EffectsName1,0x00000000,"Virtualizer"
+HKR,APO\Device_ID_91\MFX\Mode_Default\HostRender\EffectsName,EffectsName3,0x00000000,"Bassboost"
+HKR,APO\Device_ID_91\MFX\Mode_Default\Offload,NumOfEffectsGuid,0x00010001,0x00000003
+HKR,APO\Device_ID_91\MFX\Mode_Default\Offload,IsSoftwareApo,0x00010001,0x00000000
+HKR,APO\Device_ID_91\MFX\Mode_Default\Offload\EffectsGuid,EffectsGuid0,0x00000000,"{6f64adc3-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_91\MFX\Mode_Default\Offload\EffectsGuid,EffectsGuid2,0x00000000,"{6f64adc5-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_91\MFX\Mode_Default\Offload\EffectsGuid,EffectsGuid1,0x00000000,"{6f64adc6-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_91\MFX\Mode_Raw\HostRender,IsSoftwareApo,0x00010001,0x00000000
+HKR,APO\Device_ID_92\MFX\Mode_Default\HostRender,IsSoftwareApo,0x00010001,0x00000001
+HKR,APO\Device_ID_92\MFX\Mode_Default\HostRender,NumOfEffectsGuid,0x00010001,0x00000003
+HKR,APO\Device_ID_92\MFX\Mode_Default\HostRender,NumOfPPBlocks,0x00010001,0x00000004
+HKR,APO\Device_ID_92\MFX\Mode_Default\HostRender\ConfigParam\Bassboost,Enable,0x00010001,0x00000000
+HKR,APO\Device_ID_92\MFX\Mode_Default\HostRender\ConfigParam\Equalizer,Enable,0x00010001,0x00000000
+HKR,APO\Device_ID_92\MFX\Mode_Default\HostRender\ConfigParam\Reverb,Mode,0x00010001,0x00000000
+HKR,APO\Device_ID_92\MFX\Mode_Default\HostRender\ConfigParam\Virtualizer,Enable,0x00010001,0x00000000
+HKR,APO\Device_ID_92\MFX\Mode_Default\HostRender\EffectsGuid,EffectsGuid0,0x00000000,"{6f64adc3-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_92\MFX\Mode_Default\HostRender\EffectsGuid,EffectsGuid2,0x00000000,"{6f64adc5-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_92\MFX\Mode_Default\HostRender\EffectsGuid,EffectsGuid1,0x00000000,"{6f64adc6-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_92\MFX\Mode_Default\HostRender\EffectsName,EffectsName0,0x00000000,"Equalizer"
+HKR,APO\Device_ID_92\MFX\Mode_Default\HostRender\EffectsName,EffectsName2,0x00000000,"Reverb"
+HKR,APO\Device_ID_92\MFX\Mode_Default\HostRender\EffectsName,EffectsName1,0x00000000,"Virtualizer"
+HKR,APO\Device_ID_92\MFX\Mode_Default\HostRender\EffectsName,EffectsName3,0x00000000,"Bassboost"
+HKR,APO\Device_ID_92\MFX\Mode_Default\Offload,NumOfEffectsGuid,0x00010001,0x00000003
+HKR,APO\Device_ID_92\MFX\Mode_Default\Offload,IsSoftwareApo,0x00010001,0x00000000
+HKR,APO\Device_ID_92\MFX\Mode_Default\Offload\EffectsGuid,EffectsGuid0,0x00000000,"{6f64adc3-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_92\MFX\Mode_Default\Offload\EffectsGuid,EffectsGuid2,0x00000000,"{6f64adc5-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_92\MFX\Mode_Default\Offload\EffectsGuid,EffectsGuid1,0x00000000,"{6f64adc6-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_92\MFX\Mode_Raw\HostRender,IsSoftwareApo,0x00010001,0x00000000
+HKR,APO\Device_ID_93\MFX\Mode_Default\HostRender,IsSoftwareApo,0x00010001,0x00000001
+HKR,APO\Device_ID_93\MFX\Mode_Default\HostRender,NumOfEffectsGuid,0x00010001,0x00000003
+HKR,APO\Device_ID_93\MFX\Mode_Default\HostRender,NumOfPPBlocks,0x00010001,0x00000006
+HKR,APO\Device_ID_93\MFX\Mode_Default\HostRender\ConfigParam\Equalizer,Enable,0x00010001,0x00000000
+HKR,APO\Device_ID_93\MFX\Mode_Default\HostRender\ConfigParam\MBDRC,LimiterMode,0x00010001,0x00000000
+HKR,APO\Device_ID_93\MFX\Mode_Default\HostRender\ConfigParam\MBDRC,LimiterBypass,0x00010001,0x00000000
+HKR,APO\Device_ID_93\MFX\Mode_Default\HostRender\ConfigParam\MBDRC,Mode,0x00010001,0x00000000
+HKR,APO\Device_ID_93\MFX\Mode_Default\HostRender\ConfigParam\PBE,Mode,0x00010001,0x00000000
+HKR,APO\Device_ID_93\MFX\Mode_Default\HostRender\ConfigParam\Reverb,Mode,0x00010001,0x00000000
+HKR,APO\Device_ID_93\MFX\Mode_Default\HostRender\ConfigParam\Virtualizer,Enable,0x00010001,0x00000000
+HKR,APO\Device_ID_93\MFX\Mode_Default\HostRender\EffectsGuid,EffectsGuid0,0x00000000,"{6f64adc3-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_93\MFX\Mode_Default\HostRender\EffectsGuid,EffectsGuid2,0x00000000,"{6f64adc5-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_93\MFX\Mode_Default\HostRender\EffectsGuid,EffectsGuid1,0x00000000,"{6f64adc6-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_93\MFX\Mode_Default\HostRender\EffectsName,EffectsName0,0x00000000,"Equalizer"
+HKR,APO\Device_ID_93\MFX\Mode_Default\HostRender\EffectsName,EffectsName5,0x00000000,"MBDRC"
+HKR,APO\Device_ID_93\MFX\Mode_Default\HostRender\EffectsName,EffectsName4,0x00000000,"IIR"
+HKR,APO\Device_ID_93\MFX\Mode_Default\HostRender\EffectsName,EffectsName3,0x00000000,"PBE"
+HKR,APO\Device_ID_93\MFX\Mode_Default\HostRender\EffectsName,EffectsName1,0x00000000,"Virtualizer"
+HKR,APO\Device_ID_93\MFX\Mode_Default\HostRender\EffectsName,EffectsName2,0x00000000,"Reverb"
+HKR,APO\Device_ID_93\MFX\Mode_Default\Offload,NumOfEffectsGuid,0x00010001,0x00000003
+HKR,APO\Device_ID_93\MFX\Mode_Default\Offload,IsSoftwareApo,0x00010001,0x00000000
+HKR,APO\Device_ID_93\MFX\Mode_Default\Offload\EffectsGuid,EffectsGuid0,0x00000000,"{6f64adc3-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_93\MFX\Mode_Default\Offload\EffectsGuid,EffectsGuid2,0x00000000,"{6f64adc5-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_93\MFX\Mode_Default\Offload\EffectsGuid,EffectsGuid1,0x00000000,"{6f64adc6-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_93\MFX\Mode_Raw\HostRender,NumOfEffectsGuid,0x00010001,0x00000000
+HKR,APO\Device_ID_93\MFX\Mode_Raw\HostRender,IsSoftwareApo,0x00010001,0x00000000
+HKR,APO\Device_ID_9\MFX\Mode_Comm\HostRender,NumOfEffectsGuid,0x00010001,0x00000002
+HKR,APO\Device_ID_9\MFX\Mode_Comm\HostRender,IsSoftwareApo,0x00010001,0x00000000
+HKR,APO\Device_ID_9\MFX\Mode_Comm\HostRender\EffectsGuid,EffectsGuid0,0x00000000,"{6f64adcd-8211-11e2-8c70-2c27d7f001fa}"
+HKR,APO\Device_ID_9\MFX\Mode_Comm\HostRender\EffectsGuid,EffectsGuid1,0x00000000,"{6f64adce-8211-11e2-8c70-2c27d7f001fa}"
+HKR,EDM\BufferSizeConfigInMs\PullModeRender,CommunicationsModeMinBufferSizeInMs,0x00010001,0x00000014
+HKR,EDM\BufferSizeConfigInMs\PullModeRender,RawModeMinBufferSizeInMs,0x00010001,0x0000000A
+HKR,EDM\BufferSizeConfigInMs\PullModeRender,DefaultModeMinBufferSizeInMs,0x00010001,0x00000014
+HKR,EDM\BufferSizeConfigInMs\PullModeRender,CommonModeMinBufferSizeInMs,0x00010001,0x00000014
+HKR,EDM\BufferSizeConfigInMs\PushModeCapture,CommunicationsModeMinBufferSizeInMs,0x00010001,0x00000028
+HKR,EDM\BufferSizeConfigInMs\PushModeCapture,RawModeMinBufferSizeInMs,0x00010001,0x0000000A
+HKR,EDM\BufferSizeConfigInMs\PushModeCapture,DefaultModeMinBufferSizeInMs,0x00010001,0x00000014
+HKR,EDM\BufferSizeConfigInMs\PushModeCapture,CommonModeMinBufferSizeInMs,0x00010001,0x00000014
+HKR,Feature,IsICRSupported,0x00010001,0x00000001
+HKR,Feature,IsSingleVoiceSessionSupported,0x00010001,0x00000000
+HKR,Feature,IsModemRestartSupported,0x00010001,0x00000000
+HKR,Feature,IsICRConcurrecySupported,0x00010001,0x00000000
+HKR,StreamLatency\CapturePipelineLatencyInMs,CaptureDefaultPipeLineLatencyInMs,0x00010001,0x00000003
+HKR,StreamLatency\CapturePipelineLatencyInMs,CaptureRawPipeLineLatencyInMs,0x00010001,0x00000003
+HKR,StreamLatency\CapturePipelineLatencyInMs,CaptureCommunicationsPipeLineLatencyInMs,0x00010001,0x00000003
+HKR,StreamLatency\HardwareLatencyInMs,CaptureCommunicationsLatencyInMs,0x00010001,0x00000000
+HKR,StreamLatency\HardwareLatencyInMs,CaptureDefaultLatencyInMs,0x00010001,0x00000000
+HKR,StreamLatency\HardwareLatencyInMs,RenderRawLatencyInMs,0x00010001,0x00000000
+HKR,StreamLatency\HardwareLatencyInMs,RenderLatencyInMs,0x00010001,0x00000009
+HKR,StreamLatency\HardwareLatencyInMs,CaptureLatencyInMs,0x00010001,0x00000000
+HKR,StreamLatency\HardwareLatencyInMs,CommonLatencyInMs,0x00010001,0x00000009
+HKR,StreamLatency\HardwareLatencyInMs,CaptureRawLatencyInMs,0x00010001,0x00000000
+HKR,StreamLatency\HardwareLatencyInMs,RenderCommunicationsLatencyInMs,0x00010001,0x00000000
+HKR,StreamLatency\HardwareLatencyInMs,RenderDefaultLatencyInMs,0x00010001,0x00000000
+HKR,TopologyBthHfpMic,NumberOfDeviceTypes,0x00010001,0x00000001
+HKR,TopologyBthHfpMic\Device0\DeviceConfig,ChannelAllocation,0x00010001,0x00000001
+HKR,TopologyBthHfpMic\Device0\DeviceConfig,SampleBitLength,0x00010001,0x00000010
+HKR,TopologyBthHfpMic\Device0\DeviceConfig,SampleRate,0x00010001,0x00001F40
+HKR,TopologyBthHfpMic\Device0\DeviceConfig,DeviceID,0x00010001,0x00000024
+HKR,TopologyBthHfpMicWB,NumberOfDeviceTypes,0x00010001,0x00000001
+HKR,TopologyBthHfpMicWB\Device0\DeviceConfig,ChannelAllocation,0x00010001,0x00000001
+HKR,TopologyBthHfpMicWB\Device0\DeviceConfig,SampleBitLength,0x00010001,0x00000010
+HKR,TopologyBthHfpMicWB\Device0\DeviceConfig,SampleRate,0x00010001,0x00003E80
+HKR,TopologyBthHfpMicWB\Device0\DeviceConfig,DeviceID,0x00010001,0x00000024
+HKR,TopologyBthHfpSpeaker,NumberOfDeviceTypes,0x00010001,0x00000001
+HKR,TopologyBthHfpSpeaker\Device0\DeviceConfig,ChannelAllocation,0x00010001,0x00000001
+HKR,TopologyBthHfpSpeaker\Device0\DeviceConfig,SampleBitLength,0x00010001,0x00000010
+HKR,TopologyBthHfpSpeaker\Device0\DeviceConfig,SampleRate,0x00010001,0x00001F40
+HKR,TopologyBthHfpSpeaker\Device0\DeviceConfig,DeviceID,0x00010001,0x00000025
+HKR,TopologyBthHfpSpeakerWB,NumberOfDeviceTypes,0x00010001,0x00000001
+HKR,TopologyBthHfpSpeakerWB\Device0\DeviceConfig,ChannelAllocation,0x00010001,0x00000001
+HKR,TopologyBthHfpSpeakerWB\Device0\DeviceConfig,SampleBitLength,0x00010001,0x00000010
+HKR,TopologyBthHfpSpeakerWB\Device0\DeviceConfig,SampleRate,0x00010001,0x00003E80
+HKR,TopologyBthHfpSpeakerWB\Device0\DeviceConfig,DeviceID,0x00010001,0x00000025
+HKR,TopologyCellular,NumberOfDeviceTypes,0x00010001,0x00000002
+HKR,TopologyCellular\Device0\DeviceConfig,ChannelAllocation,0x00010001,0x00000001
+HKR,TopologyCellular\Device0\DeviceConfig,SampleBitLength,0x00010001,0x00000010
+HKR,TopologyCellular\Device0\DeviceConfig,SampleRate,0x00010001,0x0000BB80
+HKR,TopologyCellular\Device0\DeviceConfig,DeviceID,0x00010001,0x00000003
+HKR,TopologyCellular\Device1\DeviceConfig,ChannelAllocation,0x00010001,0x00000001
+HKR,TopologyCellular\Device1\DeviceConfig,SampleBitLength,0x00010001,0x00000010
+HKR,TopologyCellular\Device1\DeviceConfig,SampleRate,0x00010001,0x0000BB80
+HKR,TopologyCellular\Device1\DeviceConfig,DeviceID,0x00010001,0x00000002
+HKR,TopologyFmRx,NumberOfDeviceTypes,0x00010001,0x00000001
+HKR,TopologyFmRx\Device0\DeviceConfig,ChannelAllocation,0x00010001,0x00000002
+HKR,TopologyFmRx\Device0\DeviceConfig,SampleBitLength,0x00010001,0x00000010
+HKR,TopologyFmRx\Device0\DeviceConfig,SampleRate,0x00010001,0x0000BB80
+HKR,TopologyFmRx\Device0\DeviceConfig,DeviceID,0x00010001,0x00000027
+HKR,TopologyHandsetMic,NumberOfDeviceTypes,0x00010001,0x00000001
+HKR,TopologyHandsetMic\Device0\DeviceConfig,ChannelAllocation,0x00010001,0x00000002
+HKR,TopologyHandsetMic\Device0\DeviceConfig,SampleBitLength,0x00010001,0x00000010
+HKR,TopologyHandsetMic\Device0\DeviceConfig,SampleRate,0x00010001,0x0000BB80
+HKR,TopologyHandsetMic\Device0\DeviceConfig,DeviceID,0x00010001,0x00000006
+HKR,TopologyHandsetSpeaker,NumberOfDeviceTypes,0x00010001,0x00000001
+HKR,TopologyHandsetSpeaker\Device0\DeviceConfig,ChannelAllocation,0x00010001,0x00000001
+HKR,TopologyHandsetSpeaker\Device0\DeviceConfig,SampleBitLength,0x00010001,0x00000010
+HKR,TopologyHandsetSpeaker\Device0\DeviceConfig,SampleRate,0x00010001,0x0000BB80
+HKR,TopologyHandsetSpeaker\Device0\DeviceConfig,DeviceID,0x00010001,0x00000007
+HKR,TopologyHandsetSpeaker\Telecoil\DeviceConfig,ChannelAllocation,0x00010001,0x00000001
+HKR,TopologyHandsetSpeaker\Telecoil\DeviceConfig,SampleBitLength,0x00010001,0x00000010
+HKR,TopologyHandsetSpeaker\Telecoil\DeviceConfig,SampleRate,0x00010001,0x0000BB80
+HKR,TopologyHandsetSpeaker\Telecoil\DeviceConfig,DeviceID,0x00010001,0x0000006B
+HKR,TopologyMicArray1,NumberOfDeviceTypes,0x00010001,0x00000001
+HKR,TopologyMicArray1\Device0\DeviceConfig,ChannelAllocation,0x00010001,0x00000002
+HKR,TopologyMicArray1\Device0\DeviceConfig,SampleBitLength,0x00010001,0x00000010
+HKR,TopologyMicArray1\Device0\DeviceConfig,SampleRate,0x00010001,0x0000BB80
+HKR,TopologyMicArray1\Device0\DeviceConfig,DeviceID,0x00010001,0x00000022
+HKR,TopologyMicArray1\Microphones,wHorizontalAngleEnd,0x00010001,0x00007AB8
+HKR,TopologyMicArray1\Microphones,usVersion,0x00010001,0x00000100
+HKR,TopologyMicArray1\Microphones,wVerticalAngleEnd,0x00010001,0x00001EAE
+HKR,TopologyMicArray1\Microphones,usFrequencyBandHi,0x00010001,0x00004E20
+HKR,TopologyMicArray1\Microphones,usFrequencyBandLo,0x00010001,0x00000014
+HKR,TopologyMicArray1\Microphones,usNumberOfMicrophones,0x00010001,0x00000002
+HKR,TopologyMicArray1\Microphones,usMicArrayType,0x00010001,0x00000001
+HKR,TopologyMicArray1\Microphones,wHorizontalAngleBegin,0x00010001,0x00007AB8
+HKR,TopologyMicArray1\Microphones,wVerticalAngleBegin,0x00010001,0x00001EAE
+HKR,TopologyMicArray1\Microphones\Microphone0,usType,0x00010001,0x00000000
+HKR,TopologyMicArray1\Microphones\Microphone0,wVerticalAngle,0x00010001,0x00000000
+HKR,TopologyMicArray1\Microphones\Microphone0,wHorizontalAngle,0x00010001,0x00000000
+HKR,TopologyMicArray1\Microphones\Microphone0,wYCoord,0x00010001,0x00000008
+HKR,TopologyMicArray1\Microphones\Microphone0,wXCoord,0x00010001,0xFFFFFFFD
+HKR,TopologyMicArray1\Microphones\Microphone0,wZCoord,0x00010001,0xFFFFFFBC
+HKR,TopologyMicArray1\Microphones\Microphone1,usType,0x00010001,0x00000000
+HKR,TopologyMicArray1\Microphones\Microphone1,wVerticalAngle,0x00010001,0x0000005A
+HKR,TopologyMicArray1\Microphones\Microphone1,wHorizontalAngle,0x00010001,0x00000000
+HKR,TopologyMicArray1\Microphones\Microphone1,wYCoord,0x00010001,0x0000004B
+HKR,TopologyMicArray1\Microphones\Microphone1,wXCoord,0x00010001,0x00000000
+HKR,TopologyMicArray1\Microphones\Microphone1,wZCoord,0x00010001,0x0000002C
+HKR,TopologyMicHeadset,NumberOfDeviceTypes,0x00010001,0x00000001
+HKR,TopologyMicHeadset\Device0\DeviceConfig,ChannelAllocation,0x00010001,0x00000001
+HKR,TopologyMicHeadset\Device0\DeviceConfig,SampleBitLength,0x00010001,0x00000010
+HKR,TopologyMicHeadset\Device0\DeviceConfig,SampleRate,0x00010001,0x0000BB80
+HKR,TopologyMicHeadset\Device0\DeviceConfig,DeviceID,0x00010001,0x00000008
+HKR,TopologyMicHeadset\TTY,IsTTYandHeadsetHWPathSame,0x00010001,0x00000001
+HKR,TopologyMicHeadset\TTY\DeviceConfig,ChannelAllocation,0x00010001,0x00000001
+HKR,TopologyMicHeadset\TTY\DeviceConfig,SampleBitLength,0x00010001,0x00000010
+HKR,TopologyMicHeadset\TTY\DeviceConfig,SampleRate,0x00010001,0x0000BB80
+HKR,TopologyMicHeadset\TTY\DeviceConfig,DeviceID,0x00010001,0x00000010
+HKR,TopologyMicIn,NumberOfDeviceTypes,0x00010001,0x00000001
+HKR,TopologyMicIn\Device0\DeviceConfig,ChannelAllocation,0x00010001,0x00000001
+HKR,TopologyMicIn\Device0\DeviceConfig,SampleBitLength,0x00010001,0x00000010
+HKR,TopologyMicIn\Device0\DeviceConfig,SampleRate,0x00010001,0x0000BB80
+HKR,TopologyMicIn\Device0\DeviceConfig,DeviceID,0x00010001,0x0000000B
+HKR,TopologySpeaker,NumberOfDeviceTypes,0x00010001,0x00000001
+HKR,TopologySpeaker\Device0\DeviceConfig,ChannelAllocation,0x00010001,0x00000002
+HKR,TopologySpeaker\Device0\DeviceConfig,SampleBitLength,0x00010001,0x00000010
+HKR,TopologySpeaker\Device0\DeviceConfig,SampleRate,0x00010001,0x0000BB80
+HKR,TopologySpeaker\Device0\DeviceConfig,DeviceID,0x00010001,0x00000045
+HKR,TopologySpeakerHeadset,NumberOfDeviceTypes,0x00010001,0x00000002
+HKR,TopologySpeakerHeadset\Device0\DeviceConfig,ChannelAllocation,0x00010001,0x00000002
+HKR,TopologySpeakerHeadset\Device0\DeviceConfig,SampleBitLength,0x00010001,0x00000010
+HKR,TopologySpeakerHeadset\Device0\DeviceConfig,SampleRate,0x00010001,0x0000BB80
+HKR,TopologySpeakerHeadset\Device0\DeviceConfig,DeviceID,0x00010001,0x0000000A
+HKR,TopologySpeakerHeadset\Device1\DeviceConfig,ChannelAllocation,0x00010001,0x00000001
+HKR,TopologySpeakerHeadset\Device1\DeviceConfig,SampleBitLength,0x00010001,0x00000010
+HKR,TopologySpeakerHeadset\Device1\DeviceConfig,SampleRate,0x00010001,0x0000BB80
+HKR,TopologySpeakerHeadset\Device1\DeviceConfig,DeviceID,0x00010001,0x00000009
+HKR,TopologySpeakerHeadset\TTY,IsTTYandHeadsetHWPathSame,0x00010001,0x00000001
+HKR,TopologySpeakerHeadset\TTY\DeviceConfig,ChannelAllocation,0x00010001,0x00000002
+HKR,TopologySpeakerHeadset\TTY\DeviceConfig,SampleBitLength,0x00010001,0x00000010
+HKR,TopologySpeakerHeadset\TTY\DeviceConfig,SampleRate,0x00010001,0x0000BB80
+HKR,TopologySpeakerHeadset\TTY\DeviceConfig,DeviceID,0x00010001,0x00000011
+HKR,WaveBthHfpMic,numStreamTypes,0x00010001,0x00000001
+HKR,WaveBthHfpMic\StreamType0,numFormats,0x00010001,0x00000000
+HKR,WaveBthHfpMic\StreamType0,streamType,0x00000000,"HostCapture"
+HKR,WaveBthHfpMic\StreamType0,numModes,0x00010001,0x00000003
+HKR,WaveBthHfpMic\StreamType0\mode0,numFormats,0x00010001,0x00000000
+HKR,WaveBthHfpMic\StreamType0\mode0,mode,0x00000000,"DEFAULT"
+HKR,WaveBthHfpMic\StreamType0\mode0\streamConfig,COPPAppType,0x00010001,0x00011135
+HKR,WaveBthHfpMic\StreamType0\mode0\streamConfig,POPPAppType,0x00010001,0x00011135
+HKR,WaveBthHfpMic\StreamType0\mode0\streamConfig,FeatureStreamType,0x00000000,"PushModeCapture"
+HKR,WaveBthHfpMic\StreamType0\mode1,numFormats,0x00010001,0x00000000
+HKR,WaveBthHfpMic\StreamType0\mode1,mode,0x00000000,"RAW"
+HKR,WaveBthHfpMic\StreamType0\mode1\streamConfig,COPPAppType,0x00010001,0x00000000
+HKR,WaveBthHfpMic\StreamType0\mode1\streamConfig,POPPAppType,0x00010001,0x00000000
+HKR,WaveBthHfpMic\StreamType0\mode1\streamConfig,FeatureStreamType,0x00000000,"LowLatencyNoPPPushModeCapture"
+HKR,WaveBthHfpMic\StreamType0\mode2,numFormats,0x00010001,0x00000000
+HKR,WaveBthHfpMic\StreamType0\mode2,mode,0x00000000,"COMMUNICATIONS"
+HKR,WaveBthHfpMic\StreamType0\mode2\streamConfig,COPPAppType,0x00010001,0x0001113D
+HKR,WaveBthHfpMic\StreamType0\mode2\streamConfig,POPPAppType,0x00010001,0x0001113D
+HKR,WaveBthHfpMic\StreamType0\mode2\streamConfig,FeatureStreamType,0x00000000,"LowLatencyPushModeCapture"
+HKR,WaveBthHfpMic\StreamType0\streamConfig,COPPAppType,0x00010001,0x00011135
+HKR,WaveBthHfpMic\StreamType0\streamConfig,POPPAppType,0x00010001,0x00011135
+HKR,WaveBthHfpMic\StreamType0\streamConfig,FeatureStreamType,0x00000000,"PushModeCapture"
+HKR,WaveBthHfpMicWB,numStreamTypes,0x00010001,0x00000001
+HKR,WaveBthHfpMicWB\StreamType0,numFormats,0x00010001,0x00000000
+HKR,WaveBthHfpMicWB\StreamType0,streamType,0x00000000,"HostCapture"
+HKR,WaveBthHfpMicWB\StreamType0,numModes,0x00010001,0x00000003
+HKR,WaveBthHfpMicWB\StreamType0\mode0,numFormats,0x00010001,0x00000000
+HKR,WaveBthHfpMicWB\StreamType0\mode0,mode,0x00000000,"DEFAULT"
+HKR,WaveBthHfpMicWB\StreamType0\mode0\streamConfig,COPPAppType,0x00010001,0x00011135
+HKR,WaveBthHfpMicWB\StreamType0\mode0\streamConfig,POPPAppType,0x00010001,0x00011135
+HKR,WaveBthHfpMicWB\StreamType0\mode0\streamConfig,FeatureStreamType,0x00000000,"PushModeCapture"
+HKR,WaveBthHfpMicWB\StreamType0\mode1,numFormats,0x00010001,0x00000000
+HKR,WaveBthHfpMicWB\StreamType0\mode1,mode,0x00000000,"RAW"
+HKR,WaveBthHfpMicWB\StreamType0\mode1\streamConfig,COPPAppType,0x00010001,0x00000000
+HKR,WaveBthHfpMicWB\StreamType0\mode1\streamConfig,POPPAppType,0x00010001,0x00000000
+HKR,WaveBthHfpMicWB\StreamType0\mode1\streamConfig,FeatureStreamType,0x00000000,"LowLatencyNoPPPushModeCapture"
+HKR,WaveBthHfpMicWB\StreamType0\mode2,numFormats,0x00010001,0x00000000
+HKR,WaveBthHfpMicWB\StreamType0\mode2,mode,0x00000000,"COMMUNICATIONS"
+HKR,WaveBthHfpMicWB\StreamType0\mode2\streamConfig,COPPAppType,0x00010001,0x0001113D
+HKR,WaveBthHfpMicWB\StreamType0\mode2\streamConfig,POPPAppType,0x00010001,0x0001113D
+HKR,WaveBthHfpMicWB\StreamType0\mode2\streamConfig,FeatureStreamType,0x00000000,"LowLatencyPushModeCapture"
+HKR,WaveBthHfpMicWB\StreamType0\streamConfig,COPPAppType,0x00010001,0x00011135
+HKR,WaveBthHfpMicWB\StreamType0\streamConfig,POPPAppType,0x00010001,0x00011135
+HKR,WaveBthHfpMicWB\StreamType0\streamConfig,FeatureStreamType,0x00000000,"PushModeCapture"
+HKR,WaveBthHfpSpeaker,numStreamTypes,0x00010001,0x00000003
+HKR,WaveBthHfpSpeaker\StreamType0,numFormats,0x00010001,0x00000000
+HKR,WaveBthHfpSpeaker\StreamType0,streamType,0x00000000,"HostRender"
+HKR,WaveBthHfpSpeaker\StreamType0,numModes,0x00010001,0x00000003
+HKR,WaveBthHfpSpeaker\StreamType0\mode0,numFormats,0x00010001,0x00000000
+HKR,WaveBthHfpSpeaker\StreamType0\mode0,mode,0x00000000,"DEFAULT"
+HKR,WaveBthHfpSpeaker\StreamType0\mode0\streamConfig,COPPAppType,0x00010001,0x00000000
+HKR,WaveBthHfpSpeaker\StreamType0\mode0\streamConfig,POPPAppType,0x00010001,0x00000000
+HKR,WaveBthHfpSpeaker\StreamType0\mode0\streamConfig,FeatureStreamType,0x00000000,"LowLatencyNoPPPullMode"
+HKR,WaveBthHfpSpeaker\StreamType0\mode1,numFormats,0x00010001,0x00000000
+HKR,WaveBthHfpSpeaker\StreamType0\mode1,mode,0x00000000,"RAW"
+HKR,WaveBthHfpSpeaker\StreamType0\mode1\streamConfig,COPPAppType,0x00010001,0x00000000
+HKR,WaveBthHfpSpeaker\StreamType0\mode1\streamConfig,POPPAppType,0x00010001,0x00000000
+HKR,WaveBthHfpSpeaker\StreamType0\mode1\streamConfig,FeatureStreamType,0x00000000,"LowLatencyNoPPPullMode"
+HKR,WaveBthHfpSpeaker\StreamType0\mode2,numFormats,0x00010001,0x00000000
+HKR,WaveBthHfpSpeaker\StreamType0\mode2,mode,0x00000000,"COMMUNICATIONS"
+HKR,WaveBthHfpSpeaker\StreamType0\mode2\streamConfig,COPPAppType,0x00010001,0x0001113C
+HKR,WaveBthHfpSpeaker\StreamType0\mode2\streamConfig,POPPAppType,0x00010001,0x0001113C
+HKR,WaveBthHfpSpeaker\StreamType0\mode2\streamConfig,FeatureStreamType,0x00000000,"LowLatencyPullMode"
+HKR,WaveBthHfpSpeaker\StreamType0\streamConfig,COPPAppType,0x00010001,0x00000000
+HKR,WaveBthHfpSpeaker\StreamType0\streamConfig,POPPAppType,0x00010001,0x00000000
+HKR,WaveBthHfpSpeaker\StreamType0\streamConfig,FeatureStreamType,0x00000000,"LowLatencyNoPPPullMode"
+HKR,WaveBthHfpSpeaker\StreamType1,numFormats,0x00010001,0x00000000
+HKR,WaveBthHfpSpeaker\StreamType1,streamType,0x00000000,"Offload"
+HKR,WaveBthHfpSpeaker\StreamType1,numModes,0x00010001,0x00000001
+HKR,WaveBthHfpSpeaker\StreamType1\mode0,numFormats,0x00010001,0x00000000
+HKR,WaveBthHfpSpeaker\StreamType1\mode0,mode,0x00000000,"DEFAULT"
+HKR,WaveBthHfpSpeaker\StreamType1\mode0\streamConfig,COPPAppType,0x00010001,0x00011134
+HKR,WaveBthHfpSpeaker\StreamType1\mode0\streamConfig,POPPAppType,0x00010001,0x00011134
+HKR,WaveBthHfpSpeaker\StreamType1\mode0\streamConfig,FeatureStreamType,0x00000000,"Decode"
+HKR,WaveBthHfpSpeaker\StreamType1\streamConfig,COPPAppType,0x00010001,0x00011134
+HKR,WaveBthHfpSpeaker\StreamType1\streamConfig,POPPAppType,0x00010001,0x00011134
+HKR,WaveBthHfpSpeaker\StreamType1\streamConfig,FeatureStreamType,0x00000000,"Decode"
+HKR,WaveBthHfpSpeaker\StreamType2,numFormats,0x00010001,0x00000000
+HKR,WaveBthHfpSpeaker\StreamType2,streamType,0x00000000,"Loopback"
+HKR,WaveBthHfpSpeaker\StreamType2,numModes,0x00010001,0x00000000
+HKR,WaveBthHfpSpeaker\StreamType2\streamConfig,COPPAppType,0x00010001,0x00000000
+HKR,WaveBthHfpSpeaker\StreamType2\streamConfig,POPPAppType,0x00010001,0x00000000
+HKR,WaveBthHfpSpeaker\StreamType2\streamConfig,FeatureStreamType,0x00000000,"LowLatencyNoPPPushModeLoopback"
+HKR,WaveBthHfpSpeakerWB,numStreamTypes,0x00010001,0x00000003
+HKR,WaveBthHfpSpeakerWB\StreamType0,numFormats,0x00010001,0x00000000
+HKR,WaveBthHfpSpeakerWB\StreamType0,streamType,0x00000000,"HostRender"
+HKR,WaveBthHfpSpeakerWB\StreamType0,numModes,0x00010001,0x00000003
+HKR,WaveBthHfpSpeakerWB\StreamType0\mode0,numFormats,0x00010001,0x00000000
+HKR,WaveBthHfpSpeakerWB\StreamType0\mode0,mode,0x00000000,"DEFAULT"
+HKR,WaveBthHfpSpeakerWB\StreamType0\mode0\streamConfig,COPPAppType,0x00010001,0x00000000
+HKR,WaveBthHfpSpeakerWB\StreamType0\mode0\streamConfig,POPPAppType,0x00010001,0x00000000
+HKR,WaveBthHfpSpeakerWB\StreamType0\mode0\streamConfig,FeatureStreamType,0x00000000,"LowLatencyNoPPPullMode"
+HKR,WaveBthHfpSpeakerWB\StreamType0\mode1,numFormats,0x00010001,0x00000000
+HKR,WaveBthHfpSpeakerWB\StreamType0\mode1,mode,0x00000000,"RAW"
+HKR,WaveBthHfpSpeakerWB\StreamType0\mode1\streamConfig,COPPAppType,0x00010001,0x00000000
+HKR,WaveBthHfpSpeakerWB\StreamType0\mode1\streamConfig,POPPAppType,0x00010001,0x00000000
+HKR,WaveBthHfpSpeakerWB\StreamType0\mode1\streamConfig,FeatureStreamType,0x00000000,"LowLatencyNoPPPullMode"
+HKR,WaveBthHfpSpeakerWB\StreamType0\mode2,numFormats,0x00010001,0x00000000
+HKR,WaveBthHfpSpeakerWB\StreamType0\mode2,mode,0x00000000,"COMMUNICATIONS"
+HKR,WaveBthHfpSpeakerWB\StreamType0\mode2\streamConfig,COPPAppType,0x00010001,0x0001113C
+HKR,WaveBthHfpSpeakerWB\StreamType0\mode2\streamConfig,POPPAppType,0x00010001,0x0001113C
+HKR,WaveBthHfpSpeakerWB\StreamType0\mode2\streamConfig,FeatureStreamType,0x00000000,"LowLatencyPullMode"
+HKR,WaveBthHfpSpeakerWB\StreamType0\streamConfig,COPPAppType,0x00010001,0x00000000
+HKR,WaveBthHfpSpeakerWB\StreamType0\streamConfig,POPPAppType,0x00010001,0x00000000
+HKR,WaveBthHfpSpeakerWB\StreamType0\streamConfig,FeatureStreamType,0x00000000,"LowLatencyNoPPPullMode"
+HKR,WaveBthHfpSpeakerWB\StreamType1,numFormats,0x00010001,0x00000000
+HKR,WaveBthHfpSpeakerWB\StreamType1,streamType,0x00000000,"Offload"
+HKR,WaveBthHfpSpeakerWB\StreamType1,numModes,0x00010001,0x00000001
+HKR,WaveBthHfpSpeakerWB\StreamType1\mode0,numFormats,0x00010001,0x00000000
+HKR,WaveBthHfpSpeakerWB\StreamType1\mode0,mode,0x00000000,"DEFAULT"
+HKR,WaveBthHfpSpeakerWB\StreamType1\mode0\streamConfig,COPPAppType,0x00010001,0x00011134
+HKR,WaveBthHfpSpeakerWB\StreamType1\mode0\streamConfig,POPPAppType,0x00010001,0x00011134
+HKR,WaveBthHfpSpeakerWB\StreamType1\mode0\streamConfig,FeatureStreamType,0x00000000,"Decode"
+HKR,WaveBthHfpSpeakerWB\StreamType1\streamConfig,COPPAppType,0x00010001,0x00011134
+HKR,WaveBthHfpSpeakerWB\StreamType1\streamConfig,POPPAppType,0x00010001,0x00011134
+HKR,WaveBthHfpSpeakerWB\StreamType1\streamConfig,FeatureStreamType,0x00000000,"Decode"
+HKR,WaveBthHfpSpeakerWB\StreamType2,numFormats,0x00010001,0x00000000
+HKR,WaveBthHfpSpeakerWB\StreamType2,streamType,0x00000000,"Loopback"
+HKR,WaveBthHfpSpeakerWB\StreamType2,numModes,0x00010001,0x00000000
+HKR,WaveBthHfpSpeakerWB\StreamType2\streamConfig,COPPAppType,0x00010001,0x00000000
+HKR,WaveBthHfpSpeakerWB\StreamType2\streamConfig,POPPAppType,0x00010001,0x00000000
+HKR,WaveBthHfpSpeakerWB\StreamType2\streamConfig,FeatureStreamType,0x00000000,"LowLatencyNoPPPushModeLoopback"
+HKR,WaveCellular,numStreamTypes,0x00010001,0x00000002
+HKR,WaveCellular,numFormatsAndModes,0x00010001,0x00000004
+HKR,WaveCellular2,numStreamTypes,0x00010001,0x00000002
+HKR,WaveCellular2,numFormatsAndModes,0x00010001,0x00000004
+HKR,WaveCellular2\FormatsAndModes0,type,0x00000000,"Tx"
+HKR,WaveCellular2\FormatsAndModes0,numWaveFormats,0x00010001,0x00000001
+HKR,WaveCellular2\FormatsAndModes0,numModeAndDefaultFormats,0x00010001,0x00000000
+HKR,WaveCellular2\FormatsAndModes0\WaveFormat0,nBlockAlign,0x00010001,0x00000002
+HKR,WaveCellular2\FormatsAndModes0\WaveFormat0,nSamplesPerSec,0x00010001,0x00003E80
+HKR,WaveCellular2\FormatsAndModes0\WaveFormat0,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveCellular2\FormatsAndModes0\WaveFormat0,nAvgBytesPerSec,0x00010001,0x00007D00
+HKR,WaveCellular2\FormatsAndModes0\WaveFormat0,nChannels,0x00010001,0x00000001
+HKR,WaveCellular2\FormatsAndModes0\WaveFormat0,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveCellular2\FormatsAndModes0\WaveFormat0,dwChannelMask,0x00010001,0x00000004
+HKR,WaveCellular2\FormatsAndModes1,type,0x00000000,"Tx Loopback"
+HKR,WaveCellular2\FormatsAndModes1,numWaveFormats,0x00010001,0x00000001
+HKR,WaveCellular2\FormatsAndModes1,numModeAndDefaultFormats,0x00010001,0x00000000
+HKR,WaveCellular2\FormatsAndModes1\WaveFormat0,nBlockAlign,0x00010001,0x00000002
+HKR,WaveCellular2\FormatsAndModes1\WaveFormat0,nSamplesPerSec,0x00010001,0x00003E80
+HKR,WaveCellular2\FormatsAndModes1\WaveFormat0,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveCellular2\FormatsAndModes1\WaveFormat0,nAvgBytesPerSec,0x00010001,0x00007D00
+HKR,WaveCellular2\FormatsAndModes1\WaveFormat0,nChannels,0x00010001,0x00000001
+HKR,WaveCellular2\FormatsAndModes1\WaveFormat0,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveCellular2\FormatsAndModes1\WaveFormat0,dwChannelMask,0x00010001,0x00000004
+HKR,WaveCellular2\FormatsAndModes2,type,0x00000000,"Rx"
+HKR,WaveCellular2\FormatsAndModes2,numWaveFormats,0x00010001,0x00000001
+HKR,WaveCellular2\FormatsAndModes2,numModeAndDefaultFormats,0x00010001,0x00000000
+HKR,WaveCellular2\FormatsAndModes2\WaveFormat0,nBlockAlign,0x00010001,0x00000002
+HKR,WaveCellular2\FormatsAndModes2\WaveFormat0,nSamplesPerSec,0x00010001,0x00003E80
+HKR,WaveCellular2\FormatsAndModes2\WaveFormat0,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveCellular2\FormatsAndModes2\WaveFormat0,nAvgBytesPerSec,0x00010001,0x00007D00
+HKR,WaveCellular2\FormatsAndModes2\WaveFormat0,nChannels,0x00010001,0x00000001
+HKR,WaveCellular2\FormatsAndModes2\WaveFormat0,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveCellular2\FormatsAndModes2\WaveFormat0,dwChannelMask,0x00010001,0x00000004
+HKR,WaveCellular2\FormatsAndModes3,type,0x00000000,"BiDi"
+HKR,WaveCellular2\FormatsAndModes3,numWaveFormats,0x00010001,0x00000001
+HKR,WaveCellular2\FormatsAndModes3,numModeAndDefaultFormats,0x00010001,0x00000000
+HKR,WaveCellular2\FormatsAndModes3\WaveFormat0,nBlockAlign,0x00010001,0x00000002
+HKR,WaveCellular2\FormatsAndModes3\WaveFormat0,nSamplesPerSec,0x00010001,0x00003E80
+HKR,WaveCellular2\FormatsAndModes3\WaveFormat0,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveCellular2\FormatsAndModes3\WaveFormat0,nAvgBytesPerSec,0x00010001,0x00007D00
+HKR,WaveCellular2\FormatsAndModes3\WaveFormat0,nChannels,0x00010001,0x00000001
+HKR,WaveCellular2\FormatsAndModes3\WaveFormat0,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveCellular2\FormatsAndModes3\WaveFormat0,dwChannelMask,0x00010001,0x00000004
+HKR,WaveCellular2\StreamType0,numFormats,0x00010001,0x00000000
+HKR,WaveCellular2\StreamType0,streamType,0x00000000,"HostRender"
+HKR,WaveCellular2\StreamType0,numModes,0x00010001,0x00000000
+HKR,WaveCellular2\StreamType0\streamConfig,COPPAppType,0x00010001,0x00000000
+HKR,WaveCellular2\StreamType0\streamConfig,POPPAppType,0x00010001,0x00000000
+HKR,WaveCellular2\StreamType0\streamConfig,FeatureStreamType,0x00000000,"LowLatencyNoPPPullMode"
+HKR,WaveCellular2\StreamType1,numFormats,0x00010001,0x00000000
+HKR,WaveCellular2\StreamType1,streamType,0x00000000,"HostCapture"
+HKR,WaveCellular2\StreamType1,numModes,0x00010001,0x00000000
+HKR,WaveCellular2\StreamType1\streamConfig,COPPAppType,0x00010001,0x00000000
+HKR,WaveCellular2\StreamType1\streamConfig,POPPAppType,0x00010001,0x00000000
+HKR,WaveCellular2\StreamType1\streamConfig,FeatureStreamType,0x00000000,"LowLatencyNoPPPushModeCapture"
+HKR,WaveCellular\FormatsAndModes0,type,0x00000000,"Tx"
+HKR,WaveCellular\FormatsAndModes0,numWaveFormats,0x00010001,0x00000001
+HKR,WaveCellular\FormatsAndModes0,numModeAndDefaultFormats,0x00010001,0x00000000
+HKR,WaveCellular\FormatsAndModes0\WaveFormat0,nBlockAlign,0x00010001,0x00000002
+HKR,WaveCellular\FormatsAndModes0\WaveFormat0,nSamplesPerSec,0x00010001,0x00003E80
+HKR,WaveCellular\FormatsAndModes0\WaveFormat0,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveCellular\FormatsAndModes0\WaveFormat0,nAvgBytesPerSec,0x00010001,0x00007D00
+HKR,WaveCellular\FormatsAndModes0\WaveFormat0,nChannels,0x00010001,0x00000001
+HKR,WaveCellular\FormatsAndModes0\WaveFormat0,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveCellular\FormatsAndModes0\WaveFormat0,dwChannelMask,0x00010001,0x00000004
+HKR,WaveCellular\FormatsAndModes1,type,0x00000000,"Tx Loopback"
+HKR,WaveCellular\FormatsAndModes1,numWaveFormats,0x00010001,0x00000001
+HKR,WaveCellular\FormatsAndModes1,numModeAndDefaultFormats,0x00010001,0x00000000
+HKR,WaveCellular\FormatsAndModes1\WaveFormat0,nBlockAlign,0x00010001,0x00000002
+HKR,WaveCellular\FormatsAndModes1\WaveFormat0,nSamplesPerSec,0x00010001,0x00003E80
+HKR,WaveCellular\FormatsAndModes1\WaveFormat0,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveCellular\FormatsAndModes1\WaveFormat0,nAvgBytesPerSec,0x00010001,0x00007D00
+HKR,WaveCellular\FormatsAndModes1\WaveFormat0,nChannels,0x00010001,0x00000001
+HKR,WaveCellular\FormatsAndModes1\WaveFormat0,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveCellular\FormatsAndModes1\WaveFormat0,dwChannelMask,0x00010001,0x00000004
+HKR,WaveCellular\FormatsAndModes2,type,0x00000000,"Rx"
+HKR,WaveCellular\FormatsAndModes2,numWaveFormats,0x00010001,0x00000001
+HKR,WaveCellular\FormatsAndModes2,numModeAndDefaultFormats,0x00010001,0x00000000
+HKR,WaveCellular\FormatsAndModes2\WaveFormat0,nBlockAlign,0x00010001,0x00000002
+HKR,WaveCellular\FormatsAndModes2\WaveFormat0,nSamplesPerSec,0x00010001,0x00003E80
+HKR,WaveCellular\FormatsAndModes2\WaveFormat0,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveCellular\FormatsAndModes2\WaveFormat0,nAvgBytesPerSec,0x00010001,0x00007D00
+HKR,WaveCellular\FormatsAndModes2\WaveFormat0,nChannels,0x00010001,0x00000001
+HKR,WaveCellular\FormatsAndModes2\WaveFormat0,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveCellular\FormatsAndModes2\WaveFormat0,dwChannelMask,0x00010001,0x00000004
+HKR,WaveCellular\FormatsAndModes3,type,0x00000000,"BiDi"
+HKR,WaveCellular\FormatsAndModes3,numWaveFormats,0x00010001,0x00000001
+HKR,WaveCellular\FormatsAndModes3,numModeAndDefaultFormats,0x00010001,0x00000000
+HKR,WaveCellular\FormatsAndModes3\WaveFormat0,nBlockAlign,0x00010001,0x00000002
+HKR,WaveCellular\FormatsAndModes3\WaveFormat0,nSamplesPerSec,0x00010001,0x00003E80
+HKR,WaveCellular\FormatsAndModes3\WaveFormat0,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveCellular\FormatsAndModes3\WaveFormat0,nAvgBytesPerSec,0x00010001,0x00007D00
+HKR,WaveCellular\FormatsAndModes3\WaveFormat0,nChannels,0x00010001,0x00000001
+HKR,WaveCellular\FormatsAndModes3\WaveFormat0,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveCellular\FormatsAndModes3\WaveFormat0,dwChannelMask,0x00010001,0x00000004
+HKR,WaveCellular\StreamType0,numFormats,0x00010001,0x00000000
+HKR,WaveCellular\StreamType0,streamType,0x00000000,"HostRender"
+HKR,WaveCellular\StreamType0,numModes,0x00010001,0x00000000
+HKR,WaveCellular\StreamType0\streamConfig,COPPAppType,0x00010001,0x00000000
+HKR,WaveCellular\StreamType0\streamConfig,POPPAppType,0x00010001,0x00000000
+HKR,WaveCellular\StreamType0\streamConfig,FeatureStreamType,0x00000000,"LowLatencyNoPPPullMode"
+HKR,WaveCellular\StreamType1,numFormats,0x00010001,0x00000000
+HKR,WaveCellular\StreamType1,streamType,0x00000000,"HostCapture"
+HKR,WaveCellular\StreamType1,numModes,0x00010001,0x00000000
+HKR,WaveCellular\StreamType1\streamConfig,COPPAppType,0x00010001,0x00000000
+HKR,WaveCellular\StreamType1\streamConfig,POPPAppType,0x00010001,0x00000000
+HKR,WaveCellular\StreamType1\streamConfig,FeatureStreamType,0x00000000,"LowLatencyNoPPPushModeCapture"
+HKR,WaveFmRx,COPPTypeFmRx,0x00010001,0x0001113A
+HKR,WaveFmRx,mode,0x00000000,"DEFAULT"
+HKR,WaveFmRx,COPPTypeFmTx,0x00010001,0x0001113B
+HKR,WaveHandsetMic,numStreamTypes,0x00010001,0x00000001
+HKR,WaveHandsetMic,numFormatsAndModes,0x00010001,0x00000001
+HKR,WaveHandsetMic\FormatsAndModes0,type,0x00000000,"hostCapture"
+HKR,WaveHandsetMic\FormatsAndModes0,numWaveFormats,0x00010001,0x00000004
+HKR,WaveHandsetMic\FormatsAndModes0,numModeAndDefaultFormats,0x00010001,0x00000003
+HKR,WaveHandsetMic\FormatsAndModes0\ModeAndDefaultFormat0,ProcessingPacketDurationInHns,0x00010001,0x000186A0
+HKR,WaveHandsetMic\FormatsAndModes0\ModeAndDefaultFormat0,mode,0x00000000,"DEFAULT"
+HKR,WaveHandsetMic\FormatsAndModes0\ModeAndDefaultFormat0\DefaultFormat,nBlockAlign,0x00010001,0x00000002
+HKR,WaveHandsetMic\FormatsAndModes0\ModeAndDefaultFormat0\DefaultFormat,nSamplesPerSec,0x00010001,0x0000BB80
+HKR,WaveHandsetMic\FormatsAndModes0\ModeAndDefaultFormat0\DefaultFormat,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveHandsetMic\FormatsAndModes0\ModeAndDefaultFormat0\DefaultFormat,nAvgBytesPerSec,0x00010001,0x00017700
+HKR,WaveHandsetMic\FormatsAndModes0\ModeAndDefaultFormat0\DefaultFormat,nChannels,0x00010001,0x00000001
+HKR,WaveHandsetMic\FormatsAndModes0\ModeAndDefaultFormat0\DefaultFormat,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveHandsetMic\FormatsAndModes0\ModeAndDefaultFormat0\DefaultFormat,dwChannelMask,0x00010001,0x00000004
+HKR,WaveHandsetMic\FormatsAndModes0\ModeAndDefaultFormat1,ProcessingPacketDurationInHns,0x00010001,0x0000C350
+HKR,WaveHandsetMic\FormatsAndModes0\ModeAndDefaultFormat1,mode,0x00000000,"RAW"
+HKR,WaveHandsetMic\FormatsAndModes0\ModeAndDefaultFormat1\DefaultFormat,nBlockAlign,0x00010001,0x00000004
+HKR,WaveHandsetMic\FormatsAndModes0\ModeAndDefaultFormat1\DefaultFormat,nSamplesPerSec,0x00010001,0x0000BB80
+HKR,WaveHandsetMic\FormatsAndModes0\ModeAndDefaultFormat1\DefaultFormat,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveHandsetMic\FormatsAndModes0\ModeAndDefaultFormat1\DefaultFormat,nAvgBytesPerSec,0x00010001,0x0002EE00
+HKR,WaveHandsetMic\FormatsAndModes0\ModeAndDefaultFormat1\DefaultFormat,nChannels,0x00010001,0x00000002
+HKR,WaveHandsetMic\FormatsAndModes0\ModeAndDefaultFormat1\DefaultFormat,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveHandsetMic\FormatsAndModes0\ModeAndDefaultFormat1\DefaultFormat,dwChannelMask,0x00010001,0x00000003
+HKR,WaveHandsetMic\FormatsAndModes0\ModeAndDefaultFormat2,ProcessingPacketDurationInHns,0x00010001,0x00030D40
+HKR,WaveHandsetMic\FormatsAndModes0\ModeAndDefaultFormat2,mode,0x00000000,"COMMUNICATIONS"
+HKR,WaveHandsetMic\FormatsAndModes0\ModeAndDefaultFormat2\DefaultFormat,nBlockAlign,0x00010001,0x00000002
+HKR,WaveHandsetMic\FormatsAndModes0\ModeAndDefaultFormat2\DefaultFormat,nSamplesPerSec,0x00010001,0x00003E80
+HKR,WaveHandsetMic\FormatsAndModes0\ModeAndDefaultFormat2\DefaultFormat,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveHandsetMic\FormatsAndModes0\ModeAndDefaultFormat2\DefaultFormat,nAvgBytesPerSec,0x00010001,0x00007D00
+HKR,WaveHandsetMic\FormatsAndModes0\ModeAndDefaultFormat2\DefaultFormat,nChannels,0x00010001,0x00000001
+HKR,WaveHandsetMic\FormatsAndModes0\ModeAndDefaultFormat2\DefaultFormat,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveHandsetMic\FormatsAndModes0\ModeAndDefaultFormat2\DefaultFormat,dwChannelMask,0x00010001,0x00000004
+HKR,WaveHandsetMic\FormatsAndModes0\WaveFormat0,nBlockAlign,0x00010001,0x00000002
+HKR,WaveHandsetMic\FormatsAndModes0\WaveFormat0,nSamplesPerSec,0x00010001,0x0000BB80
+HKR,WaveHandsetMic\FormatsAndModes0\WaveFormat0,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveHandsetMic\FormatsAndModes0\WaveFormat0,nAvgBytesPerSec,0x00010001,0x00017700
+HKR,WaveHandsetMic\FormatsAndModes0\WaveFormat0,nChannels,0x00010001,0x00000001
+HKR,WaveHandsetMic\FormatsAndModes0\WaveFormat0,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveHandsetMic\FormatsAndModes0\WaveFormat0,dwChannelMask,0x00010001,0x00000004
+HKR,WaveHandsetMic\FormatsAndModes0\WaveFormat1,nBlockAlign,0x00010001,0x00000002
+HKR,WaveHandsetMic\FormatsAndModes0\WaveFormat1,nSamplesPerSec,0x00010001,0x00003E80
+HKR,WaveHandsetMic\FormatsAndModes0\WaveFormat1,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveHandsetMic\FormatsAndModes0\WaveFormat1,nAvgBytesPerSec,0x00010001,0x00007D00
+HKR,WaveHandsetMic\FormatsAndModes0\WaveFormat1,nChannels,0x00010001,0x00000001
+HKR,WaveHandsetMic\FormatsAndModes0\WaveFormat1,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveHandsetMic\FormatsAndModes0\WaveFormat1,dwChannelMask,0x00010001,0x00000004
+HKR,WaveHandsetMic\FormatsAndModes0\WaveFormat2,nBlockAlign,0x00010001,0x00000002
+HKR,WaveHandsetMic\FormatsAndModes0\WaveFormat2,nSamplesPerSec,0x00010001,0x00005DC0
+HKR,WaveHandsetMic\FormatsAndModes0\WaveFormat2,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveHandsetMic\FormatsAndModes0\WaveFormat2,nAvgBytesPerSec,0x00010001,0x0000BB80
+HKR,WaveHandsetMic\FormatsAndModes0\WaveFormat2,nChannels,0x00010001,0x00000001
+HKR,WaveHandsetMic\FormatsAndModes0\WaveFormat2,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveHandsetMic\FormatsAndModes0\WaveFormat2,dwChannelMask,0x00010001,0x00000004
+HKR,WaveHandsetMic\FormatsAndModes0\WaveFormat3,nBlockAlign,0x00010001,0x00000004
+HKR,WaveHandsetMic\FormatsAndModes0\WaveFormat3,nSamplesPerSec,0x00010001,0x0000BB80
+HKR,WaveHandsetMic\FormatsAndModes0\WaveFormat3,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveHandsetMic\FormatsAndModes0\WaveFormat3,nAvgBytesPerSec,0x00010001,0x0002EE00
+HKR,WaveHandsetMic\FormatsAndModes0\WaveFormat3,nChannels,0x00010001,0x00000002
+HKR,WaveHandsetMic\FormatsAndModes0\WaveFormat3,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveHandsetMic\FormatsAndModes0\WaveFormat3,dwChannelMask,0x00010001,0x00000003
+HKR,WaveHandsetMic\StreamType0,numFormats,0x00010001,0x00000000
+HKR,WaveHandsetMic\StreamType0,streamType,0x00000000,"HostCapture"
+HKR,WaveHandsetMic\StreamType0,numModes,0x00010001,0x00000003
+HKR,WaveHandsetMic\StreamType0\mode0,numFormats,0x00010001,0x00000000
+HKR,WaveHandsetMic\StreamType0\mode0,mode,0x00000000,"DEFAULT"
+HKR,WaveHandsetMic\StreamType0\mode0\streamConfig,COPPAppType,0x00010001,0x00011135
+HKR,WaveHandsetMic\StreamType0\mode0\streamConfig,POPPAppType,0x00010001,0x00011135
+HKR,WaveHandsetMic\StreamType0\mode0\streamConfig,FeatureStreamType,0x00000000,"PushModeCapture"
+HKR,WaveHandsetMic\StreamType0\mode1,numFormats,0x00010001,0x00000000
+HKR,WaveHandsetMic\StreamType0\mode1,mode,0x00000000,"RAW"
+HKR,WaveHandsetMic\StreamType0\mode1\streamConfig,COPPAppType,0x00010001,0x00000000
+HKR,WaveHandsetMic\StreamType0\mode1\streamConfig,POPPAppType,0x00010001,0x00000000
+HKR,WaveHandsetMic\StreamType0\mode1\streamConfig,FeatureStreamType,0x00000000,"LowLatencyNoPPPushModeCapture"
+HKR,WaveHandsetMic\StreamType0\mode2,numFormats,0x00010001,0x00000000
+HKR,WaveHandsetMic\StreamType0\mode2,mode,0x00000000,"COMMUNICATIONS"
+HKR,WaveHandsetMic\StreamType0\mode2\streamConfig,COPPAppType,0x00010001,0x0001113D
+HKR,WaveHandsetMic\StreamType0\mode2\streamConfig,POPPAppType,0x00010001,0x0001113D
+HKR,WaveHandsetMic\StreamType0\mode2\streamConfig,FeatureStreamType,0x00000000,"LowLatencyPushModeCapture"
+HKR,WaveHandsetMic\StreamType0\streamConfig,COPPAppType,0x00010001,0x00011135
+HKR,WaveHandsetMic\StreamType0\streamConfig,POPPAppType,0x00010001,0x00011135
+HKR,WaveHandsetMic\StreamType0\streamConfig,FeatureStreamType,0x00000000,"PushModeCapture"
+HKR,WaveHandsetSpeaker,numStreamTypes,0x00010001,0x00000002
+HKR,WaveHandsetSpeaker,numFormatsAndModes,0x00010001,0x00000004
+HKR,WaveHandsetSpeaker\FormatsAndModes0,type,0x00000000,"engine"
+HKR,WaveHandsetSpeaker\FormatsAndModes0,numWaveFormats,0x00010001,0x00000000
+HKR,WaveHandsetSpeaker\FormatsAndModes0,numModeAndDefaultFormats,0x00010001,0x00000000
+HKR,WaveHandsetSpeaker\FormatsAndModes1,type,0x00000000,"host"
+HKR,WaveHandsetSpeaker\FormatsAndModes1,numWaveFormats,0x00010001,0x00000002
+HKR,WaveHandsetSpeaker\FormatsAndModes1,numModeAndDefaultFormats,0x00010001,0x00000003
+HKR,WaveHandsetSpeaker\FormatsAndModes1\ModeAndDefaultFormat0,ProcessingPacketDurationInHns,0x00010001,0x000186A0
+HKR,WaveHandsetSpeaker\FormatsAndModes1\ModeAndDefaultFormat0,mode,0x00000000,"DEFAULT"
+HKR,WaveHandsetSpeaker\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,nBlockAlign,0x00010001,0x00000002
+HKR,WaveHandsetSpeaker\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,nSamplesPerSec,0x00010001,0x0000BB80
+HKR,WaveHandsetSpeaker\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveHandsetSpeaker\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,nAvgBytesPerSec,0x00010001,0x00017700
+HKR,WaveHandsetSpeaker\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,nChannels,0x00010001,0x00000001
+HKR,WaveHandsetSpeaker\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveHandsetSpeaker\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,dwChannelMask,0x00010001,0x00000004
+HKR,WaveHandsetSpeaker\FormatsAndModes1\ModeAndDefaultFormat1,ProcessingPacketDurationInHns,0x00010001,0x0000C350
+HKR,WaveHandsetSpeaker\FormatsAndModes1\ModeAndDefaultFormat1,mode,0x00000000,"RAW"
+HKR,WaveHandsetSpeaker\FormatsAndModes1\ModeAndDefaultFormat1\DefaultFormat,nBlockAlign,0x00010001,0x00000002
+HKR,WaveHandsetSpeaker\FormatsAndModes1\ModeAndDefaultFormat1\DefaultFormat,nSamplesPerSec,0x00010001,0x0000BB80
+HKR,WaveHandsetSpeaker\FormatsAndModes1\ModeAndDefaultFormat1\DefaultFormat,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveHandsetSpeaker\FormatsAndModes1\ModeAndDefaultFormat1\DefaultFormat,nAvgBytesPerSec,0x00010001,0x00017700
+HKR,WaveHandsetSpeaker\FormatsAndModes1\ModeAndDefaultFormat1\DefaultFormat,nChannels,0x00010001,0x00000001
+HKR,WaveHandsetSpeaker\FormatsAndModes1\ModeAndDefaultFormat1\DefaultFormat,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveHandsetSpeaker\FormatsAndModes1\ModeAndDefaultFormat1\DefaultFormat,dwChannelMask,0x00010001,0x00000004
+HKR,WaveHandsetSpeaker\FormatsAndModes1\ModeAndDefaultFormat2,ProcessingPacketDurationInHns,0x00010001,0x000186A0
+HKR,WaveHandsetSpeaker\FormatsAndModes1\ModeAndDefaultFormat2,mode,0x00000000,"COMMUNICATIONS"
+HKR,WaveHandsetSpeaker\FormatsAndModes1\ModeAndDefaultFormat2\DefaultFormat,nBlockAlign,0x00010001,0x00000002
+HKR,WaveHandsetSpeaker\FormatsAndModes1\ModeAndDefaultFormat2\DefaultFormat,nSamplesPerSec,0x00010001,0x00003E80
+HKR,WaveHandsetSpeaker\FormatsAndModes1\ModeAndDefaultFormat2\DefaultFormat,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveHandsetSpeaker\FormatsAndModes1\ModeAndDefaultFormat2\DefaultFormat,nAvgBytesPerSec,0x00010001,0x00007D00
+HKR,WaveHandsetSpeaker\FormatsAndModes1\ModeAndDefaultFormat2\DefaultFormat,nChannels,0x00010001,0x00000001
+HKR,WaveHandsetSpeaker\FormatsAndModes1\ModeAndDefaultFormat2\DefaultFormat,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveHandsetSpeaker\FormatsAndModes1\ModeAndDefaultFormat2\DefaultFormat,dwChannelMask,0x00010001,0x00000004
+HKR,WaveHandsetSpeaker\FormatsAndModes1\WaveFormat0,nBlockAlign,0x00010001,0x00000002
+HKR,WaveHandsetSpeaker\FormatsAndModes1\WaveFormat0,nSamplesPerSec,0x00010001,0x0000BB80
+HKR,WaveHandsetSpeaker\FormatsAndModes1\WaveFormat0,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveHandsetSpeaker\FormatsAndModes1\WaveFormat0,nAvgBytesPerSec,0x00010001,0x00017700
+HKR,WaveHandsetSpeaker\FormatsAndModes1\WaveFormat0,nChannels,0x00010001,0x00000001
+HKR,WaveHandsetSpeaker\FormatsAndModes1\WaveFormat0,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveHandsetSpeaker\FormatsAndModes1\WaveFormat0,dwChannelMask,0x00010001,0x00000004
+HKR,WaveHandsetSpeaker\FormatsAndModes1\WaveFormat1,nBlockAlign,0x00010001,0x00000002
+HKR,WaveHandsetSpeaker\FormatsAndModes1\WaveFormat1,nSamplesPerSec,0x00010001,0x00003E80
+HKR,WaveHandsetSpeaker\FormatsAndModes1\WaveFormat1,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveHandsetSpeaker\FormatsAndModes1\WaveFormat1,nAvgBytesPerSec,0x00010001,0x00007D00
+HKR,WaveHandsetSpeaker\FormatsAndModes1\WaveFormat1,nChannels,0x00010001,0x00000001
+HKR,WaveHandsetSpeaker\FormatsAndModes1\WaveFormat1,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveHandsetSpeaker\FormatsAndModes1\WaveFormat1,dwChannelMask,0x00010001,0x00000004
+HKR,WaveHandsetSpeaker\FormatsAndModes2,type,0x00000000,"offload"
+HKR,WaveHandsetSpeaker\FormatsAndModes2,numWaveFormats,0x00010001,0x00000000
+HKR,WaveHandsetSpeaker\FormatsAndModes2,numModeAndDefaultFormats,0x00010001,0x00000000
+HKR,WaveHandsetSpeaker\FormatsAndModes3,type,0x00000000,"loopback"
+HKR,WaveHandsetSpeaker\FormatsAndModes3,numWaveFormats,0x00010001,0x00000001
+HKR,WaveHandsetSpeaker\FormatsAndModes3,numModeAndDefaultFormats,0x00010001,0x00000000
+HKR,WaveHandsetSpeaker\FormatsAndModes3\WaveFormat0,nBlockAlign,0x00010001,0x00000002
+HKR,WaveHandsetSpeaker\FormatsAndModes3\WaveFormat0,nSamplesPerSec,0x00010001,0x0000BB80
+HKR,WaveHandsetSpeaker\FormatsAndModes3\WaveFormat0,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveHandsetSpeaker\FormatsAndModes3\WaveFormat0,nAvgBytesPerSec,0x00010001,0x00017700
+HKR,WaveHandsetSpeaker\FormatsAndModes3\WaveFormat0,nChannels,0x00010001,0x00000001
+HKR,WaveHandsetSpeaker\FormatsAndModes3\WaveFormat0,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveHandsetSpeaker\FormatsAndModes3\WaveFormat0,dwChannelMask,0x00010001,0x00000004
+HKR,WaveHandsetSpeaker\StreamType0,numFormats,0x00010001,0x00000000
+HKR,WaveHandsetSpeaker\StreamType0,streamType,0x00000000,"HostRender"
+HKR,WaveHandsetSpeaker\StreamType0,numModes,0x00010001,0x00000003
+HKR,WaveHandsetSpeaker\StreamType0\mode0,numFormats,0x00010001,0x00000000
+HKR,WaveHandsetSpeaker\StreamType0\mode0,mode,0x00000000,"DEFAULT"
+HKR,WaveHandsetSpeaker\StreamType0\mode0\streamConfig,COPPAppType,0x00010001,0x00000000
+HKR,WaveHandsetSpeaker\StreamType0\mode0\streamConfig,POPPAppType,0x00010001,0x00000000
+HKR,WaveHandsetSpeaker\StreamType0\mode0\streamConfig,FeatureStreamType,0x00000000,"LowLatencyNoPPPullMode"
+HKR,WaveHandsetSpeaker\StreamType0\mode1,numFormats,0x00010001,0x00000000
+HKR,WaveHandsetSpeaker\StreamType0\mode1,mode,0x00000000,"RAW"
+HKR,WaveHandsetSpeaker\StreamType0\mode1\streamConfig,COPPAppType,0x00010001,0x00000000
+HKR,WaveHandsetSpeaker\StreamType0\mode1\streamConfig,POPPAppType,0x00010001,0x00000000
+HKR,WaveHandsetSpeaker\StreamType0\mode1\streamConfig,FeatureStreamType,0x00000000,"LowLatencyNoPPPullMode"
+HKR,WaveHandsetSpeaker\StreamType0\mode2,numFormats,0x00010001,0x00000000
+HKR,WaveHandsetSpeaker\StreamType0\mode2,mode,0x00000000,"COMMUNICATIONS"
+HKR,WaveHandsetSpeaker\StreamType0\mode2\streamConfig,COPPAppType,0x00010001,0x0001113C
+HKR,WaveHandsetSpeaker\StreamType0\mode2\streamConfig,POPPAppType,0x00010001,0x0001113C
+HKR,WaveHandsetSpeaker\StreamType0\mode2\streamConfig,FeatureStreamType,0x00000000,"LowLatencyPullMode"
+HKR,WaveHandsetSpeaker\StreamType0\streamConfig,COPPAppType,0x00010001,0x00000000
+HKR,WaveHandsetSpeaker\StreamType0\streamConfig,POPPAppType,0x00010001,0x00000000
+HKR,WaveHandsetSpeaker\StreamType0\streamConfig,FeatureStreamType,0x00000000,"LowLatencyNoPPPullMode"
+HKR,WaveHandsetSpeaker\StreamType1,numFormats,0x00010001,0x00000000
+HKR,WaveHandsetSpeaker\StreamType1,streamType,0x00000000,"Loopback"
+HKR,WaveHandsetSpeaker\StreamType1,numModes,0x00010001,0x00000000
+HKR,WaveHandsetSpeaker\StreamType1\streamConfig,COPPAppType,0x00010001,0x00000000
+HKR,WaveHandsetSpeaker\StreamType1\streamConfig,POPPAppType,0x00010001,0x00000000
+HKR,WaveHandsetSpeaker\StreamType1\streamConfig,FeatureStreamType,0x00000000,"LowLatencyNoPPPushModeLoopback"
+HKR,WaveMicArray1,numStreamTypes,0x00010001,0x00000001
+HKR,WaveMicArray1,numFormatsAndModes,0x00010001,0x00000001
+HKR,WaveMicArray1\FormatsAndModes0,type,0x00000000,"hostCapture"
+HKR,WaveMicArray1\FormatsAndModes0,numWaveFormats,0x00010001,0x00000002
+HKR,WaveMicArray1\FormatsAndModes0,numModeAndDefaultFormats,0x00010001,0x00000002
+HKR,WaveMicArray1\FormatsAndModes0\ModeAndDefaultFormat0,ProcessingPacketDurationInHns,0x00010001,0x000186A0
+HKR,WaveMicArray1\FormatsAndModes0\ModeAndDefaultFormat0,mode,0x00000000,"DEFAULT"
+HKR,WaveMicArray1\FormatsAndModes0\ModeAndDefaultFormat0\DefaultFormat,nBlockAlign,0x00010001,0x00000002
+HKR,WaveMicArray1\FormatsAndModes0\ModeAndDefaultFormat0\DefaultFormat,nSamplesPerSec,0x00010001,0x0000BB80
+HKR,WaveMicArray1\FormatsAndModes0\ModeAndDefaultFormat0\DefaultFormat,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicArray1\FormatsAndModes0\ModeAndDefaultFormat0\DefaultFormat,nAvgBytesPerSec,0x00010001,0x00017700
+HKR,WaveMicArray1\FormatsAndModes0\ModeAndDefaultFormat0\DefaultFormat,nChannels,0x00010001,0x00000001
+HKR,WaveMicArray1\FormatsAndModes0\ModeAndDefaultFormat0\DefaultFormat,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicArray1\FormatsAndModes0\ModeAndDefaultFormat0\DefaultFormat,dwChannelMask,0x00010001,0x00000004
+HKR,WaveMicArray1\FormatsAndModes0\ModeAndDefaultFormat1,ProcessingPacketDurationInHns,0x00010001,0x0000C350
+HKR,WaveMicArray1\FormatsAndModes0\ModeAndDefaultFormat1,mode,0x00000000,"RAW"
+HKR,WaveMicArray1\FormatsAndModes0\ModeAndDefaultFormat1\DefaultFormat,nBlockAlign,0x00010001,0x00000004
+HKR,WaveMicArray1\FormatsAndModes0\ModeAndDefaultFormat1\DefaultFormat,nSamplesPerSec,0x00010001,0x0000BB80
+HKR,WaveMicArray1\FormatsAndModes0\ModeAndDefaultFormat1\DefaultFormat,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicArray1\FormatsAndModes0\ModeAndDefaultFormat1\DefaultFormat,nAvgBytesPerSec,0x00010001,0x0002EE00
+HKR,WaveMicArray1\FormatsAndModes0\ModeAndDefaultFormat1\DefaultFormat,nChannels,0x00010001,0x00000002
+HKR,WaveMicArray1\FormatsAndModes0\ModeAndDefaultFormat1\DefaultFormat,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicArray1\FormatsAndModes0\ModeAndDefaultFormat1\DefaultFormat,dwChannelMask,0x00010001,0x00000003
+HKR,WaveMicArray1\FormatsAndModes0\WaveFormat0,nBlockAlign,0x00010001,0x00000002
+HKR,WaveMicArray1\FormatsAndModes0\WaveFormat0,nSamplesPerSec,0x00010001,0x0000BB80
+HKR,WaveMicArray1\FormatsAndModes0\WaveFormat0,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicArray1\FormatsAndModes0\WaveFormat0,nAvgBytesPerSec,0x00010001,0x00017700
+HKR,WaveMicArray1\FormatsAndModes0\WaveFormat0,nChannels,0x00010001,0x00000001
+HKR,WaveMicArray1\FormatsAndModes0\WaveFormat0,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicArray1\FormatsAndModes0\WaveFormat0,dwChannelMask,0x00010001,0x00000004
+HKR,WaveMicArray1\FormatsAndModes0\WaveFormat1,nBlockAlign,0x00010001,0x00000004
+HKR,WaveMicArray1\FormatsAndModes0\WaveFormat1,nSamplesPerSec,0x00010001,0x0000BB80
+HKR,WaveMicArray1\FormatsAndModes0\WaveFormat1,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicArray1\FormatsAndModes0\WaveFormat1,nAvgBytesPerSec,0x00010001,0x0002EE00
+HKR,WaveMicArray1\FormatsAndModes0\WaveFormat1,nChannels,0x00010001,0x00000002
+HKR,WaveMicArray1\FormatsAndModes0\WaveFormat1,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicArray1\FormatsAndModes0\WaveFormat1,dwChannelMask,0x00010001,0x00000003
+HKR,WaveMicArray1\StreamType0,numFormats,0x00010001,0x00000000
+HKR,WaveMicArray1\StreamType0,streamType,0x00000000,"HostCapture"
+HKR,WaveMicArray1\StreamType0,numModes,0x00010001,0x00000002
+HKR,WaveMicArray1\StreamType0\mode0,numFormats,0x00010001,0x00000000
+HKR,WaveMicArray1\StreamType0\mode0,mode,0x00000000,"DEFAULT"
+HKR,WaveMicArray1\StreamType0\mode0\streamConfig,COPPAppType,0x00010001,0x00011135
+HKR,WaveMicArray1\StreamType0\mode0\streamConfig,POPPAppType,0x00010001,0x00011135
+HKR,WaveMicArray1\StreamType0\mode0\streamConfig,FeatureStreamType,0x00000000,"PushModeCapture"
+HKR,WaveMicArray1\StreamType0\mode1,numFormats,0x00010001,0x00000000
+HKR,WaveMicArray1\StreamType0\mode1,mode,0x00000000,"RAW"
+HKR,WaveMicArray1\StreamType0\mode1\streamConfig,COPPAppType,0x00010001,0x00000000
+HKR,WaveMicArray1\StreamType0\mode1\streamConfig,POPPAppType,0x00010001,0x00000000
+HKR,WaveMicArray1\StreamType0\mode1\streamConfig,FeatureStreamType,0x00000000,"LowLatencyNoPPPushModeCapture"
+HKR,WaveMicArray1\StreamType0\streamConfig,COPPAppType,0x00010001,0x00011135
+HKR,WaveMicArray1\StreamType0\streamConfig,POPPAppType,0x00010001,0x00011135
+HKR,WaveMicArray1\StreamType0\streamConfig,FeatureStreamType,0x00000000,"PushModeCapture"
+HKR,WaveMicHeadset,numStreamTypes,0x00010001,0x00000002
+HKR,WaveMicHeadset,numFormatsAndModes,0x00010001,0x00000002
+HKR,WaveMicHeadset\FormatsAndModes0,type,0x00000000,"hostCapture"
+HKR,WaveMicHeadset\FormatsAndModes0,numWaveFormats,0x00010001,0x00000003
+HKR,WaveMicHeadset\FormatsAndModes0,numModeAndDefaultFormats,0x00010001,0x00000003
+HKR,WaveMicHeadset\FormatsAndModes0\ModeAndDefaultFormat0,ProcessingPacketDurationInHns,0x00010001,0x000186A0
+HKR,WaveMicHeadset\FormatsAndModes0\ModeAndDefaultFormat0,mode,0x00000000,"DEFAULT"
+HKR,WaveMicHeadset\FormatsAndModes0\ModeAndDefaultFormat0\DefaultFormat,nBlockAlign,0x00010001,0x00000002
+HKR,WaveMicHeadset\FormatsAndModes0\ModeAndDefaultFormat0\DefaultFormat,nSamplesPerSec,0x00010001,0x0000BB80
+HKR,WaveMicHeadset\FormatsAndModes0\ModeAndDefaultFormat0\DefaultFormat,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicHeadset\FormatsAndModes0\ModeAndDefaultFormat0\DefaultFormat,nAvgBytesPerSec,0x00010001,0x00017700
+HKR,WaveMicHeadset\FormatsAndModes0\ModeAndDefaultFormat0\DefaultFormat,nChannels,0x00010001,0x00000001
+HKR,WaveMicHeadset\FormatsAndModes0\ModeAndDefaultFormat0\DefaultFormat,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicHeadset\FormatsAndModes0\ModeAndDefaultFormat0\DefaultFormat,dwChannelMask,0x00010001,0x00000004
+HKR,WaveMicHeadset\FormatsAndModes0\ModeAndDefaultFormat1,ProcessingPacketDurationInHns,0x00010001,0x0000C350
+HKR,WaveMicHeadset\FormatsAndModes0\ModeAndDefaultFormat1,mode,0x00000000,"RAW"
+HKR,WaveMicHeadset\FormatsAndModes0\ModeAndDefaultFormat1\DefaultFormat,nBlockAlign,0x00010001,0x00000002
+HKR,WaveMicHeadset\FormatsAndModes0\ModeAndDefaultFormat1\DefaultFormat,nSamplesPerSec,0x00010001,0x0000BB80
+HKR,WaveMicHeadset\FormatsAndModes0\ModeAndDefaultFormat1\DefaultFormat,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicHeadset\FormatsAndModes0\ModeAndDefaultFormat1\DefaultFormat,nAvgBytesPerSec,0x00010001,0x00017700
+HKR,WaveMicHeadset\FormatsAndModes0\ModeAndDefaultFormat1\DefaultFormat,nChannels,0x00010001,0x00000001
+HKR,WaveMicHeadset\FormatsAndModes0\ModeAndDefaultFormat1\DefaultFormat,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicHeadset\FormatsAndModes0\ModeAndDefaultFormat1\DefaultFormat,dwChannelMask,0x00010001,0x00000004
+HKR,WaveMicHeadset\FormatsAndModes0\ModeAndDefaultFormat2,ProcessingPacketDurationInHns,0x00010001,0x00030D40
+HKR,WaveMicHeadset\FormatsAndModes0\ModeAndDefaultFormat2,mode,0x00000000,"COMMUNICATIONS"
+HKR,WaveMicHeadset\FormatsAndModes0\ModeAndDefaultFormat2\DefaultFormat,nBlockAlign,0x00010001,0x00000002
+HKR,WaveMicHeadset\FormatsAndModes0\ModeAndDefaultFormat2\DefaultFormat,nSamplesPerSec,0x00010001,0x00003E80
+HKR,WaveMicHeadset\FormatsAndModes0\ModeAndDefaultFormat2\DefaultFormat,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicHeadset\FormatsAndModes0\ModeAndDefaultFormat2\DefaultFormat,nAvgBytesPerSec,0x00010001,0x00007D00
+HKR,WaveMicHeadset\FormatsAndModes0\ModeAndDefaultFormat2\DefaultFormat,nChannels,0x00010001,0x00000001
+HKR,WaveMicHeadset\FormatsAndModes0\ModeAndDefaultFormat2\DefaultFormat,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicHeadset\FormatsAndModes0\ModeAndDefaultFormat2\DefaultFormat,dwChannelMask,0x00010001,0x00000004
+HKR,WaveMicHeadset\FormatsAndModes0\WaveFormat0,nBlockAlign,0x00010001,0x00000002
+HKR,WaveMicHeadset\FormatsAndModes0\WaveFormat0,nSamplesPerSec,0x00010001,0x0000BB80
+HKR,WaveMicHeadset\FormatsAndModes0\WaveFormat0,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicHeadset\FormatsAndModes0\WaveFormat0,nAvgBytesPerSec,0x00010001,0x00017700
+HKR,WaveMicHeadset\FormatsAndModes0\WaveFormat0,nChannels,0x00010001,0x00000001
+HKR,WaveMicHeadset\FormatsAndModes0\WaveFormat0,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicHeadset\FormatsAndModes0\WaveFormat0,dwChannelMask,0x00010001,0x00000004
+HKR,WaveMicHeadset\FormatsAndModes0\WaveFormat1,nBlockAlign,0x00010001,0x00000002
+HKR,WaveMicHeadset\FormatsAndModes0\WaveFormat1,nSamplesPerSec,0x00010001,0x00003E80
+HKR,WaveMicHeadset\FormatsAndModes0\WaveFormat1,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicHeadset\FormatsAndModes0\WaveFormat1,nAvgBytesPerSec,0x00010001,0x00007D00
+HKR,WaveMicHeadset\FormatsAndModes0\WaveFormat1,nChannels,0x00010001,0x00000001
+HKR,WaveMicHeadset\FormatsAndModes0\WaveFormat1,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicHeadset\FormatsAndModes0\WaveFormat1,dwChannelMask,0x00010001,0x00000004
+HKR,WaveMicHeadset\FormatsAndModes0\WaveFormat2,nBlockAlign,0x00010001,0x00000002
+HKR,WaveMicHeadset\FormatsAndModes0\WaveFormat2,nSamplesPerSec,0x00010001,0x00005DC0
+HKR,WaveMicHeadset\FormatsAndModes0\WaveFormat2,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicHeadset\FormatsAndModes0\WaveFormat2,nAvgBytesPerSec,0x00010001,0x0000BB80
+HKR,WaveMicHeadset\FormatsAndModes0\WaveFormat2,nChannels,0x00010001,0x00000001
+HKR,WaveMicHeadset\FormatsAndModes0\WaveFormat2,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicHeadset\FormatsAndModes0\WaveFormat2,dwChannelMask,0x00010001,0x00000004
+HKR,WaveMicHeadset\FormatsAndModes1,type,0x00000000,"BufferedCapture"
+HKR,WaveMicHeadset\FormatsAndModes1,numWaveFormats,0x00010001,0x00000001
+HKR,WaveMicHeadset\FormatsAndModes1,numModeAndDefaultFormats,0x00010001,0x00000001
+HKR,WaveMicHeadset\FormatsAndModes1\ModeAndDefaultFormat0,mode,0x00000000,"RAW"
+HKR,WaveMicHeadset\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,nBlockAlign,0x00010001,0x00000002
+HKR,WaveMicHeadset\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,nSamplesPerSec,0x00010001,0x00003E80
+HKR,WaveMicHeadset\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicHeadset\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,nAvgBytesPerSec,0x00010001,0x00007D00
+HKR,WaveMicHeadset\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,nChannels,0x00010001,0x00000001
+HKR,WaveMicHeadset\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicHeadset\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,dwChannelMask,0x00010001,0x00000004
+HKR,WaveMicHeadset\FormatsAndModes1\WaveFormat0,nBlockAlign,0x00010001,0x00000002
+HKR,WaveMicHeadset\FormatsAndModes1\WaveFormat0,nSamplesPerSec,0x00010001,0x00003E80
+HKR,WaveMicHeadset\FormatsAndModes1\WaveFormat0,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicHeadset\FormatsAndModes1\WaveFormat0,nAvgBytesPerSec,0x00010001,0x00007D00
+HKR,WaveMicHeadset\FormatsAndModes1\WaveFormat0,nChannels,0x00010001,0x00000001
+HKR,WaveMicHeadset\FormatsAndModes1\WaveFormat0,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicHeadset\FormatsAndModes1\WaveFormat0,dwChannelMask,0x00010001,0x00000004
+HKR,WaveMicHeadset\Listen,NumberOfDeviceTypes,0x00010001,0x00000001
+HKR,WaveMicHeadset\Listen\Device0\DeviceConfig,ChannelAllocation,0x00010001,0x00000000
+HKR,WaveMicHeadset\Listen\Device0\DeviceConfig,PowerType,0x00000000,"HighPower"
+HKR,WaveMicHeadset\Listen\Device0\DeviceConfig,SampleBitLength,0x00010001,0x00000010
+HKR,WaveMicHeadset\Listen\Device0\DeviceConfig,SampleRate,0x00010001,0x00003E80
+HKR,WaveMicHeadset\Listen\Device0\DeviceConfig,EnableLAB,0x00010001,0x00000001
+HKR,WaveMicHeadset\Listen\Device0\DeviceConfig,DeviceID,0x00010001,0x00000057
+HKR,WaveMicHeadset\Listen\Device0\DeviceConfig,LookAheadBuffDurationInMS,0x00010001,0x00000BB8
+HKR,WaveMicHeadset\StreamType0,numFormats,0x00010001,0x00000000
+HKR,WaveMicHeadset\StreamType0,streamType,0x00000000,"HostCapture"
+HKR,WaveMicHeadset\StreamType0,numModes,0x00010001,0x00000003
+HKR,WaveMicHeadset\StreamType0\mode0,numFormats,0x00010001,0x00000000
+HKR,WaveMicHeadset\StreamType0\mode0,mode,0x00000000,"DEFAULT"
+HKR,WaveMicHeadset\StreamType0\mode0\streamConfig,COPPAppType,0x00010001,0x00011135
+HKR,WaveMicHeadset\StreamType0\mode0\streamConfig,POPPAppType,0x00010001,0x00011135
+HKR,WaveMicHeadset\StreamType0\mode0\streamConfig,FeatureStreamType,0x00000000,"PushModeCapture"
+HKR,WaveMicHeadset\StreamType0\mode1,numFormats,0x00010001,0x00000000
+HKR,WaveMicHeadset\StreamType0\mode1,mode,0x00000000,"RAW"
+HKR,WaveMicHeadset\StreamType0\mode1\streamConfig,COPPAppType,0x00010001,0x00000000
+HKR,WaveMicHeadset\StreamType0\mode1\streamConfig,POPPAppType,0x00010001,0x00000000
+HKR,WaveMicHeadset\StreamType0\mode1\streamConfig,FeatureStreamType,0x00000000,"LowLatencyNoPPPushModeCapture"
+HKR,WaveMicHeadset\StreamType0\mode2,numFormats,0x00010001,0x00000000
+HKR,WaveMicHeadset\StreamType0\mode2,mode,0x00000000,"COMMUNICATIONS"
+HKR,WaveMicHeadset\StreamType0\mode2\streamConfig,COPPAppType,0x00010001,0x0001113D
+HKR,WaveMicHeadset\StreamType0\mode2\streamConfig,POPPAppType,0x00010001,0x0001113D
+HKR,WaveMicHeadset\StreamType0\mode2\streamConfig,FeatureStreamType,0x00000000,"LowLatencyPushModeCapture"
+HKR,WaveMicHeadset\StreamType0\streamConfig,COPPAppType,0x00010001,0x00011135
+HKR,WaveMicHeadset\StreamType0\streamConfig,POPPAppType,0x00010001,0x00011135
+HKR,WaveMicHeadset\StreamType0\streamConfig,FeatureStreamType,0x00000000,"PushModeCapture"
+HKR,WaveMicHeadset\StreamType1,numFormats,0x00010001,0x00000000
+HKR,WaveMicHeadset\StreamType1,streamType,0x00000000,"BufferedCapture"
+HKR,WaveMicHeadset\StreamType1,numModes,0x00010001,0x00000001
+HKR,WaveMicHeadset\StreamType1\mode0,numFormats,0x00010001,0x00000000
+HKR,WaveMicHeadset\StreamType1\mode0,mode,0x00000000,"RAW"
+HKR,WaveMicHeadset\StreamType1\mode0\streamConfig,COPPAppType,0x00010001,0x00000000
+HKR,WaveMicHeadset\StreamType1\mode0\streamConfig,POPPAppType,0x00010001,0x00000000
+HKR,WaveMicHeadset\StreamType1\mode0\streamConfig,FeatureStreamType,0x00000000,"SVALABCapture"
+HKR,WaveMicHeadset\StreamType1\streamConfig,COPPAppType,0x00010001,0x00000000
+HKR,WaveMicHeadset\StreamType1\streamConfig,POPPAppType,0x00010001,0x00000000
+HKR,WaveMicHeadset\StreamType1\streamConfig,FeatureStreamType,0x00000000,"SVALABCapture"
+HKR,WaveMicIn,numStreamTypes,0x00010001,0x00000002
+HKR,WaveMicIn,numFormatsAndModes,0x00010001,0x00000002
+HKR,WaveMicIn\FormatsAndModes0,type,0x00000000,"hostCapture"
+HKR,WaveMicIn\FormatsAndModes0,numWaveFormats,0x00010001,0x00000003
+HKR,WaveMicIn\FormatsAndModes0,numModeAndDefaultFormats,0x00010001,0x00000003
+HKR,WaveMicIn\FormatsAndModes0\ModeAndDefaultFormat0,ProcessingPacketDurationInHns,0x00010001,0x000186A0
+HKR,WaveMicIn\FormatsAndModes0\ModeAndDefaultFormat0,mode,0x00000000,"DEFAULT"
+HKR,WaveMicIn\FormatsAndModes0\ModeAndDefaultFormat0\DefaultFormat,nBlockAlign,0x00010001,0x00000002
+HKR,WaveMicIn\FormatsAndModes0\ModeAndDefaultFormat0\DefaultFormat,nSamplesPerSec,0x00010001,0x0000BB80
+HKR,WaveMicIn\FormatsAndModes0\ModeAndDefaultFormat0\DefaultFormat,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicIn\FormatsAndModes0\ModeAndDefaultFormat0\DefaultFormat,nAvgBytesPerSec,0x00010001,0x00017700
+HKR,WaveMicIn\FormatsAndModes0\ModeAndDefaultFormat0\DefaultFormat,nChannels,0x00010001,0x00000001
+HKR,WaveMicIn\FormatsAndModes0\ModeAndDefaultFormat0\DefaultFormat,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicIn\FormatsAndModes0\ModeAndDefaultFormat0\DefaultFormat,dwChannelMask,0x00010001,0x00000004
+HKR,WaveMicIn\FormatsAndModes0\ModeAndDefaultFormat1,ProcessingPacketDurationInHns,0x00010001,0x0000C350
+HKR,WaveMicIn\FormatsAndModes0\ModeAndDefaultFormat1,mode,0x00000000,"RAW"
+HKR,WaveMicIn\FormatsAndModes0\ModeAndDefaultFormat1\DefaultFormat,nBlockAlign,0x00010001,0x00000002
+HKR,WaveMicIn\FormatsAndModes0\ModeAndDefaultFormat1\DefaultFormat,nSamplesPerSec,0x00010001,0x0000BB80
+HKR,WaveMicIn\FormatsAndModes0\ModeAndDefaultFormat1\DefaultFormat,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicIn\FormatsAndModes0\ModeAndDefaultFormat1\DefaultFormat,nAvgBytesPerSec,0x00010001,0x00017700
+HKR,WaveMicIn\FormatsAndModes0\ModeAndDefaultFormat1\DefaultFormat,nChannels,0x00010001,0x00000001
+HKR,WaveMicIn\FormatsAndModes0\ModeAndDefaultFormat1\DefaultFormat,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicIn\FormatsAndModes0\ModeAndDefaultFormat1\DefaultFormat,dwChannelMask,0x00010001,0x00000004
+HKR,WaveMicIn\FormatsAndModes0\ModeAndDefaultFormat2,ProcessingPacketDurationInHns,0x00010001,0x00030D40
+HKR,WaveMicIn\FormatsAndModes0\ModeAndDefaultFormat2,mode,0x00000000,"COMMUNICATIONS"
+HKR,WaveMicIn\FormatsAndModes0\ModeAndDefaultFormat2\DefaultFormat,nBlockAlign,0x00010001,0x00000002
+HKR,WaveMicIn\FormatsAndModes0\ModeAndDefaultFormat2\DefaultFormat,nSamplesPerSec,0x00010001,0x00003E80
+HKR,WaveMicIn\FormatsAndModes0\ModeAndDefaultFormat2\DefaultFormat,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicIn\FormatsAndModes0\ModeAndDefaultFormat2\DefaultFormat,nAvgBytesPerSec,0x00010001,0x00007D00
+HKR,WaveMicIn\FormatsAndModes0\ModeAndDefaultFormat2\DefaultFormat,nChannels,0x00010001,0x00000001
+HKR,WaveMicIn\FormatsAndModes0\ModeAndDefaultFormat2\DefaultFormat,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicIn\FormatsAndModes0\ModeAndDefaultFormat2\DefaultFormat,dwChannelMask,0x00010001,0x00000004
+HKR,WaveMicIn\FormatsAndModes0\WaveFormat0,nBlockAlign,0x00010001,0x00000002
+HKR,WaveMicIn\FormatsAndModes0\WaveFormat0,nSamplesPerSec,0x00010001,0x0000BB80
+HKR,WaveMicIn\FormatsAndModes0\WaveFormat0,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicIn\FormatsAndModes0\WaveFormat0,nAvgBytesPerSec,0x00010001,0x00017700
+HKR,WaveMicIn\FormatsAndModes0\WaveFormat0,nChannels,0x00010001,0x00000001
+HKR,WaveMicIn\FormatsAndModes0\WaveFormat0,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicIn\FormatsAndModes0\WaveFormat0,dwChannelMask,0x00010001,0x00000004
+HKR,WaveMicIn\FormatsAndModes0\WaveFormat1,nBlockAlign,0x00010001,0x00000002
+HKR,WaveMicIn\FormatsAndModes0\WaveFormat1,nSamplesPerSec,0x00010001,0x00003E80
+HKR,WaveMicIn\FormatsAndModes0\WaveFormat1,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicIn\FormatsAndModes0\WaveFormat1,nAvgBytesPerSec,0x00010001,0x00007D00
+HKR,WaveMicIn\FormatsAndModes0\WaveFormat1,nChannels,0x00010001,0x00000001
+HKR,WaveMicIn\FormatsAndModes0\WaveFormat1,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicIn\FormatsAndModes0\WaveFormat1,dwChannelMask,0x00010001,0x00000004
+HKR,WaveMicIn\FormatsAndModes0\WaveFormat2,nBlockAlign,0x00010001,0x00000002
+HKR,WaveMicIn\FormatsAndModes0\WaveFormat2,nSamplesPerSec,0x00010001,0x00005DC0
+HKR,WaveMicIn\FormatsAndModes0\WaveFormat2,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicIn\FormatsAndModes0\WaveFormat2,nAvgBytesPerSec,0x00010001,0x0000BB80
+HKR,WaveMicIn\FormatsAndModes0\WaveFormat2,nChannels,0x00010001,0x00000001
+HKR,WaveMicIn\FormatsAndModes0\WaveFormat2,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicIn\FormatsAndModes0\WaveFormat2,dwChannelMask,0x00010001,0x00000004
+HKR,WaveMicIn\FormatsAndModes1,type,0x00000000,"BufferedCapture"
+HKR,WaveMicIn\FormatsAndModes1,numWaveFormats,0x00010001,0x00000001
+HKR,WaveMicIn\FormatsAndModes1,numModeAndDefaultFormats,0x00010001,0x00000001
+HKR,WaveMicIn\FormatsAndModes1\ModeAndDefaultFormat0,mode,0x00000000,"RAW"
+HKR,WaveMicIn\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,nBlockAlign,0x00010001,0x00000002
+HKR,WaveMicIn\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,nSamplesPerSec,0x00010001,0x00003E80
+HKR,WaveMicIn\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicIn\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,nAvgBytesPerSec,0x00010001,0x00007D00
+HKR,WaveMicIn\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,nChannels,0x00010001,0x00000001
+HKR,WaveMicIn\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicIn\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,dwChannelMask,0x00010001,0x00000004
+HKR,WaveMicIn\FormatsAndModes1\WaveFormat0,nBlockAlign,0x00010001,0x00000002
+HKR,WaveMicIn\FormatsAndModes1\WaveFormat0,nSamplesPerSec,0x00010001,0x00003E80
+HKR,WaveMicIn\FormatsAndModes1\WaveFormat0,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicIn\FormatsAndModes1\WaveFormat0,nAvgBytesPerSec,0x00010001,0x00007D00
+HKR,WaveMicIn\FormatsAndModes1\WaveFormat0,nChannels,0x00010001,0x00000001
+HKR,WaveMicIn\FormatsAndModes1\WaveFormat0,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveMicIn\FormatsAndModes1\WaveFormat0,dwChannelMask,0x00010001,0x00000004
+HKR,WaveMicIn\Listen,NumberOfDeviceTypes,0x00010001,0x00000001
+HKR,WaveMicIn\Listen\Device0\DeviceConfig,ChannelAllocation,0x00010001,0x00000000
+HKR,WaveMicIn\Listen\Device0\DeviceConfig,PowerType,0x00000000,"HighPower"
+HKR,WaveMicIn\Listen\Device0\DeviceConfig,SampleBitLength,0x00010001,0x00000010
+HKR,WaveMicIn\Listen\Device0\DeviceConfig,SampleRate,0x00010001,0x00003E80
+HKR,WaveMicIn\Listen\Device0\DeviceConfig,EnableLAB,0x00010001,0x00000001
+HKR,WaveMicIn\Listen\Device0\DeviceConfig,DeviceID,0x00010001,0x00000052
+HKR,WaveMicIn\Listen\Device0\DeviceConfig,LookAheadBuffDurationInMS,0x00010001,0x00000BB8
+HKR,WaveMicIn\StreamType0,numFormats,0x00010001,0x00000000
+HKR,WaveMicIn\StreamType0,streamType,0x00000000,"HostCapture"
+HKR,WaveMicIn\StreamType0,numModes,0x00010001,0x00000003
+HKR,WaveMicIn\StreamType0\mode0,numFormats,0x00010001,0x00000000
+HKR,WaveMicIn\StreamType0\mode0,mode,0x00000000,"DEFAULT"
+HKR,WaveMicIn\StreamType0\mode0\streamConfig,COPPAppType,0x00010001,0x00011135
+HKR,WaveMicIn\StreamType0\mode0\streamConfig,POPPAppType,0x00010001,0x00011135
+HKR,WaveMicIn\StreamType0\mode0\streamConfig,FeatureStreamType,0x00000000,"PushModeCapture"
+HKR,WaveMicIn\StreamType0\mode1,numFormats,0x00010001,0x00000000
+HKR,WaveMicIn\StreamType0\mode1,mode,0x00000000,"RAW"
+HKR,WaveMicIn\StreamType0\mode1\streamConfig,COPPAppType,0x00010001,0x00000000
+HKR,WaveMicIn\StreamType0\mode1\streamConfig,POPPAppType,0x00010001,0x00000000
+HKR,WaveMicIn\StreamType0\mode1\streamConfig,FeatureStreamType,0x00000000,"LowLatencyNoPPPushModeCapture"
+HKR,WaveMicIn\StreamType0\mode2,numFormats,0x00010001,0x00000000
+HKR,WaveMicIn\StreamType0\mode2,mode,0x00000000,"COMMUNICATIONS"
+HKR,WaveMicIn\StreamType0\mode2\streamConfig,COPPAppType,0x00010001,0x0001113D
+HKR,WaveMicIn\StreamType0\mode2\streamConfig,POPPAppType,0x00010001,0x0001113D
+HKR,WaveMicIn\StreamType0\mode2\streamConfig,FeatureStreamType,0x00000000,"LowLatencyPushModeCapture"
+HKR,WaveMicIn\StreamType0\streamConfig,COPPAppType,0x00010001,0x00011135
+HKR,WaveMicIn\StreamType0\streamConfig,POPPAppType,0x00010001,0x00011135
+HKR,WaveMicIn\StreamType0\streamConfig,FeatureStreamType,0x00000000,"PushModeCapture"
+HKR,WaveMicIn\StreamType1,numFormats,0x00010001,0x00000000
+HKR,WaveMicIn\StreamType1,streamType,0x00000000,"BufferedCapture"
+HKR,WaveMicIn\StreamType1,numModes,0x00010001,0x00000001
+HKR,WaveMicIn\StreamType1\mode0,numFormats,0x00010001,0x00000000
+HKR,WaveMicIn\StreamType1\mode0,mode,0x00000000,"RAW"
+HKR,WaveMicIn\StreamType1\mode0\streamConfig,COPPAppType,0x00010001,0x00000000
+HKR,WaveMicIn\StreamType1\mode0\streamConfig,POPPAppType,0x00010001,0x00000000
+HKR,WaveMicIn\StreamType1\mode0\streamConfig,FeatureStreamType,0x00000000,"SVALABCapture"
+HKR,WaveMicIn\StreamType1\streamConfig,COPPAppType,0x00010001,0x00000000
+HKR,WaveMicIn\StreamType1\streamConfig,POPPAppType,0x00010001,0x00000000
+HKR,WaveMicIn\StreamType1\streamConfig,FeatureStreamType,0x00000000,"SVALABCapture"
+HKR,WaveSpeaker,numStreamTypes,0x00010001,0x00000003
+HKR,WaveSpeaker,numFormatsAndModes,0x00010001,0x00000004
+HKR,WaveSpeaker\FormatsAndModes0,type,0x00000000,"engine"
+HKR,WaveSpeaker\FormatsAndModes0,numWaveFormats,0x00010001,0x00000005
+HKR,WaveSpeaker\FormatsAndModes0,numModeAndDefaultFormats,0x00010001,0x00000000
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat0,nBlockAlign,0x00010001,0x00000004
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat0,nSamplesPerSec,0x00010001,0x0000BB80
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat0,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat0,nAvgBytesPerSec,0x00010001,0x0002EE00
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat0,nChannels,0x00010001,0x00000002
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat0,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat0,dwChannelMask,0x00010001,0x00000003
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat1,nBlockAlign,0x00010001,0x00000004
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat1,nSamplesPerSec,0x00010001,0x0000AC44
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat1,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat1,nAvgBytesPerSec,0x00010001,0x0002B110
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat1,nChannels,0x00010001,0x00000002
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat1,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat1,dwChannelMask,0x00010001,0x00000003
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat2,nBlockAlign,0x00010001,0x00000004
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat2,nSamplesPerSec,0x00010001,0x00005622
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat2,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat2,nAvgBytesPerSec,0x00010001,0x00015888
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat2,nChannels,0x00010001,0x00000002
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat2,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat2,dwChannelMask,0x00010001,0x00000003
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat3,nBlockAlign,0x00010001,0x00000004
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat3,nSamplesPerSec,0x00010001,0x00005DC0
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat3,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat3,nAvgBytesPerSec,0x00010001,0x00017700
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat3,nChannels,0x00010001,0x00000002
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat3,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat3,dwChannelMask,0x00010001,0x00000003
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat4,nBlockAlign,0x00010001,0x00000002
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat4,nSamplesPerSec,0x00010001,0x00003E80
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat4,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat4,nAvgBytesPerSec,0x00010001,0x00007D00
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat4,nChannels,0x00010001,0x00000001
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat4,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeaker\FormatsAndModes0\WaveFormat4,dwChannelMask,0x00010001,0x00000004
+HKR,WaveSpeaker\FormatsAndModes1,type,0x00000000,"host"
+HKR,WaveSpeaker\FormatsAndModes1,numWaveFormats,0x00010001,0x00000002
+HKR,WaveSpeaker\FormatsAndModes1,numModeAndDefaultFormats,0x00010001,0x00000003
+HKR,WaveSpeaker\FormatsAndModes1\ModeAndDefaultFormat0,ProcessingPacketDurationInHns,0x00010001,0x0000C350
+HKR,WaveSpeaker\FormatsAndModes1\ModeAndDefaultFormat0,mode,0x00000000,"RAW"
+HKR,WaveSpeaker\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,nBlockAlign,0x00010001,0x00000004
+HKR,WaveSpeaker\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,nSamplesPerSec,0x00010001,0x0000BB80
+HKR,WaveSpeaker\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeaker\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,nAvgBytesPerSec,0x00010001,0x0002EE00
+HKR,WaveSpeaker\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,nChannels,0x00010001,0x00000002
+HKR,WaveSpeaker\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeaker\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,dwChannelMask,0x00010001,0x00000003
+HKR,WaveSpeaker\FormatsAndModes1\ModeAndDefaultFormat1,ProcessingPacketDurationInHns,0x00010001,0x000186A0
+HKR,WaveSpeaker\FormatsAndModes1\ModeAndDefaultFormat1,mode,0x00000000,"DEFAULT"
+HKR,WaveSpeaker\FormatsAndModes1\ModeAndDefaultFormat1\DefaultFormat,nBlockAlign,0x00010001,0x00000004
+HKR,WaveSpeaker\FormatsAndModes1\ModeAndDefaultFormat1\DefaultFormat,nSamplesPerSec,0x00010001,0x0000BB80
+HKR,WaveSpeaker\FormatsAndModes1\ModeAndDefaultFormat1\DefaultFormat,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeaker\FormatsAndModes1\ModeAndDefaultFormat1\DefaultFormat,nAvgBytesPerSec,0x00010001,0x0002EE00
+HKR,WaveSpeaker\FormatsAndModes1\ModeAndDefaultFormat1\DefaultFormat,nChannels,0x00010001,0x00000002
+HKR,WaveSpeaker\FormatsAndModes1\ModeAndDefaultFormat1\DefaultFormat,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeaker\FormatsAndModes1\ModeAndDefaultFormat1\DefaultFormat,dwChannelMask,0x00010001,0x00000003
+HKR,WaveSpeaker\FormatsAndModes1\ModeAndDefaultFormat2,ProcessingPacketDurationInHns,0x00010001,0x000186A0
+HKR,WaveSpeaker\FormatsAndModes1\ModeAndDefaultFormat2,mode,0x00000000,"COMMUNICATIONS"
+HKR,WaveSpeaker\FormatsAndModes1\ModeAndDefaultFormat2\DefaultFormat,nBlockAlign,0x00010001,0x00000002
+HKR,WaveSpeaker\FormatsAndModes1\ModeAndDefaultFormat2\DefaultFormat,nSamplesPerSec,0x00010001,0x00003E80
+HKR,WaveSpeaker\FormatsAndModes1\ModeAndDefaultFormat2\DefaultFormat,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeaker\FormatsAndModes1\ModeAndDefaultFormat2\DefaultFormat,nAvgBytesPerSec,0x00010001,0x00007D00
+HKR,WaveSpeaker\FormatsAndModes1\ModeAndDefaultFormat2\DefaultFormat,nChannels,0x00010001,0x00000001
+HKR,WaveSpeaker\FormatsAndModes1\ModeAndDefaultFormat2\DefaultFormat,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeaker\FormatsAndModes1\ModeAndDefaultFormat2\DefaultFormat,dwChannelMask,0x00010001,0x00000004
+HKR,WaveSpeaker\FormatsAndModes1\WaveFormat0,nBlockAlign,0x00010001,0x00000004
+HKR,WaveSpeaker\FormatsAndModes1\WaveFormat0,nSamplesPerSec,0x00010001,0x0000BB80
+HKR,WaveSpeaker\FormatsAndModes1\WaveFormat0,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeaker\FormatsAndModes1\WaveFormat0,nAvgBytesPerSec,0x00010001,0x0002EE00
+HKR,WaveSpeaker\FormatsAndModes1\WaveFormat0,nChannels,0x00010001,0x00000002
+HKR,WaveSpeaker\FormatsAndModes1\WaveFormat0,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeaker\FormatsAndModes1\WaveFormat0,dwChannelMask,0x00010001,0x00000003
+HKR,WaveSpeaker\FormatsAndModes1\WaveFormat1,nBlockAlign,0x00010001,0x00000002
+HKR,WaveSpeaker\FormatsAndModes1\WaveFormat1,nSamplesPerSec,0x00010001,0x00003E80
+HKR,WaveSpeaker\FormatsAndModes1\WaveFormat1,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeaker\FormatsAndModes1\WaveFormat1,nAvgBytesPerSec,0x00010001,0x00007D00
+HKR,WaveSpeaker\FormatsAndModes1\WaveFormat1,nChannels,0x00010001,0x00000001
+HKR,WaveSpeaker\FormatsAndModes1\WaveFormat1,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeaker\FormatsAndModes1\WaveFormat1,dwChannelMask,0x00010001,0x00000004
+HKR,WaveSpeaker\FormatsAndModes2,type,0x00000000,"offload"
+HKR,WaveSpeaker\FormatsAndModes2,numWaveFormats,0x00010001,0x00000004
+HKR,WaveSpeaker\FormatsAndModes2,numModeAndDefaultFormats,0x00010001,0x00000001
+HKR,WaveSpeaker\FormatsAndModes2\ModeAndDefaultFormat0,mode,0x00000000,"DEFAULT"
+HKR,WaveSpeaker\FormatsAndModes2\ModeAndDefaultFormat0\DefaultFormat,nBlockAlign,0x00010001,0x00000004
+HKR,WaveSpeaker\FormatsAndModes2\ModeAndDefaultFormat0\DefaultFormat,nSamplesPerSec,0x00010001,0x0000BB80
+HKR,WaveSpeaker\FormatsAndModes2\ModeAndDefaultFormat0\DefaultFormat,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeaker\FormatsAndModes2\ModeAndDefaultFormat0\DefaultFormat,nAvgBytesPerSec,0x00010001,0x0002EE00
+HKR,WaveSpeaker\FormatsAndModes2\ModeAndDefaultFormat0\DefaultFormat,nChannels,0x00010001,0x00000002
+HKR,WaveSpeaker\FormatsAndModes2\ModeAndDefaultFormat0\DefaultFormat,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeaker\FormatsAndModes2\ModeAndDefaultFormat0\DefaultFormat,dwChannelMask,0x00010001,0x00000003
+HKR,WaveSpeaker\FormatsAndModes2\WaveFormat0,nBlockAlign,0x00010001,0x00000004
+HKR,WaveSpeaker\FormatsAndModes2\WaveFormat0,nSamplesPerSec,0x00010001,0x0000BB80
+HKR,WaveSpeaker\FormatsAndModes2\WaveFormat0,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeaker\FormatsAndModes2\WaveFormat0,nAvgBytesPerSec,0x00010001,0x0002EE00
+HKR,WaveSpeaker\FormatsAndModes2\WaveFormat0,nChannels,0x00010001,0x00000002
+HKR,WaveSpeaker\FormatsAndModes2\WaveFormat0,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeaker\FormatsAndModes2\WaveFormat0,dwChannelMask,0x00010001,0x00000003
+HKR,WaveSpeaker\FormatsAndModes2\WaveFormat1,nBlockAlign,0x00010001,0x00000004
+HKR,WaveSpeaker\FormatsAndModes2\WaveFormat1,nSamplesPerSec,0x00010001,0x0000AC44
+HKR,WaveSpeaker\FormatsAndModes2\WaveFormat1,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeaker\FormatsAndModes2\WaveFormat1,nAvgBytesPerSec,0x00010001,0x0002B110
+HKR,WaveSpeaker\FormatsAndModes2\WaveFormat1,nChannels,0x00010001,0x00000002
+HKR,WaveSpeaker\FormatsAndModes2\WaveFormat1,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeaker\FormatsAndModes2\WaveFormat1,dwChannelMask,0x00010001,0x00000003
+HKR,WaveSpeaker\FormatsAndModes2\WaveFormat2,nBlockAlign,0x00010001,0x00000004
+HKR,WaveSpeaker\FormatsAndModes2\WaveFormat2,nSamplesPerSec,0x00010001,0x00005622
+HKR,WaveSpeaker\FormatsAndModes2\WaveFormat2,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeaker\FormatsAndModes2\WaveFormat2,nAvgBytesPerSec,0x00010001,0x00015888
+HKR,WaveSpeaker\FormatsAndModes2\WaveFormat2,nChannels,0x00010001,0x00000002
+HKR,WaveSpeaker\FormatsAndModes2\WaveFormat2,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeaker\FormatsAndModes2\WaveFormat2,dwChannelMask,0x00010001,0x00000003
+HKR,WaveSpeaker\FormatsAndModes2\WaveFormat3,nBlockAlign,0x00010001,0x00000004
+HKR,WaveSpeaker\FormatsAndModes2\WaveFormat3,nSamplesPerSec,0x00010001,0x00005DC0
+HKR,WaveSpeaker\FormatsAndModes2\WaveFormat3,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeaker\FormatsAndModes2\WaveFormat3,nAvgBytesPerSec,0x00010001,0x00017700
+HKR,WaveSpeaker\FormatsAndModes2\WaveFormat3,nChannels,0x00010001,0x00000002
+HKR,WaveSpeaker\FormatsAndModes2\WaveFormat3,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeaker\FormatsAndModes2\WaveFormat3,dwChannelMask,0x00010001,0x00000003
+HKR,WaveSpeaker\FormatsAndModes3,type,0x00000000,"loopback"
+HKR,WaveSpeaker\FormatsAndModes3,numWaveFormats,0x00010001,0x00000001
+HKR,WaveSpeaker\FormatsAndModes3,numModeAndDefaultFormats,0x00010001,0x00000000
+HKR,WaveSpeaker\FormatsAndModes3\WaveFormat0,nBlockAlign,0x00010001,0x00000004
+HKR,WaveSpeaker\FormatsAndModes3\WaveFormat0,nSamplesPerSec,0x00010001,0x0000BB80
+HKR,WaveSpeaker\FormatsAndModes3\WaveFormat0,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeaker\FormatsAndModes3\WaveFormat0,nAvgBytesPerSec,0x00010001,0x0002EE00
+HKR,WaveSpeaker\FormatsAndModes3\WaveFormat0,nChannels,0x00010001,0x00000002
+HKR,WaveSpeaker\FormatsAndModes3\WaveFormat0,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeaker\FormatsAndModes3\WaveFormat0,dwChannelMask,0x00010001,0x00000003
+HKR,WaveSpeaker\StreamType0,numFormats,0x00010001,0x00000000
+HKR,WaveSpeaker\StreamType0,streamType,0x00000000,"HostRender"
+HKR,WaveSpeaker\StreamType0,numModes,0x00010001,0x00000003
+HKR,WaveSpeaker\StreamType0\mode0,numFormats,0x00010001,0x00000000
+HKR,WaveSpeaker\StreamType0\mode0,mode,0x00000000,"RAW"
+HKR,WaveSpeaker\StreamType0\mode0\streamConfig,COPPAppType,0x00010001,0x00000000
+HKR,WaveSpeaker\StreamType0\mode0\streamConfig,POPPAppType,0x00010001,0x00000000
+HKR,WaveSpeaker\StreamType0\mode0\streamConfig,FeatureStreamType,0x00000000,"LowLatencyNoPPPullMode"
+HKR,WaveSpeaker\StreamType0\mode1,numFormats,0x00010001,0x00000000
+HKR,WaveSpeaker\StreamType0\mode1,mode,0x00000000,"DEFAULT"
+HKR,WaveSpeaker\StreamType0\mode1\streamConfig,COPPAppType,0x00010001,0x00000000
+HKR,WaveSpeaker\StreamType0\mode1\streamConfig,POPPAppType,0x00010001,0x00000000
+HKR,WaveSpeaker\StreamType0\mode1\streamConfig,FeatureStreamType,0x00000000,"LowLatencyNoPPPullMode"
+HKR,WaveSpeaker\StreamType0\mode2,numFormats,0x00010001,0x00000000
+HKR,WaveSpeaker\StreamType0\mode2,mode,0x00000000,"COMMUNICATIONS"
+HKR,WaveSpeaker\StreamType0\mode2\streamConfig,COPPAppType,0x00010001,0x0001113C
+HKR,WaveSpeaker\StreamType0\mode2\streamConfig,POPPAppType,0x00010001,0x0001113C
+HKR,WaveSpeaker\StreamType0\mode2\streamConfig,FeatureStreamType,0x00000000,"LowLatencyPullMode"
+HKR,WaveSpeaker\StreamType0\streamConfig,COPPAppType,0x00010001,0x00000000
+HKR,WaveSpeaker\StreamType0\streamConfig,POPPAppType,0x00010001,0x00000000
+HKR,WaveSpeaker\StreamType0\streamConfig,FeatureStreamType,0x00000000,"LowLatencyNoPPPullMode"
+HKR,WaveSpeaker\StreamType1,numFormats,0x00010001,0x00000000
+HKR,WaveSpeaker\StreamType1,streamType,0x00000000,"Offload"
+HKR,WaveSpeaker\StreamType1,numModes,0x00010001,0x00000001
+HKR,WaveSpeaker\StreamType1\mode0,numFormats,0x00010001,0x00000000
+HKR,WaveSpeaker\StreamType1\mode0,mode,0x00000000,"DEFAULT"
+HKR,WaveSpeaker\StreamType1\mode0\streamConfig,COPPAppType,0x00010001,0x00011134
+HKR,WaveSpeaker\StreamType1\mode0\streamConfig,POPPAppType,0x00010001,0x00011134
+HKR,WaveSpeaker\StreamType1\mode0\streamConfig,FeatureStreamType,0x00000000,"Decode"
+HKR,WaveSpeaker\StreamType1\streamConfig,COPPAppType,0x00010001,0x00011134
+HKR,WaveSpeaker\StreamType1\streamConfig,POPPAppType,0x00010001,0x00011134
+HKR,WaveSpeaker\StreamType1\streamConfig,FeatureStreamType,0x00000000,"Decode"
+HKR,WaveSpeaker\StreamType2,numFormats,0x00010001,0x00000000
+HKR,WaveSpeaker\StreamType2,streamType,0x00000000,"Loopback"
+HKR,WaveSpeaker\StreamType2,numModes,0x00010001,0x00000000
+HKR,WaveSpeaker\StreamType2\streamConfig,COPPAppType,0x00010001,0x00000000
+HKR,WaveSpeaker\StreamType2\streamConfig,POPPAppType,0x00010001,0x00000000
+HKR,WaveSpeaker\StreamType2\streamConfig,FeatureStreamType,0x00000000,"PushModeLoopback"
+HKR,WaveSpeakerHeadset,numStreamTypes,0x00010001,0x00000003
+HKR,WaveSpeakerHeadset,numFormatsAndModes,0x00010001,0x00000004
+HKR,WaveSpeakerHeadset\FormatsAndModes0,type,0x00000000,"engine"
+HKR,WaveSpeakerHeadset\FormatsAndModes0,numWaveFormats,0x00010001,0x00000005
+HKR,WaveSpeakerHeadset\FormatsAndModes0,numModeAndDefaultFormats,0x00010001,0x00000000
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat0,nBlockAlign,0x00010001,0x00000004
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat0,nSamplesPerSec,0x00010001,0x0000BB80
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat0,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat0,nAvgBytesPerSec,0x00010001,0x0002EE00
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat0,nChannels,0x00010001,0x00000002
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat0,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat0,dwChannelMask,0x00010001,0x00000003
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat1,nBlockAlign,0x00010001,0x00000004
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat1,nSamplesPerSec,0x00010001,0x0000AC44
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat1,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat1,nAvgBytesPerSec,0x00010001,0x0002B110
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat1,nChannels,0x00010001,0x00000002
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat1,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat1,dwChannelMask,0x00010001,0x00000003
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat2,nBlockAlign,0x00010001,0x00000004
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat2,nSamplesPerSec,0x00010001,0x00005622
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat2,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat2,nAvgBytesPerSec,0x00010001,0x00015888
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat2,nChannels,0x00010001,0x00000002
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat2,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat2,dwChannelMask,0x00010001,0x00000003
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat3,nBlockAlign,0x00010001,0x00000004
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat3,nSamplesPerSec,0x00010001,0x00005DC0
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat3,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat3,nAvgBytesPerSec,0x00010001,0x00017700
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat3,nChannels,0x00010001,0x00000002
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat3,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat3,dwChannelMask,0x00010001,0x00000003
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat4,nBlockAlign,0x00010001,0x00000002
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat4,nSamplesPerSec,0x00010001,0x00003E80
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat4,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat4,nAvgBytesPerSec,0x00010001,0x00007D00
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat4,nChannels,0x00010001,0x00000001
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat4,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeakerHeadset\FormatsAndModes0\WaveFormat4,dwChannelMask,0x00010001,0x00000004
+HKR,WaveSpeakerHeadset\FormatsAndModes1,type,0x00000000,"host"
+HKR,WaveSpeakerHeadset\FormatsAndModes1,numWaveFormats,0x00010001,0x00000002
+HKR,WaveSpeakerHeadset\FormatsAndModes1,numModeAndDefaultFormats,0x00010001,0x00000003
+HKR,WaveSpeakerHeadset\FormatsAndModes1\ModeAndDefaultFormat0,ProcessingPacketDurationInHns,0x00010001,0x0000C350
+HKR,WaveSpeakerHeadset\FormatsAndModes1\ModeAndDefaultFormat0,mode,0x00000000,"RAW"
+HKR,WaveSpeakerHeadset\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,nBlockAlign,0x00010001,0x00000004
+HKR,WaveSpeakerHeadset\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,nSamplesPerSec,0x00010001,0x0000BB80
+HKR,WaveSpeakerHeadset\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeakerHeadset\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,nAvgBytesPerSec,0x00010001,0x0002EE00
+HKR,WaveSpeakerHeadset\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,nChannels,0x00010001,0x00000002
+HKR,WaveSpeakerHeadset\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeakerHeadset\FormatsAndModes1\ModeAndDefaultFormat0\DefaultFormat,dwChannelMask,0x00010001,0x00000003
+HKR,WaveSpeakerHeadset\FormatsAndModes1\ModeAndDefaultFormat1,ProcessingPacketDurationInHns,0x00010001,0x000186A0
+HKR,WaveSpeakerHeadset\FormatsAndModes1\ModeAndDefaultFormat1,mode,0x00000000,"DEFAULT"
+HKR,WaveSpeakerHeadset\FormatsAndModes1\ModeAndDefaultFormat1\DefaultFormat,nBlockAlign,0x00010001,0x00000004
+HKR,WaveSpeakerHeadset\FormatsAndModes1\ModeAndDefaultFormat1\DefaultFormat,nSamplesPerSec,0x00010001,0x0000BB80
+HKR,WaveSpeakerHeadset\FormatsAndModes1\ModeAndDefaultFormat1\DefaultFormat,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeakerHeadset\FormatsAndModes1\ModeAndDefaultFormat1\DefaultFormat,nAvgBytesPerSec,0x00010001,0x0002EE00
+HKR,WaveSpeakerHeadset\FormatsAndModes1\ModeAndDefaultFormat1\DefaultFormat,nChannels,0x00010001,0x00000002
+HKR,WaveSpeakerHeadset\FormatsAndModes1\ModeAndDefaultFormat1\DefaultFormat,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeakerHeadset\FormatsAndModes1\ModeAndDefaultFormat1\DefaultFormat,dwChannelMask,0x00010001,0x00000003
+HKR,WaveSpeakerHeadset\FormatsAndModes1\ModeAndDefaultFormat2,ProcessingPacketDurationInHns,0x00010001,0x000186A0
+HKR,WaveSpeakerHeadset\FormatsAndModes1\ModeAndDefaultFormat2,mode,0x00000000,"COMMUNICATIONS"
+HKR,WaveSpeakerHeadset\FormatsAndModes1\ModeAndDefaultFormat2\DefaultFormat,nBlockAlign,0x00010001,0x00000002
+HKR,WaveSpeakerHeadset\FormatsAndModes1\ModeAndDefaultFormat2\DefaultFormat,nSamplesPerSec,0x00010001,0x00003E80
+HKR,WaveSpeakerHeadset\FormatsAndModes1\ModeAndDefaultFormat2\DefaultFormat,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeakerHeadset\FormatsAndModes1\ModeAndDefaultFormat2\DefaultFormat,nAvgBytesPerSec,0x00010001,0x00007D00
+HKR,WaveSpeakerHeadset\FormatsAndModes1\ModeAndDefaultFormat2\DefaultFormat,nChannels,0x00010001,0x00000001
+HKR,WaveSpeakerHeadset\FormatsAndModes1\ModeAndDefaultFormat2\DefaultFormat,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeakerHeadset\FormatsAndModes1\ModeAndDefaultFormat2\DefaultFormat,dwChannelMask,0x00010001,0x00000004
+HKR,WaveSpeakerHeadset\FormatsAndModes1\WaveFormat0,nBlockAlign,0x00010001,0x00000004
+HKR,WaveSpeakerHeadset\FormatsAndModes1\WaveFormat0,nSamplesPerSec,0x00010001,0x0000BB80
+HKR,WaveSpeakerHeadset\FormatsAndModes1\WaveFormat0,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeakerHeadset\FormatsAndModes1\WaveFormat0,nAvgBytesPerSec,0x00010001,0x0002EE00
+HKR,WaveSpeakerHeadset\FormatsAndModes1\WaveFormat0,nChannels,0x00010001,0x00000002
+HKR,WaveSpeakerHeadset\FormatsAndModes1\WaveFormat0,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeakerHeadset\FormatsAndModes1\WaveFormat0,dwChannelMask,0x00010001,0x00000003
+HKR,WaveSpeakerHeadset\FormatsAndModes1\WaveFormat1,nBlockAlign,0x00010001,0x00000002
+HKR,WaveSpeakerHeadset\FormatsAndModes1\WaveFormat1,nSamplesPerSec,0x00010001,0x00003E80
+HKR,WaveSpeakerHeadset\FormatsAndModes1\WaveFormat1,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeakerHeadset\FormatsAndModes1\WaveFormat1,nAvgBytesPerSec,0x00010001,0x00007D00
+HKR,WaveSpeakerHeadset\FormatsAndModes1\WaveFormat1,nChannels,0x00010001,0x00000001
+HKR,WaveSpeakerHeadset\FormatsAndModes1\WaveFormat1,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeakerHeadset\FormatsAndModes1\WaveFormat1,dwChannelMask,0x00010001,0x00000004
+HKR,WaveSpeakerHeadset\FormatsAndModes2,type,0x00000000,"offload"
+HKR,WaveSpeakerHeadset\FormatsAndModes2,numWaveFormats,0x00010001,0x00000004
+HKR,WaveSpeakerHeadset\FormatsAndModes2,numModeAndDefaultFormats,0x00010001,0x00000001
+HKR,WaveSpeakerHeadset\FormatsAndModes2\ModeAndDefaultFormat0,mode,0x00000000,"DEFAULT"
+HKR,WaveSpeakerHeadset\FormatsAndModes2\ModeAndDefaultFormat0\DefaultFormat,nBlockAlign,0x00010001,0x00000004
+HKR,WaveSpeakerHeadset\FormatsAndModes2\ModeAndDefaultFormat0\DefaultFormat,nSamplesPerSec,0x00010001,0x0000BB80
+HKR,WaveSpeakerHeadset\FormatsAndModes2\ModeAndDefaultFormat0\DefaultFormat,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeakerHeadset\FormatsAndModes2\ModeAndDefaultFormat0\DefaultFormat,nAvgBytesPerSec,0x00010001,0x0002EE00
+HKR,WaveSpeakerHeadset\FormatsAndModes2\ModeAndDefaultFormat0\DefaultFormat,nChannels,0x00010001,0x00000002
+HKR,WaveSpeakerHeadset\FormatsAndModes2\ModeAndDefaultFormat0\DefaultFormat,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeakerHeadset\FormatsAndModes2\ModeAndDefaultFormat0\DefaultFormat,dwChannelMask,0x00010001,0x00000003
+HKR,WaveSpeakerHeadset\FormatsAndModes2\WaveFormat0,nBlockAlign,0x00010001,0x00000004
+HKR,WaveSpeakerHeadset\FormatsAndModes2\WaveFormat0,nSamplesPerSec,0x00010001,0x0000BB80
+HKR,WaveSpeakerHeadset\FormatsAndModes2\WaveFormat0,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeakerHeadset\FormatsAndModes2\WaveFormat0,nAvgBytesPerSec,0x00010001,0x0002EE00
+HKR,WaveSpeakerHeadset\FormatsAndModes2\WaveFormat0,nChannels,0x00010001,0x00000002
+HKR,WaveSpeakerHeadset\FormatsAndModes2\WaveFormat0,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeakerHeadset\FormatsAndModes2\WaveFormat0,dwChannelMask,0x00010001,0x00000003
+HKR,WaveSpeakerHeadset\FormatsAndModes2\WaveFormat1,nBlockAlign,0x00010001,0x00000004
+HKR,WaveSpeakerHeadset\FormatsAndModes2\WaveFormat1,nSamplesPerSec,0x00010001,0x0000AC44
+HKR,WaveSpeakerHeadset\FormatsAndModes2\WaveFormat1,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeakerHeadset\FormatsAndModes2\WaveFormat1,nAvgBytesPerSec,0x00010001,0x0002B110
+HKR,WaveSpeakerHeadset\FormatsAndModes2\WaveFormat1,nChannels,0x00010001,0x00000002
+HKR,WaveSpeakerHeadset\FormatsAndModes2\WaveFormat1,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeakerHeadset\FormatsAndModes2\WaveFormat1,dwChannelMask,0x00010001,0x00000003
+HKR,WaveSpeakerHeadset\FormatsAndModes2\WaveFormat2,nBlockAlign,0x00010001,0x00000004
+HKR,WaveSpeakerHeadset\FormatsAndModes2\WaveFormat2,nSamplesPerSec,0x00010001,0x00005622
+HKR,WaveSpeakerHeadset\FormatsAndModes2\WaveFormat2,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeakerHeadset\FormatsAndModes2\WaveFormat2,nAvgBytesPerSec,0x00010001,0x00015888
+HKR,WaveSpeakerHeadset\FormatsAndModes2\WaveFormat2,nChannels,0x00010001,0x00000002
+HKR,WaveSpeakerHeadset\FormatsAndModes2\WaveFormat2,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeakerHeadset\FormatsAndModes2\WaveFormat2,dwChannelMask,0x00010001,0x00000003
+HKR,WaveSpeakerHeadset\FormatsAndModes2\WaveFormat3,nBlockAlign,0x00010001,0x00000004
+HKR,WaveSpeakerHeadset\FormatsAndModes2\WaveFormat3,nSamplesPerSec,0x00010001,0x00005DC0
+HKR,WaveSpeakerHeadset\FormatsAndModes2\WaveFormat3,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeakerHeadset\FormatsAndModes2\WaveFormat3,nAvgBytesPerSec,0x00010001,0x00017700
+HKR,WaveSpeakerHeadset\FormatsAndModes2\WaveFormat3,nChannels,0x00010001,0x00000002
+HKR,WaveSpeakerHeadset\FormatsAndModes2\WaveFormat3,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeakerHeadset\FormatsAndModes2\WaveFormat3,dwChannelMask,0x00010001,0x00000003
+HKR,WaveSpeakerHeadset\FormatsAndModes3,type,0x00000000,"loopback"
+HKR,WaveSpeakerHeadset\FormatsAndModes3,numWaveFormats,0x00010001,0x00000001
+HKR,WaveSpeakerHeadset\FormatsAndModes3,numModeAndDefaultFormats,0x00010001,0x00000000
+HKR,WaveSpeakerHeadset\FormatsAndModes3\WaveFormat0,nBlockAlign,0x00010001,0x00000004
+HKR,WaveSpeakerHeadset\FormatsAndModes3\WaveFormat0,nSamplesPerSec,0x00010001,0x0000BB80
+HKR,WaveSpeakerHeadset\FormatsAndModes3\WaveFormat0,nBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeakerHeadset\FormatsAndModes3\WaveFormat0,nAvgBytesPerSec,0x00010001,0x0002EE00
+HKR,WaveSpeakerHeadset\FormatsAndModes3\WaveFormat0,nChannels,0x00010001,0x00000002
+HKR,WaveSpeakerHeadset\FormatsAndModes3\WaveFormat0,nValidBitsPerSample,0x00010001,0x00000010
+HKR,WaveSpeakerHeadset\FormatsAndModes3\WaveFormat0,dwChannelMask,0x00010001,0x00000003
+HKR,WaveSpeakerHeadset\StreamType0,numFormats,0x00010001,0x00000000
+HKR,WaveSpeakerHeadset\StreamType0,streamType,0x00000000,"HostRender"
+HKR,WaveSpeakerHeadset\StreamType0,numModes,0x00010001,0x00000003
+HKR,WaveSpeakerHeadset\StreamType0\mode0,numFormats,0x00010001,0x00000000
+HKR,WaveSpeakerHeadset\StreamType0\mode0,mode,0x00000000,"RAW"
+HKR,WaveSpeakerHeadset\StreamType0\mode0\streamConfig,COPPAppType,0x00010001,0x00000000
+HKR,WaveSpeakerHeadset\StreamType0\mode0\streamConfig,POPPAppType,0x00010001,0x00000000
+HKR,WaveSpeakerHeadset\StreamType0\mode0\streamConfig,FeatureStreamType,0x00000000,"LowLatencyNoPPPullMode"
+HKR,WaveSpeakerHeadset\StreamType0\mode1,numFormats,0x00010001,0x00000000
+HKR,WaveSpeakerHeadset\StreamType0\mode1,mode,0x00000000,"DEFAULT"
+HKR,WaveSpeakerHeadset\StreamType0\mode1\streamConfig,COPPAppType,0x00010001,0x00000000
+HKR,WaveSpeakerHeadset\StreamType0\mode1\streamConfig,POPPAppType,0x00010001,0x00000000
+HKR,WaveSpeakerHeadset\StreamType0\mode1\streamConfig,FeatureStreamType,0x00000000,"LowLatencyNoPPPullMode"
+HKR,WaveSpeakerHeadset\StreamType0\mode2,numFormats,0x00010001,0x00000000
+HKR,WaveSpeakerHeadset\StreamType0\mode2,mode,0x00000000,"COMMUNICATIONS"
+HKR,WaveSpeakerHeadset\StreamType0\mode2\streamConfig,COPPAppType,0x00010001,0x0001113C
+HKR,WaveSpeakerHeadset\StreamType0\mode2\streamConfig,POPPAppType,0x00010001,0x0001113C
+HKR,WaveSpeakerHeadset\StreamType0\mode2\streamConfig,FeatureStreamType,0x00000000,"LowLatencyPullMode"
+HKR,WaveSpeakerHeadset\StreamType0\streamConfig,COPPAppType,0x00010001,0x00000000
+HKR,WaveSpeakerHeadset\StreamType0\streamConfig,POPPAppType,0x00010001,0x00000000
+HKR,WaveSpeakerHeadset\StreamType0\streamConfig,FeatureStreamType,0x00000000,"LowLatencyNoPPPullMode"
+HKR,WaveSpeakerHeadset\StreamType1,numFormats,0x00010001,0x00000000
+HKR,WaveSpeakerHeadset\StreamType1,streamType,0x00000000,"Offload"
+HKR,WaveSpeakerHeadset\StreamType1,numModes,0x00010001,0x00000001
+HKR,WaveSpeakerHeadset\StreamType1\mode0,numFormats,0x00010001,0x00000000
+HKR,WaveSpeakerHeadset\StreamType1\mode0,mode,0x00000000,"DEFAULT"
+HKR,WaveSpeakerHeadset\StreamType1\mode0\streamConfig,COPPAppType,0x00010001,0x00011134
+HKR,WaveSpeakerHeadset\StreamType1\mode0\streamConfig,POPPAppType,0x00010001,0x00011134
+HKR,WaveSpeakerHeadset\StreamType1\mode0\streamConfig,FeatureStreamType,0x00000000,"Decode"
+HKR,WaveSpeakerHeadset\StreamType1\streamConfig,COPPAppType,0x00010001,0x00011134
+HKR,WaveSpeakerHeadset\StreamType1\streamConfig,POPPAppType,0x00010001,0x00011134
+HKR,WaveSpeakerHeadset\StreamType1\streamConfig,FeatureStreamType,0x00000000,"Decode"
+HKR,WaveSpeakerHeadset\StreamType2,numFormats,0x00010001,0x00000000
+HKR,WaveSpeakerHeadset\StreamType2,streamType,0x00000000,"Loopback"
+HKR,WaveSpeakerHeadset\StreamType2,numModes,0x00010001,0x00000000
+HKR,WaveSpeakerHeadset\StreamType2\streamConfig,COPPAppType,0x00010001,0x00000000
+HKR,WaveSpeakerHeadset\StreamType2\streamConfig,POPPAppType,0x00010001,0x00000000
+HKR,WaveSpeakerHeadset\StreamType2\streamConfig,FeatureStreamType,0x00000000,"PushModeLoopback"
+HKR,,EnableListen,0x00010001,0x00000001
+HKR,,IsLLNPSupported,0x00010001,0x00000001
+HKR,,MaxULLSupported,0x00010001,0x00000001
+HKR,,THCaptureInterfaceEnabled,0x00010001,0x00000001
+HKR,,HDMISupported,0x00010001,0x00000000
+HKR,,THRenderInterfaceEnabled,0x00010001,0x00000001
+
+[QCAUD_A.NT.HW]
+AddReg = AUDIOHW.AddReg
+
+[AUDIOHW.AddReg]
+; FILE_DEVICE_SOUND
+HKR,,DeviceType,0x10001,0x0000001D
+; SDDL_DEVOBJ_SYS_ALL_ADM_RWX_WORLD_RWX_RES_RWX
+HKR,,Security,,"D:P(A;;GA;;;SY)(A;;GRGWGX;;;BA)(A;;GRGWGX;;;WD)(A;;GRGWGX;;;RC)"
+HKR,,"LowerFilters",0x00010000,"vhf"
+
+;======================================================
+; WDF
+;======================================================
+[QCAUD_A.NT.Wdf]
+KmdfService = QCAUD, QCAUD_A_WdfSect
+[QCAUD_A_WdfSect]
+KmdfLibraryVersion = 1.15
+
+;======================================================
+; COMMON
+;======================================================
+[Strings]
+
+;Non-localizable
+DiskId="Qualcomm SoC WDM Audio Driver Disk"
+
+KSNAME_WaveSpeaker="WaveSpeaker"
+KSNAME_TopologySpeaker="TopologySpeaker"
+
+KSNAME_WaveSpeakerHeadset="WaveSpeakerHeadset"
+KSNAME_TopologySpeakerHeadset="TopologySpeakerHeadset"
+
+KSNAME_WaveCellular="WaveCellular"
+KSNAME_TopologyCellular="TopologyCellular"
+
+KSNAME_WaveFmRx="WaveFmRx"
+KSNAME_TopologyFmRx="TopologyFmRx"
+
+KSNAME_WaveMicHeadset="WaveMicHeadset"
+KSNAME_TopologyMicHeadset="TopologyMicHeadset"
+
+KSNAME_WaveMicIn="WaveMicIn"
+KSNAME_TopologyMicIn="TopologyMicIn"
+
+KSNAME_WaveMicArray1="WaveMicArray1"
+KSNAME_TopologyMicArray1="TopologyMicArray1"
+
+KSNAME_WaveBthHfpSpeaker="WaveBthHfpSpeaker"
+KSNAME_TopologyBthHfpSpeaker="TopologyBthHfpSpeaker"
+
+KSNAME_WaveBthHfpMic="WaveBthHfpMic"
+KSNAME_TopologyBthHfpMic="TopologyBthHfpMic"
+
+KSNAME_WaveBthHfpSpeakerWB="WaveBthHfpSpeakerWB"
+KSNAME_TopologyBthHfpSpeakerWB="TopologyBthHfpSpeakerWB"
+
+KSNAME_WaveBthHfpMicWB="WaveBthHfpMicWB"
+KSNAME_TopologyBthHfpMicWB="TopologyBthHfpMicWB"
+
+KSNAME_WaveHandsetSpeaker="WaveHandsetSpeaker"
+KSNAME_TopologyHandsetSpeaker="TopologyHandsetSpeaker"
+
+KSNAME_WaveHandsetMic="WaveHandsetMic"
+KSNAME_TopologyHandsetMic="TopologyHandsetMic"
+
+Proxy.CLSID="{17CCA71B-ECD7-11D0-B908-00A0C9223196}"
+KSCATEGORY_AUDIO="{6994AD04-93EF-11D0-A3CC-00A0C9223196}"
+KSCATEGORY_RENDER="{65E8773E-8F56-11D0-A3B9-00A0C9223196}"
+KSCATEGORY_CAPTURE="{65E8773D-8F56-11D0-A3B9-00A0C9223196}"
+KSCATEGORY_REALTIME ="{EB115FFC-10C8-4964-831D-6DCB02E6F23F}"
+KSCATEGORY_TOPOLOGY = "{DDA54A40-1E4C-11D1-A050-405705C10000}"
+
+MediaCategories="SYSTEM\CurrentControlSet\Control\MediaCategories"
+KSNODETYPE_ANY   = "{00000000-0000-0000-0000-000000000000}"
+GUID_NULL   = "{00000000-0000-0000-0000-000000000000}"
+
+PKEY_AudioEndpoint_ControlPanelPageProvider  = "{1DA5D803-D492-4EDD-8C23-E0C0FFEE7F0E},1"
+PKEY_AudioEndpoint_Association               = "{1DA5D803-D492-4EDD-8C23-E0C0FFEE7F0E},2"
+PKEY_AudioDevice_NeverSetAsDefaultEndpoint   = "{F3E80BEF-1723-4FF2-BCC4-7F83DC5E46D4},3"
+PKEY_AudioEndpoint_Supports_EventDriven_Mode = "{1DA5D803-D492-4EDD-8C23-E0C0FFEE7F0E},7"
+
+PKEY_FX_Association         = "{D04E05A6-594B-4FB6-A80D-01AF5EED7D1D},0"
+PKEY_FX_PreMixEffectClsid   = "{D04E05A6-594B-4fb6-A80D-01AF5EED7D1D},1"
+PKEY_FX_PostMixEffectClsid  = "{D04E05A6-594B-4fb6-A80D-01AF5EED7D1D},2"
+PKEY_FX_UserInterfaceClsid  = "{D04E05A6-594B-4fb6-A80D-01AF5EED7D1D},3"
+PKEY_FX_StreamEffectClsid   = "{D04E05A6-594B-4fb6-A80D-01AF5EED7D1D},5"
+PKEY_FX_ModeEffectClsid     = "{D04E05A6-594B-4fb6-A80D-01AF5EED7D1D},6"
+PKEY_FX_EndpointEffectClsid = "{D04E05A6-594B-4fb6-A80D-01AF5EED7D1D},7"
+
+PKEY_SFX_ProcessingModes_Supported_For_Streaming = "{D3993A3F-99C2-4402-B5EC-A92A0367664B},5"
+PKEY_MFX_ProcessingModes_Supported_For_Streaming = "{D3993A3F-99C2-4402-B5EC-A92A0367664B},6"
+PKEY_EFX_ProcessingModes_Supported_For_Streaming = "{D3993A3F-99C2-4402-B5EC-A92A0367664B},7"
+
+AUDIO_SIGNALPROCESSINGMODE_DEFAULT = "{C18E2F7E-933D-4965-B7D1-1EEF228D2AF3}"
+
+; Driver developer would replace this CLSID with that of his own Sound CPL property page provider
+AUDIOENDPOINT_EXT_UI_CLSID = "{6C57B2A2-91F5-4b90-93D5-FAB82485ECA6}"
+
+; Driver developer would replace these CLSIDs with those of his own APOs.
+FX_STREAM_CLSID    = "{B48DEA3F-D962-425a-8D9A-9A5BB37A9904}"
+FX_MODE_CLSID      = "{06687E71-F043-403A-BF49-CB591BA6E103}"
+FX_ENDPOINT_CLSID  = "{697DA8EE-64F9-4096-BEBC-7C1C42CC2876}"
+FX_UI_CLSID        = "{19166F23-5F08-47F9-BB57-9F57A977D88E}"
+FX_DISCOVER_EFFECTS_APO_CLSID  = "{889C03C8-ABAD-4004-BF0A-BC7BB825E166}"
+
+MEDIA_CATEGORIES = "SYSTEM\CurrentControlSet\Control\MediaCategories"
+MicArray1CustomNameGUID = {6ae81ff4-203e-4fe1-88aa-f2d57775cd4a}
+MicInCustomNameGUID = {d48deb08-fd1c-4d1e-b821-9064d49ae96e}
+HandsetMicrophoneCustomNameGUID = {F962FB6F-658D-49DF-A7F8-9BBFB6911F97}
+HandsetSpeakerCustomNameGUID = {CDB59AC1-1E39-4458-85C1-DF22DAE74C1B}
+CellularBD1CustomNameGUID = {896BC350-BF57-4039-A6B6-64DCEC3AEEB8}
+CellularBD2CustomNameGUID = {80CC64DA-166A-4A2C-ADF7-1464C49D3B0E}
+FmRxCustomNameGUID = {344EC7D7-F209-4FC4-B6C1-B324E8309E8D}
+
+MFX_FriendlyName = "Qualcomm Audio Proxy APO (mode effect)"
+EFX_FriendlyName = "Qualcomm Audio Proxy APO (Endpoint effect)"
+KSNODETYPE_SPEAKER = "{DFF21CE1-F70F-11D0-B917-00A0C9223196}"
+KSNODETYPE_HEADSET_SPEAKERS = "{DFF21CE6-F70F-11D0-B917-00A0C9223196}"
+KSNODETYPE_HEADSET_MICROPHONE = "{DFF21BE3-F70F-11D0-B917-00A0C9223196}"
+KSNODETYPE_MICROPHONE = "{DFF21BE1-F70F-11D0-B917-00A0C9223196}"
+KSNODETYPE_HANDSET = "{DFF21DE1-F70F-11D0-B917-00A0C9223196}"
+KSNODETYPE_MICROPHONE_ARRAY = "{DFF21BE5-F70F-11D0-B917-00A0C9223196}"
+;Localizable
+
+QCOM="Qualcomm"
+MfgName="QUALCOMM"
+QcCopyRight="Copyright (c) 2011 Qualcomm Inc All rights Reserved"
+
+QCAUD_A.DeviceDesc="QCAUD Real Time (WaveRT) Driver for Qualcomm SoC"
+QCAUD.SvcDesc = "Service for Qualcomm SoC WDM Audio Driver"
+
+;; friendly names
+QCAUD.WaveSpeaker.szPname="QCAUD Wave Speaker"
+QCAUD.TopologySpeaker.szPname="QCAUD Topology Speaker"
+
+QCAUD.WaveSpeakerHeadset.szPname="QCAUD Wave Speaker Headset"
+QCAUD.TopologySpeakerHeadset.szPname="QCAUD Topology Speaker Headset"
+
+QCAUD.WaveCellular.szPname="QCAUD Wave Cellular"
+QCAUD.TopologyCellular.szPname="QCAUD Topology Cellular"
+
+QCAUD.WaveFmRx.szPname="QCAUD Wave FM RX"
+QCAUD.TopologyFmRx.szPname="QCAUD Topology FM RX"
+
+QCAUD.WaveMicHeadset.szPname="QCAUD Wave Microphone Headset"
+QCAUD.TopologyMicHeadset.szPname="QCAUD Topology Microphone Headset"
+
+QCAUD.WaveMicIn.szPname="QCAUD Wave Microphone"
+QCAUD.TopologyMicIn.szPname="QCAUD Topology Microphone"
+
+QCAUD.WaveMicArray1.szPname="QCAUD Wave Microphone Array - Front"
+QCAUD.TopologyMicArray1.szPname="QCAUD Topology Microphone Array - Front"
+
+QCAUD.WaveBthHfpSpeaker.szPname="QCAUD Wave Bluetooth HFP Speaker"
+QCAUD.TopologyBthHfpSpeaker.szPname="QCAUD Topology Bluetooth HFP Speaker"
+
+QCAUD.WaveBthHfpMic.szPname="QCAUD Wave Bluetooth HFP Microphone"
+QCAUD.TopologyBthHfpMic.szPname="QCAUD Topology Bluetooth HFP Microphone"
+
+QCAUD.WaveBthHfpSpeakerWB.szPname="QCAUD Wave Bluetooth HFP Speaker Wideband"
+QCAUD.TopologyBthHfpSpeakerWB.szPname="QCAUD Topology Bluetooth HFP Speaker Wideband"
+
+QCAUD.WaveBthHfpMicWB.szPname="QCAUD Wave Bluetooth HFP Microphone Wideband"
+QCAUD.TopologyBthHfpMicWB.szPname="QCAUD Topology Bluetooth HFP Microphone Wideband"
+
+QCAUD.WaveHeadsetSpeaker.szPname="QCAUD Wave Headset Speaker"
+QCAUD.TopologyHeadsetSpeaker.szPname="QCAUD Topology Headset Speaker"
+
+QCAUD.WaveHeadsetMic.szPname="QCAUD Wave Headset Microphone"
+QCAUD.TopologyHeadsetMic.szPname="QCAUD Topology Headset Microphone"
+
+QCAUD.WaveHandsetSpeaker.szPname="QCAUD Wave Handset Speaker"
+QCAUD.TopologyHandsetSpeaker.szPname="QCAUD Topology Handset Speaker"
+
+QCAUD.WaveHandsetMic.szPname="QCAUD Wave Handset Microphone"
+QCAUD.TopologyHandsetMic.szPname="QCAUD Topology Handset Microphone"
+
+MicArray1CustomName   = "Internal Microphone Array - Front"
+MicInCustomName       = "Internal Microphone"
+HandsetMicrophoneName = "Internal Handset Microphone"
+HandsetSpeakerName    = "Internal Handset Speaker"
+CellularBD1CustomName = "Cellular Receive BiDirectional SIM 1"
+CellularBD2CustomName = "Cellular Receive BiDirectional SIM 2"
+FmRxCustomName = "FM Receive"
