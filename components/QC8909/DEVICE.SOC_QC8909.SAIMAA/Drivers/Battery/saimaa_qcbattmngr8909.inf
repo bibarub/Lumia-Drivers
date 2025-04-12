@@ -41,7 +41,7 @@ HKLM,SYSTEM\CurrentControlSet\services\QcBattMngr\BattErrorHandle,UnknownStateAc
 HKLM,SYSTEM\CurrentControlSet\services\QcBattMngr\BattErrorHandle,NormalStateAction,0x00010001,0x00000000
 HKLM,SYSTEM\CurrentControlSet\services\QcBattMngr\BattErrorHandle,OutOpRangeStateAction,0x00010001,0x00000000
 HKLM,SYSTEM\CurrentControlSet\services\QcBattMngr\BatteryInfo,ManufactureName,0x00000000,"Microsoft"
-HKLM,SYSTEM\CurrentControlSet\services\QcBattMngr\BatteryInfo,DefaultAlert2,0x00010001,0x000000BB
+HKLM,SYSTEM\CurrentControlSet\services\QcBattMngr\BatteryInfo,DefaultAlert2,0x00010001,0x000002BB
 HKLM,SYSTEM\CurrentControlSet\services\QcBattMngr\BatteryInfo,DefaultAlert1,0x00010001,0x0000009B
 HKLM,SYSTEM\CurrentControlSet\services\QcBattMngr\BatteryInfo,BatteryUniqueId,0x00000000,"Microsoft_1234"
 HKLM,SYSTEM\CurrentControlSet\services\QcBattMngr\BatteryInfo,DeviceName,0x00000000,"Microsoft Device"
