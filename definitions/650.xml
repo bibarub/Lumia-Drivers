@@ -108,6 +108,7 @@
             <DriverPackageFile Path="$(mspackageroot)\components\QC8909\PLATFORM.SOC_QC8909.BASE\Source\Drivers\SOC" Name="QcTree8909.inf" ID="QcTree8909"/>
             <DriverPackageFile Path="$(mspackageroot)\components\QC8909\PLATFORM.SOC_QC8909.BASE\Source\Drivers\SOC" Name="qcuart8909.inf" ID="qcuart8909"/>
             <DriverPackageFile Path="$(mspackageroot)\components\QC8909\PLATFORM.SOC_QC8909.BASE\Source\Drivers\Touch" Name="qcTouchDetectionDriver.inf" ID="qcTouchDetectionDriver"/>
+            <DriverPackageFile Path="$(mspackageroot)\components\QC8909\PLATFORM.SOC_QC8909.BASE\Source\Drivers\USBFn" Name="QcUsbFnFilter8909.inf" ID="QcUsbFnFilter8909"/>
             <DriverPackageFile Path="$(mspackageroot)\components\QC8909\PLATFORM.SOC_QC8909.BASE\Source\Drivers\VibrationMotor" Name="qchwnhaptics.inf" ID="qchwnhaptics"/>
             <DriverPackageFile Path="$(mspackageroot)\components\QC8909\PLATFORM.SOC_QC8909.BASE\Source\ProvisioningPkgs" Name="qcppmsettings8909.inf" ID="qcppmsettings8909"/>
             <DriverPackageFile Path="$(mspackageroot)\components\QC8909\PLATFORM.SOC_QC8909.BASE\Source\Services\WLAN" Name="qcwifinotifiersrvc8909.inf" ID="qcwifinotifiersrvc8909"/>
