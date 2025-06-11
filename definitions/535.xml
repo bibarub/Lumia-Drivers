@@ -106,6 +106,7 @@
             <DriverPackageFile Path="$(mspackageroot)\components\QC8X12\PLATFORM.SOC_QC8X12.BASE\Source\Drivers\SOC\System" Name="qcssm8612.inf" ID="qcssm8612"/>
             <DriverPackageFile Path="$(mspackageroot)\components\QC8X12\PLATFORM.SOC_QC8X12.BASE\Source\Drivers\SOC\System" Name="WDFHelper.inf" ID="WDFHelper"/>
             <DriverPackageFile Path="$(mspackageroot)\components\QC8X12\PLATFORM.SOC_QC8X12.BASE\Source\Drivers\SOC\VoltageCurrentMonitoring" Name="qcadc8612.inf" ID="qcadc8612"/>
+            <DriverPackageFile Path="$(mspackageroot)\components\QC8X12\PLATFORM.SOC_QC8X12.BASE\Source\Drivers\USBFn" Name="QcUsbFnFilter8612.inf" ID="QcUsbFnFilter8612"/>
             <DriverPackageFile Path="$(mspackageroot)\components\QC8X12\PLATFORM.SOC_QC8X12.BASE\Source\Libraries\Cellular" Name="qcci8612.inf" ID="qcci8612"/>
             <DriverPackageFile Path="$(mspackageroot)\components\QC8X12\PLATFORM.SOC_QC8X12.BASE\Source\Libraries\Cellular" Name="qcsi8612.inf" ID="qcsi8612"/>
             <DriverPackageFile Path="$(mspackageroot)\components\QC8X12\PLATFORM.SOC_QC8X12.BASE\Source\Libraries\Cellular" Name="qcssd8612.inf" ID="qcssd8612"/>
